@@ -1,7 +1,7 @@
 export default function ComingSoon() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-cream px-6 text-center text-plum">
-      <p className="mb-4 font-sans text-sm uppercase tracking-[0.2em] text-gold">
+      <p className="mb-4 font-sans text-lg uppercase tracking-[0.2em] text-gold sm:text-2xl">
         Cornerstone Social Circle
       </p>
       <h1 className="font-serif text-4xl font-semibold sm:text-6xl">
