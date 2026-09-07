@@ -47,13 +47,13 @@ export default function PublicHeader() {
           className="shrink-0"
           aria-label="Cornerstone Social Circle homepage"
         >
-          <span className="relative block h-[48px] w-[164px] sm:h-[52px] sm:w-[178px]">
+          <span className="relative flex h-[60px] w-[204px] items-center sm:h-[62px] sm:w-[210px]">
             <Image
-              src="/logo/cornerstone-logo-navbar-transparent.png"
+              src="/logo/cornerstone-logo-navbar-full.png"
               alt="Cornerstone Social Circle"
               width={1791}
               height={528}
-              className="h-auto w-full"
+              className="block h-auto w-full"
               priority
             />
           </span>
