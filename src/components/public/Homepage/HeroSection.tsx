@@ -22,12 +22,6 @@ export default function HeroSection({
       <div className="mx-auto grid max-w-[1680px] items-center justify-items-center gap-12 px-0 pb-20 pt-0 lg:grid-cols-2 lg:gap-16 lg:px-12 lg:pb-14 lg:pt-32 lg:[zoom:1.1] xl:gap-20 xl:px-16 2xl:px-20">
         {/* Editorial text panel */}
         <div className="relative z-10 order-1 mx-auto grid w-full min-w-0 max-w-[650px] items-start gap-6 overflow-hidden px-6 pt-16 sm:px-10 lg:overflow-visible lg:px-0 lg:pt-0 xl:grid-cols-[28px_minmax(0,1fr)] xl:gap-7">
-          <span
-            className="pointer-events-none absolute right-[-0.1em] top-[4.5rem] -z-10 select-none font-serif text-[10rem] leading-none text-[#b8862b]/[0.07] lg:hidden"
-            aria-hidden="true"
-          >
-            CSC
-          </span>
           {content.eyebrow && (
             <div className="flex items-center gap-3 xl:h-full xl:flex-col xl:self-stretch">
               <p className="text-xs font-medium uppercase tracking-[0.24em] text-[#5f5752] xl:mt-1 xl:[writing-mode:vertical-rl] xl:rotate-180">
