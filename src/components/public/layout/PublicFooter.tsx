@@ -33,10 +33,10 @@ export default function PublicFooter() {
           aria-label="Cornerstone Social Circle homepage"
         >
           <Image
-            src="/logo/cornerstone-logo-navbar-transparent.png"
+            src="/logo/cornerstone-logo-footer-transparent.png"
             alt="Cornerstone Social Circle"
-            width={1791}
-            height={528}
+            width={1536}
+            height={1024}
           />
           <span aria-hidden="true">
             <i />◇<i />
