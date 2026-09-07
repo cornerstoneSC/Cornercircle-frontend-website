@@ -119,12 +119,12 @@ export const defaultHomepageContent: HomepageContent = {
   founder: {
     imageAlt:
       "Portrait of Dr. Eya Touglo, founder of Cornerstone Social Circle",
-    eyebrow: "Meet Our Founder",
-    name: "Dr. Eya Touglo",
+    eyebrow: "Welcome",
+    name: "Hi, I’m Dr. Eya Touglo",
     preview:
       "Founder of Cornerstone Social Circle, Dr. Touglo brings a background in healthcare administration, nonprofit leadership, community health, education, and senior support. She created CSC to help adults build meaningful friendships and a stronger sense of belonging.",
     quote: "Everyone deserves a place to belong.",
-    buttonLabel: "Read Dr. Touglo’s Story",
+    buttonLabel: "Dr. Touglo’s Story",
     buttonLink: "/founder",
     storyEyebrow: "The Heart Behind CSC",
     storySubtitle: "Founder · Community Builder · Advocate for Connection",
@@ -183,11 +183,17 @@ export const defaultHomepageContent: HomepageContent = {
 };
 
 export function updateLegacyFounderIntro(content: HomepageContent) {
-  if (content.founder.eyebrow === "Welcome") {
-    content.founder.eyebrow = "Meet Our Founder";
+  if (content.founder.eyebrow === "Meet Our Founder") {
+    content.founder.eyebrow = "Welcome";
   }
-  if (content.founder.name === "Hi, I’m Dr. Eya Touglo") {
-    content.founder.name = "Dr. Eya Touglo";
+  if (content.founder.name === "Dr. Eya Touglo") {
+    content.founder.name = "Hi, I’m Dr. Eya Touglo";
+  }
+  if (
+    content.founder.buttonLabel === "Read Dr. Touglo’s Story" ||
+    content.founder.buttonLabel === "Our Story"
+  ) {
+    content.founder.buttonLabel = "Dr. Touglo’s Story";
   }
   return content;
 }

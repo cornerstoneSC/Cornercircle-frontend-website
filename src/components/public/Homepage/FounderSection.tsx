@@ -1,9 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Great_Vibes } from "next/font/google";
 import { UserRound } from "lucide-react";
 import EditableText from "@/components/public/services/EditableText";
 import type { FounderContent } from "@/types/homepage";
 import styles from "./FounderSection.module.css";
+
+const script = Great_Vibes({ weight: "400", subsets: ["latin"], display: "swap" });
 
 type Props = {
   content: FounderContent;
@@ -42,7 +45,7 @@ export default function FounderSection({
     <section className={styles.section} aria-labelledby="founder-heading">
       <div className={styles.inner}>
         <div className={styles.copy}>
-          <p className={styles.eyebrow}>
+          <p className={`${styles.eyebrow} ${script.className}`}>
             <Copy
               value={content.eyebrow}
               path="eyebrow"

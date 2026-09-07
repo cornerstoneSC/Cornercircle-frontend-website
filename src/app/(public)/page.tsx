@@ -102,7 +102,10 @@ export default async function HomePage() {
         />
       )}
       {content.visibility.founder && (
-        <FounderSection content={content.founder} imageUrl={founderImageUrl} />
+        <FounderSection
+          content={content.founder}
+          imageUrl={founderImageUrl}
+        />
       )}
       {content.visibility.gallery && (
         <GallerySection
