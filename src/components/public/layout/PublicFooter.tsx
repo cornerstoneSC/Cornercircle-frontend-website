@@ -38,9 +38,6 @@ export default function PublicFooter() {
             width={1536}
             height={1024}
           />
-          <span aria-hidden="true">
-            <i />◇<i />
-          </span>
         </Link>
         <a
           className={styles.instagramIntro}
