@@ -3,7 +3,6 @@ import BeliefsSection from "@/components/public/Homepage/BeliefsSection";
 import HeroSection from "@/components/public/Homepage/HeroSection";
 import GallerySection from "@/components/public/Homepage/GallerySection";
 import FounderSection from "@/components/public/Homepage/FounderSection";
-import NewsletterSection from "@/components/public/Homepage/NewsletterSection";
 import HomepageEvents from "@/components/public/Homepage/events/HomepageEvents";
 import { getHomepage } from "@/services/homepage.service";
 import { getHomepageEvents } from "@/lib/events-api";
@@ -116,7 +115,6 @@ export default async function HomePage() {
       {content.visibility.events && (
         <HomepageEvents events={events} unavailable={eventsUnavailable} />
       )}
-      <NewsletterSection />
     </>
   );
 }
