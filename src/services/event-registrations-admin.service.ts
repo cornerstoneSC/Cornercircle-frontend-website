@@ -12,6 +12,8 @@ export type AdminEventRegistration = {
   confirmationNumber: string;
   checkedInAt: string | null;
   ticketToken: string;
+  confirmationEmailSentAt: string | null;
+  confirmationEmailError: string | null;
 };
 
 export type AdminEventRegistrationsResponse = {
@@ -53,3 +55,10 @@ async function ticketRequest(path: string, ticketToken: string, method = "POST")
 export const validateTicket = (ticketToken: string) => ticketRequest("check-in/validate", ticketToken);
 export const checkInTicket = (ticketToken: string) => ticketRequest("check-in", ticketToken);
 export const undoTicketCheckIn = (ticketToken: string) => ticketRequest("check-in", ticketToken, "DELETE");
+
+export async function sendRegistrationConfirmationEmail(registrationId: string) {
+  const response = await fetch(`/api/admin/event-registrations/${encodeURIComponent(registrationId)}/confirmation-email`, { method: "POST" });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data.detail || data.message || "Unable to send confirmation email.");
+  return data as AdminEventRegistration;
+}

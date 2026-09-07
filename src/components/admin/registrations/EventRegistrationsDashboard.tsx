@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { CalendarDays, CheckCircle2, Mail, Search, Ticket, Users, X } from "lucide-react";
 import {
   getEventRegistrations,
+  sendRegistrationConfirmationEmail,
   type AdminEventRegistration,
   type AdminEventRegistrationsResponse,
 } from "@/services/event-registrations-admin.service";
@@ -183,7 +184,7 @@ export default function EventRegistrationsDashboard() {
           )}
         </div>
         {selected && (
-          <Details item={selected} close={() => setSelected(null)} />
+          <Details key={selected.registrationId} item={selected} close={() => setSelected(null)} />
         )}
       </div>
     </section>
@@ -219,6 +220,15 @@ function Details({
   item: AdminEventRegistration;
   close: () => void;
 }) {
+  const [emailSentAt, setEmailSentAt] = useState(item.confirmationEmailSentAt);
+  const [emailError, setEmailError] = useState(item.confirmationEmailError || "");
+  const [sendingEmail, setSendingEmail] = useState(false);
+  async function sendEmail() {
+    setSendingEmail(true); setEmailError("");
+    try { const updated = await sendRegistrationConfirmationEmail(item.registrationId); setEmailSentAt(updated.confirmationEmailSentAt); setEmailError(updated.confirmationEmailError || ""); }
+    catch (reason) { setEmailError(reason instanceof Error ? reason.message : "Unable to send confirmation email."); }
+    finally { setSendingEmail(false); }
+  }
   return (
     <aside className="registration-details">
       <button
@@ -248,11 +258,16 @@ function Details({
       />
       <Info label="Confirmation number" value={item.confirmationNumber} />
       <Info label="Check-in status" value={item.checkedInAt ? `Checked in ${date.format(new Date(item.checkedInAt))}` : "Not checked in"} />
+      <Info label="Confirmation email" value={emailSentAt ? `Sent ${date.format(new Date(emailSentAt))}` : emailError || "Not sent"} />
       <div className="details-actions">
         <a href={`mailto:${item.email}`}>
           <Mail />
           Email attendee
         </a>
+        <button type="button" onClick={sendEmail} disabled={sendingEmail || Boolean(emailSentAt)}>
+          <Mail />
+          {emailSentAt ? "Email sent" : sendingEmail ? "Sending…" : "Send ticket email"}
+        </button>
         <a href={`/events/${item.eventSlug}`}>
           <CalendarDays />
           View event

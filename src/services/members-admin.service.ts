@@ -22,6 +22,10 @@ export type AdminMember = {
   internalNotes: string | null;
   stripeCheckoutSessionId: string | null;
   joinedAt: string;
+  welcomeEmailSentAt: string | null;
+  welcomeEmailError: string | null;
+  membershipAgreementVersion: string | null;
+  membershipAgreementAcceptedAt: string | null;
 };
 
 export type AdminMembersResponse = {
@@ -52,6 +56,10 @@ export function getAdminMembers(query = "") {
 
 export function recordRenewalReminder(applicationId: string) {
   return request<AdminMember>(`/${encodeURIComponent(applicationId)}/renewal-reminder`, { method: "POST" });
+}
+
+export function sendMembershipWelcomeEmail(applicationId: string) {
+  return request<AdminMember>(`/${encodeURIComponent(applicationId)}/welcome-email`, { method: "POST" });
 }
 
 export function saveMemberNotes(applicationId: string, internalNotes: string) {

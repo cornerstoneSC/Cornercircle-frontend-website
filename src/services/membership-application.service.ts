@@ -12,7 +12,7 @@ export type MembershipApplicationPayload = {
   comments: string;
 };
 
-export type MembershipState = "PENDING_PAYMENT" | "ACTIVE" | "PAST_DUE" | "PAYMENT_FAILED" | "CANCELLED";
+export type MembershipState = "PENDING_PAYMENT" | "ACTIVE" | "PAST_DUE" | "PAYMENT_FAILED" | "CANCELLED" | "REFUNDED" | "EXPIRED";
 
 const api = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
@@ -46,4 +46,8 @@ export async function createMembershipCheckout(applicationId: string) {
 
 export async function getMembershipStatus(applicationId: string) {
   return request<{ applicationId: string; status: MembershipState; paymentComplete: boolean }>(`/api/v1/membership-applications/${encodeURIComponent(applicationId)}/status`);
+}
+
+export async function createMembershipRenewalCheckout(applicationId: string) {
+  return request<{ checkoutUrl: string }>(`/api/v1/membership-applications/${encodeURIComponent(applicationId)}/renewal-checkout-session`, { method: "POST" });
 }

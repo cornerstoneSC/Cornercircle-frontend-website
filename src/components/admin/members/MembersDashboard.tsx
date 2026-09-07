@@ -16,6 +16,7 @@ import {
   getAdminMembers,
   recordRenewalReminder,
   saveMemberNotes,
+  sendMembershipWelcomeEmail,
   type AdminMember,
   type AdminMembersResponse,
 } from "@/services/members-admin.service";
@@ -74,14 +75,15 @@ export default function MembersDashboard() {
   );
   const filtered = useMemo(() => {
     const needle = query.trim().toLowerCase();
+    const members = data?.members ?? [];
     return needle
-      ? paidMembers.filter((member) =>
+      ? members.filter((member) =>
           [member.fullName, member.email, member.city].some((value) =>
             value.toLowerCase().includes(needle),
           ),
         )
-      : paidMembers;
-  }, [paidMembers, query]);
+      : members;
+  }, [data, query]);
   const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const currentPage = Math.min(page, pages);
   const visible = filtered.slice(
@@ -166,6 +168,11 @@ export default function MembersDashboard() {
       );
     }
   }
+  async function sendWelcomeEmail() {
+    if (!selected) return;
+    try { replaceMember(await sendMembershipWelcomeEmail(selected.applicationId)); setNotice("Membership welcome email sent."); }
+    catch (error) { setNotice(error instanceof Error ? error.message : "Welcome email could not be sent."); }
+  }
 
   function exportCsv() {
     const safe = (value: unknown) => {
@@ -200,7 +207,7 @@ export default function MembersDashboard() {
     const url = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
     const link = document.createElement("a");
     link.href = url;
-    link.download = "cornerstone-paid-members.csv";
+    link.download = "cornerstone-membership-applications.csv";
     link.click();
     URL.revokeObjectURL(url);
   }
@@ -229,7 +236,7 @@ export default function MembersDashboard() {
             Members
           </h1>
           <span className="mt-2 text-sm text-[#716B75]">
-            Paid members and membership activity.
+            Members, applications, payments, and renewals.
           </span>
         </div>
         <div className="members-actions">
@@ -442,6 +449,8 @@ export default function MembersDashboard() {
                 }
               />
               <Info label="Comments" value={selected.comments ?? "—"} />
+              <Info label="Agreement version" value={selected.membershipAgreementVersion ?? "Legacy record"} />
+              <Info label="Agreement accepted" value={formatDate(selected.membershipAgreementAcceptedAt)} />
             </Detail>
             <Detail title="Internal notes">
               <label className="member-notes">
@@ -455,6 +464,9 @@ export default function MembersDashboard() {
               </label>
             </Detail>
             <div className="member-drawer-footer">
+              {selected.paymentStatus === "PAID" && !selected.welcomeEmailSentAt && (
+                <button onClick={() => void sendWelcomeEmail()}><Mail size={16} /> Send welcome email</button>
+              )}
               {selected.membershipEndsOn && (
                 <button onClick={() => void prepareReminder(selected)}>
                   <Mail size={16} /> Prepare renewal reminder

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Check, Clock3, Mail, ShieldCheck } from "lucide-react";
 import { useEffect, useState } from "react";
-import { getMembershipStatus, type MembershipState } from "@/services/membership-application.service";
+import { createMembershipRenewalCheckout, getMembershipStatus, type MembershipState } from "@/services/membership-application.service";
 import styles from "./MembershipSuccess.module.css";
 
 export default function MembershipSuccess({ applicationId }: { applicationId: string }) {
@@ -32,6 +32,12 @@ export default function MembershipSuccess({ applicationId }: { applicationId: st
   }, [applicationId]);
 
   const active = membershipStatus === "ACTIVE";
+  const renewalEligible = membershipStatus === "EXPIRED";
+  async function renew() {
+    setMessage("Preparing your secure renewal checkout…");
+    try { const result = await createMembershipRenewalCheckout(applicationId); window.location.assign(result.checkoutUrl); }
+    catch (error) { setMessage(error instanceof Error ? error.message : "We couldn’t start renewal checkout."); }
+  }
   return <main className={styles.page}>
     <section className={styles.card}>
       <div className={styles.monogram} aria-hidden="true">CSC</div>
@@ -44,6 +50,7 @@ export default function MembershipSuccess({ applicationId }: { applicationId: st
         <p><Mail /> A membership welcome email will follow once confirmation is complete.</p>
       </div>
       <div className={styles.actions}>
+        {renewalEligible && <button type="button" className={styles.primary} onClick={() => void renew()}>Renew membership</button>}
         <Link href="/events" className={styles.primary}>Browse events</Link>
         <Link href="/" className={styles.secondary}>Return home</Link>
       </div>
