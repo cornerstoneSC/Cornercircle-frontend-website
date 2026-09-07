@@ -1,16 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import type { EventPolicyContent } from "@/types/event-policy";
 
 export const metadata: Metadata = {
   title: "Event Terms and Cancellation Policy | Cornerstone Social Circle",
   description:
     "Terms, age requirements, and cancellation policy for Cornerstone Social Circle events.",
-};
-
-export type EventPolicyContent = {
-  effectiveDate: string;
-  introduction: string;
-  sections: Array<{ title: string; body: string[] }>;
 };
 
 const sections = [
@@ -130,7 +125,7 @@ const sections = [
   },
 ];
 
-export const defaultEventPolicy: EventPolicyContent = {
+const defaultEventPolicy: EventPolicyContent = {
   effectiveDate: "September 6, 2026",
   introduction:
     "These terms apply to events organized by Cornerstone Social Circle. By registering for or attending an event, you agree to these terms.",

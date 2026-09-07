@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Eye, Pencil, Save, X } from "lucide-react";
-import type { EventPolicyContent } from "@/app/(public)/event-terms/page";
+import type { EventPolicyContent } from "@/types/event-policy";
 
 export default function EventPolicyEditor() {
   const [content, setContent] = useState<EventPolicyContent | null>(null);

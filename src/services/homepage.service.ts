@@ -46,10 +46,10 @@ export async function uploadBeliefsImage(
 ): Promise<HomepageResponse> {
   const formData = new FormData();
   formData.append("file", file);
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/admin/homepage/beliefs/image`,
-    { method: "POST", body: formData },
-  );
+  const response = await fetch("/api/admin/homepage/image/beliefs", {
+    method: "POST",
+    body: formData,
+  });
   if (!response.ok) throw new Error("Failed to upload beliefs photo");
   const result: HomepageResponse = await response.json();
   if (!result.beliefsImageUrl)
@@ -61,13 +61,10 @@ export async function uploadHeroImage(file: File): Promise<HomepageResponse> {
   const formData = new FormData();
   formData.append("file", file);
 
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/admin/homepage/hero/image`,
-    {
-      method: "POST",
-      body: formData,
-    },
-  );
+  const response = await fetch("/api/admin/homepage/image/hero", {
+    method: "POST",
+    body: formData,
+  });
 
   if (!response.ok) {
     throw new Error("Failed to upload hero image");
@@ -79,13 +76,10 @@ export async function uploadAboutImage(file: File): Promise<HomepageResponse> {
   const formData = new FormData();
   formData.append("file", file);
 
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/admin/homepage/about/image`,
-    {
-      method: "POST",
-      body: formData,
-    },
-  );
+  const response = await fetch("/api/admin/homepage/image/about", {
+    method: "POST",
+    body: formData,
+  });
 
   if (!response.ok) {
     throw new Error("Failed to upload about image");

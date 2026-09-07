@@ -14,9 +14,28 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Cornerstone Social Circle",
+  metadataBase: new URL("https://www.cornerstonesocialcircle.com"),
+  title: {
+    default: "Cornerstone Social Circle",
+    template: "%s | Cornerstone Social Circle",
+  },
   description:
     "Intentional gatherings that create authentic connections and lasting friendships.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: "Cornerstone Social Circle",
+    title: "Cornerstone Social Circle",
+    description: "Intentional gatherings that create authentic connections and lasting friendships.",
+    url: "/",
+    images: [{ url: "/logo/cornerstone-logo-navbar.png", alt: "Cornerstone Social Circle" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cornerstone Social Circle",
+    description: "Intentional gatherings that create authentic connections and lasting friendships.",
+    images: ["/logo/cornerstone-logo-navbar.png"],
+  },
 };
 
 export default function RootLayout({

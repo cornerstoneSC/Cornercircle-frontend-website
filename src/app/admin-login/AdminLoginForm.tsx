@@ -4,10 +4,6 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, EyeOff, LockKeyhole, ShieldCheck } from "lucide-react";
 
-function GoogleMark() {
-  return <svg aria-hidden="true" className="google-mark" viewBox="0 0 24 24"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.9h5.4a4.6 4.6 0 0 1-2 3v2.5h3.3c1.9-1.8 2.9-4.4 2.9-7.4Z"/><path fill="#34A853" d="M12 22c2.7 0 5-.9 6.7-2.4l-3.3-2.5c-.9.6-2.1 1-3.4 1-2.6 0-4.8-1.8-5.6-4.2H3v2.6A10 10 0 0 0 12 22Z"/><path fill="#FBBC05" d="M6.4 13.9a6 6 0 0 1 0-3.8V7.5H3a10 10 0 0 0 0 9l3.4-2.6Z"/><path fill="#EA4335" d="M12 5.9c1.5 0 2.8.5 3.9 1.5l2.9-2.9A9.7 9.7 0 0 0 3 7.5l3.4 2.6A6 6 0 0 1 12 5.9Z"/></svg>;
-}
-
 export default function AdminLoginForm() {
   const router = useRouter();
   const search = useSearchParams();
@@ -32,19 +28,10 @@ export default function AdminLoginForm() {
     finally { setPending(false); }
   }
 
-  function continueWithGoogle() {
-    const next = search.get("next");
-    const returnTo = next?.startsWith("/admin") ? next : "/admin/members";
-    window.location.assign(`/api/admin/google?next=${encodeURIComponent(returnTo)}`);
-  }
-
   return <div className="admin-login-shell">
     <p className="admin-login-kicker">Administrator access</p>
     <h2>Welcome back</h2>
     <p className="admin-login-intro">Sign in to continue to your private workspace.</p>
-
-    <button className="admin-google-button" type="button" onClick={continueWithGoogle}><GoogleMark /> Continue with Google</button>
-    <div className="admin-login-divider"><span>or</span></div>
 
     <form onSubmit={submit} className="admin-login-form">
       <label htmlFor="admin-username">Username</label>

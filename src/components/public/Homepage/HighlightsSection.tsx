@@ -9,7 +9,7 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 type ValueItem = {
   number: string;
@@ -62,6 +62,18 @@ export default function WhyCornerstoneUnfold() {
   // 3-7 = cards 01-05 unfold directly.
   const [stage, setStage] = useState(3);
   const [hasPlayed, setHasPlayed] = useState(false);
+  const timersRef = useRef<number[]>([]);
+
+  const playAnimation = useCallback(() => {
+    timersRef.current.forEach(window.clearTimeout);
+    setStage(3);
+    timersRef.current = [
+      window.setTimeout(() => setStage(4), 700),
+      window.setTimeout(() => setStage(5), 1400),
+      window.setTimeout(() => setStage(6), 2100),
+      window.setTimeout(() => setStage(7), 2800),
+    ];
+  }, []);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -81,21 +93,11 @@ export default function WhyCornerstoneUnfold() {
 
     observer.observe(section);
 
-    return () => observer.disconnect();
-  }, [hasPlayed]);
-
-  function playAnimation() {
-    setStage(3);
-
-    const timers = [
-      window.setTimeout(() => setStage(4), 700),
-      window.setTimeout(() => setStage(5), 1400),
-      window.setTimeout(() => setStage(6), 2100),
-      window.setTimeout(() => setStage(7), 2800),
-    ];
-
-    return () => timers.forEach(window.clearTimeout);
-  }
+    return () => {
+      observer.disconnect();
+      timersRef.current.forEach(window.clearTimeout);
+    };
+  }, [hasPlayed, playAnimation]);
 
   function replay() {
     setStage(3);

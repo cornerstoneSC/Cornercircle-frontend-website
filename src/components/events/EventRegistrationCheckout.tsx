@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FormEvent, useMemo, useState } from "react";
 import type { Event } from "@/types/event";
 
@@ -102,6 +103,7 @@ function StripePayment({
 }
 
 export default function EventRegistrationCheckout({ event }: { event: Event }) {
+  const router = useRouter();
   const [quantity, setQuantity] = useState(1);
   const [contact, setContact] = useState({
     fullName: "",
@@ -168,7 +170,7 @@ export default function EventRegistrationCheckout({ event }: { event: Event }) {
             "Secure payment could not be prepared.",
         );
       if (data.status === "CONFIRMED") {
-        window.location.assign(
+        router.push(
           `/events/${encodeURIComponent(event.slug)}/register/success?registration_id=${encodeURIComponent(data.registrationId)}`,
         );
         return;
