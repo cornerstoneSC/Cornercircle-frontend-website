@@ -6,6 +6,7 @@ import AboutHomeSection from "@/components/public/Homepage/AboutHomeSection";
 import HeroSection from "@/components/public/Homepage/HeroSection";
 import GallerySection from "@/components/public/Homepage/GallerySection";
 import FounderSection from "@/components/public/Homepage/FounderSection";
+import NewsletterSection from "@/components/public/Homepage/NewsletterSection";
 import FounderStory from "@/components/public/founder/FounderStory";
 import PublicFooter from "@/components/public/layout/PublicFooter";
 import {
@@ -19,12 +20,13 @@ import {
   uploadBeliefsImage,
   uploadFounderImage,
   uploadHeroImage,
+  uploadNewsletterImage,
 } from "@/services/homepage.service";
 import type { HomepageContent } from "@/types/homepage";
 import useUnsavedChanges from "@/hooks/useUnsavedChanges";
 import { ImagePlus } from "lucide-react";
 
-type PhotoKey = "hero" | "about" | "beliefs" | "founder";
+type PhotoKey = "hero" | "about" | "beliefs" | "founder" | "newsletter";
 
 function PhotoPicker({
   label,
@@ -81,6 +83,8 @@ export default function HomepageEditor({
   const [savedBeliefsImageUrl, setSavedBeliefsImageUrl] = useState<string>();
   const [founderImageUrl, setFounderImageUrl] = useState<string>();
   const [savedFounderImageUrl, setSavedFounderImageUrl] = useState<string>();
+  const [newsletterImageUrl, setNewsletterImageUrl] = useState<string>();
+  const [savedNewsletterImageUrl, setSavedNewsletterImageUrl] = useState<string>();
   const [uploading, setUploading] = useState<PhotoKey | null>(null);
   const [pendingPhotoCount, setPendingPhotoCount] = useState(0);
   const pendingPhotos = useRef<
@@ -90,6 +94,7 @@ export default function HomepageEditor({
   const hasHeroUploadedRef = useRef(false);
   const hasAboutUploadedRef = useRef(false);
   const hasFounderUploadedRef = useRef(false);
+  const hasNewsletterUploadedRef = useRef(false);
 
   useEffect(() => {
     getHomepage()
@@ -105,6 +110,10 @@ export default function HomepageEditor({
         if (!hasFounderUploadedRef.current && homepage.founderImageUrl) {
           setFounderImageUrl(homepage.founderImageUrl);
           setSavedFounderImageUrl(homepage.founderImageUrl);
+        }
+        if (!hasNewsletterUploadedRef.current && homepage.newsletterImageUrl) {
+          setNewsletterImageUrl(homepage.newsletterImageUrl);
+          setSavedNewsletterImageUrl(homepage.newsletterImageUrl);
         }
         if (homepage.contentJson) {
           try {
@@ -238,6 +247,14 @@ export default function HomepageEditor({
         setFounderImageUrl(result.founderImageUrl);
         setSavedFounderImageUrl(result.founderImageUrl);
       }
+      if (pendingPhotos.current.newsletter) {
+        setUploading("newsletter");
+        const result = await uploadNewsletterImage(
+          pendingPhotos.current.newsletter.file,
+        );
+        setNewsletterImageUrl(result.newsletterImageUrl);
+        setSavedNewsletterImageUrl(result.newsletterImageUrl);
+      }
       setUploading(null);
       await saveHomepageContent(draft);
       Object.values(pendingPhotos.current).forEach((photo) =>
@@ -281,7 +298,8 @@ export default function HomepageEditor({
       }));
     else if (key === "about") setAboutImageUrl(preview);
     else if (key === "beliefs") setBeliefsImageUrl(preview);
-    else setFounderImageUrl(preview);
+    else if (key === "founder") setFounderImageUrl(preview);
+    else setNewsletterImageUrl(preview);
     setNotice(
       "Photo replaced in the preview. Save changes to upload and publish it.",
     );
@@ -297,6 +315,7 @@ export default function HomepageEditor({
     setAboutImageUrl(savedAboutImageUrl);
     setBeliefsImageUrl(savedBeliefsImageUrl);
     setFounderImageUrl(savedFounderImageUrl);
+    setNewsletterImageUrl(savedNewsletterImageUrl);
     setSaveError("");
     setNotice("");
   }
@@ -463,6 +482,23 @@ export default function HomepageEditor({
               content={content.gallery}
               onEdit={(path, value) => edit(`gallery.${path}`, value)}
               images={[beliefsImageUrl, aboutImageUrl, content.hero.imageUrl]}
+            />
+          </div>
+        )}
+        {!founderOnly && (
+          <div className="relative">
+            <NewsletterSection
+              imageUrl={newsletterImageUrl}
+              previewOnly
+              photoControls={
+                <div className="absolute left-1/2 top-4 z-20 -translate-x-1/2">
+                  <PhotoPicker
+                    label="newsletter"
+                    disabled={saving}
+                    onSelect={(file) => selectPhoto("newsletter", file)}
+                  />
+                </div>
+              }
             />
           </div>
         )}

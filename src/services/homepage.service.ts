@@ -10,6 +10,8 @@ export type HomepageResponse = {
   beliefsImagePublicId?: string;
   founderImageUrl?: string;
   founderImagePublicId?: string;
+  newsletterImageUrl?: string;
+  newsletterImagePublicId?: string;
   contentJson?: string;
 };
 
@@ -130,4 +132,21 @@ export async function uploadFounderImage(
   });
   if (!response.ok) throw await uploadError(response, "Failed to upload founder photo");
   return response.json();
+}
+
+export async function uploadNewsletterImage(
+  file: File,
+): Promise<HomepageResponse> {
+  const formData = new FormData();
+  formData.append("file", await prepareImageUpload(file));
+  const response = await fetch("/api/admin/homepage/image/newsletter", {
+    method: "POST",
+    body: formData,
+  });
+  if (!response.ok)
+    throw await uploadError(response, "Failed to upload newsletter photo");
+  const result: HomepageResponse = await response.json();
+  if (!result.newsletterImageUrl)
+    throw new Error("No saved newsletter photo returned");
+  return result;
 }

@@ -1,11 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { FormEvent, useState } from "react";
+import { FormEvent, type ReactNode, useState } from "react";
 import styles from "./NewsletterSection.module.css";
 import { subscribeNewsletter } from "@/services/newsletter.service";
 
-export default function NewsletterSection() {
+type Props = { imageUrl?: string; photoControls?: ReactNode; previewOnly?: boolean };
+
+export default function NewsletterSection({ imageUrl, photoControls, previewOnly = false }: Props) {
   const [submitted, setSubmitted] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -30,12 +32,14 @@ export default function NewsletterSection() {
           <span className={styles.paperCircle} />
           <div className={styles.photo}>
             <Image
-              src="/images/home/companionship-story.jpg"
+              src={imageUrl || "/images/home/companionship-story.jpg"}
               alt=""
               fill
+              unoptimized={imageUrl?.startsWith("blob:")}
               sizes="(max-width: 760px) 82vw, 44vw"
               className={styles.image}
             />
+            {photoControls}
           </div>
         </div>
 
@@ -57,12 +61,13 @@ export default function NewsletterSection() {
                   type="email"
                   autoComplete="email"
                   placeholder="Email address"
+                  disabled={previewOnly}
                   required
                 />
               </div>
               <label className={styles.srOnly} aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
 
-              <button className={styles.submitButton} type="submit" disabled={busy}>{busy ? "Joining…" : "Join the Circle"}</button>
+              <button className={styles.submitButton} type="submit" disabled={busy || previewOnly}>{busy ? "Joining…" : "Join the Circle"}</button>
               {error && <p className={styles.success} role="alert">{error}</p>}
               <p className={styles.privacy}>Thoughtful updates only. Unsubscribe anytime.</p>
             </form>
