@@ -108,7 +108,8 @@
 @media (max-width: 600px) {
   .section { padding: 62px 24px; }
   .section::before {
-    inset: 34px 0 0;
+    display: block;
+    inset: 130px 0 0;
     background:
       linear-gradient(rgba(224, 215, 202, 0.64), rgba(224, 215, 202, 0.64)),
       url("/images/home/founder-background-ivory.png") center / cover no-repeat;
