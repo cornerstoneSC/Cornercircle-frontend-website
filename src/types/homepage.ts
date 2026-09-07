@@ -46,6 +46,7 @@ export type GalleryContent = {
   accent: string;
   description: string;
   imageAlt: string[];
+  imageUrls?: string[];
 };
 
 export type FounderContent = {

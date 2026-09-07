@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { ADMIN_SESSION_COOKIE, verifyAdminSession } from "@/lib/admin-session";
 
-const allowedSlots = new Set(["hero", "about", "beliefs", "newsletter"]);
+const allowedSlots = new Set(["hero", "about", "beliefs", "newsletter", "gallery"]);
 
 export async function POST(
   request: Request,

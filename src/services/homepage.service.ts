@@ -150,3 +150,17 @@ export async function uploadNewsletterImage(
     throw new Error("No saved newsletter photo returned");
   return result;
 }
+
+export async function uploadGalleryImage(file: File): Promise<string> {
+  const formData = new FormData();
+  formData.append("file", await prepareImageUpload(file));
+  const response = await fetch("/api/admin/homepage/image/gallery", {
+    method: "POST",
+    body: formData,
+  });
+  if (!response.ok)
+    throw await uploadError(response, "Failed to upload gallery photo");
+  const result = (await response.json()) as { url?: string };
+  if (!result.url) throw new Error("No saved gallery photo returned");
+  return result.url;
+}

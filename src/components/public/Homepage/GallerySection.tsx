@@ -3,8 +3,9 @@ import styles from "./GallerySection.module.css";
 import EditableText from "@/components/public/services/EditableText";
 import { defaultHomepageContent } from "@/data/homepage";
 import type { GalleryContent } from "@/types/homepage";
+import type { ReactNode } from "react";
 
-type GallerySectionProps = { images?: Array<string | undefined>; content?: GalleryContent; onEdit?: (path: string, value: string) => void };
+type GallerySectionProps = { images?: Array<string | undefined>; content?: GalleryContent; onEdit?: (path: string, value: string) => void; photoControls?: (index: number) => ReactNode };
 
 const fallbacks = [
   "/images/home/hero.jpg",
@@ -14,8 +15,8 @@ const fallbacks = [
   "/images/home/hero.jpg",
 ];
 
-export default function GallerySection({ images = [], content = defaultHomepageContent.gallery, onEdit }: GallerySectionProps) {
-  const gallery = fallbacks.map((fallback, index) => images[index] || fallback);
+export default function GallerySection({ images = [], content = defaultHomepageContent.gallery, onEdit, photoControls }: GallerySectionProps) {
+  const gallery = fallbacks.map((fallback, index) => content.imageUrls?.[index] || images[index] || fallback);
 
   return (
     <section className={styles.section} aria-labelledby="gallery-heading">
@@ -33,6 +34,7 @@ export default function GallerySection({ images = [], content = defaultHomepageC
               <div className={styles.imageWrap}>
                 <Image src={src} alt={content.imageAlt[index] || "Cornerstone community gathering"} fill unoptimized={src.startsWith("blob:")}
                   sizes={index === 2 ? "(max-width: 700px) 92vw, 50vw" : "(max-width: 700px) 44vw, 22vw"} className={styles.image} />
+                {photoControls?.(index)}
               </div>
               {(index === 2 || index === 3) && <span className={index === 2 ? styles.pin : styles.corner} aria-hidden="true" />}
             </figure>

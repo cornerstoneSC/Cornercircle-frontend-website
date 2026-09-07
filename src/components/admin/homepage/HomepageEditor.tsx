@@ -20,20 +20,24 @@ import {
   uploadBeliefsImage,
   uploadFounderImage,
   uploadHeroImage,
+  uploadGalleryImage,
   uploadNewsletterImage,
 } from "@/services/homepage.service";
 import type { HomepageContent } from "@/types/homepage";
 import useUnsavedChanges from "@/hooks/useUnsavedChanges";
 import { ImagePlus } from "lucide-react";
 
-type PhotoKey = "hero" | "about" | "beliefs" | "founder" | "newsletter";
+type GalleryPhotoKey = "gallery-0" | "gallery-1" | "gallery-2" | "gallery-3" | "gallery-4";
+type PhotoKey = "hero" | "about" | "beliefs" | "founder" | "newsletter" | GalleryPhotoKey;
 
 function PhotoPicker({
   label,
+  buttonText,
   disabled,
   onSelect,
 }: {
   label: string;
+  buttonText?: string;
   disabled: boolean;
   onSelect: (file: File) => void;
 }) {
@@ -42,12 +46,13 @@ function PhotoPicker({
     <>
       <button
         type="button"
+        aria-label={`Edit ${label} photo`}
         disabled={disabled}
         onClick={() => input.current?.click()}
         className="inline-flex items-center gap-2 whitespace-nowrap rounded-md bg-white px-4 py-2 text-sm font-semibold text-plum shadow-lg hover:bg-stone-100 disabled:opacity-50"
       >
         <ImagePlus size={17} aria-hidden="true" />
-        Edit {label} photo
+        {buttonText ?? `Edit ${label} photo`}
       </button>
       <input
         ref={input}
@@ -255,6 +260,16 @@ export default function HomepageEditor({
         setNewsletterImageUrl(result.newsletterImageUrl);
         setSavedNewsletterImageUrl(result.newsletterImageUrl);
       }
+      for (let index = 0; index < 5; index++) {
+        const key = `gallery-${index}` as GalleryPhotoKey;
+        const pending = pendingPhotos.current[key];
+        if (!pending) continue;
+        setUploading(key);
+        const imageUrl = await uploadGalleryImage(pending.file);
+        const imageUrls = [...(draft.gallery.imageUrls ?? [])];
+        imageUrls[index] = imageUrl;
+        draft.gallery.imageUrls = imageUrls;
+      }
       setUploading(null);
       await saveHomepageContent(draft);
       Object.values(pendingPhotos.current).forEach((photo) =>
@@ -299,7 +314,18 @@ export default function HomepageEditor({
     else if (key === "about") setAboutImageUrl(preview);
     else if (key === "beliefs") setBeliefsImageUrl(preview);
     else if (key === "founder") setFounderImageUrl(preview);
-    else setNewsletterImageUrl(preview);
+    else if (key === "newsletter") setNewsletterImageUrl(preview);
+    else {
+      const index = Number(key.split("-")[1]);
+      setContent((current) => {
+        const imageUrls = [...(current.gallery.imageUrls ?? [])];
+        imageUrls[index] = preview;
+        return {
+          ...current,
+          gallery: { ...current.gallery, imageUrls },
+        };
+      });
+    }
     setNotice(
       "Photo replaced in the preview. Save changes to upload and publish it.",
     );
@@ -482,6 +508,18 @@ export default function HomepageEditor({
               content={content.gallery}
               onEdit={(path, value) => edit(`gallery.${path}`, value)}
               images={[beliefsImageUrl, aboutImageUrl, content.hero.imageUrl]}
+              photoControls={(index) => (
+                <div className="absolute right-2 top-2 z-30">
+                  <PhotoPicker
+                    label={`gallery photo ${index + 1}`}
+                    buttonText="Edit"
+                    disabled={saving}
+                    onSelect={(file) =>
+                      selectPhoto(`gallery-${index}` as GalleryPhotoKey, file)
+                    }
+                  />
+                </div>
+              )}
             />
           </div>
         )}
