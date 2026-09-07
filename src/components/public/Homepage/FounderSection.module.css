@@ -11,7 +11,7 @@
   position: absolute;
   inset: 56px 0 0;
   background:
-    linear-gradient(rgba(245, 240, 232, 0.86), rgba(245, 240, 232, 0.86)),
+    linear-gradient(rgba(224, 215, 202, 0.56), rgba(224, 215, 202, 0.56)),
     url("/images/home/founder-background-ivory.png") center / cover no-repeat;
   content: "";
 }
@@ -110,7 +110,7 @@
   .section::before {
     inset: 34px 0 0;
     background:
-      linear-gradient(rgba(245, 240, 232, 0.9), rgba(245, 240, 232, 0.9)),
+      linear-gradient(rgba(224, 215, 202, 0.64), rgba(224, 215, 202, 0.64)),
       url("/images/home/founder-background-ivory.png") center / cover no-repeat;
   }
   .inner { gap: 46px; }
