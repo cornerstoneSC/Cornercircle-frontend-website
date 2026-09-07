@@ -4,7 +4,6 @@ import Link from "next/link";
 import {
   CalendarDays,
   ClipboardList,
-  ContactRound,
   FileText,
   HeartHandshake,
   House,
@@ -12,8 +11,6 @@ import {
   LogOut,
   Mail,
   Menu,
-  MessageSquareQuote,
-  Settings,
   Users,
   UserRound,
 } from "lucide-react";
@@ -44,12 +41,6 @@ const groups = [
       { href: "/admin/membership", label: "Membership Page", icon: Users },
       { href: "/admin/services", label: "Services Page", icon: HeartHandshake },
       { href: "/admin/event-policy", label: "Event Policy", icon: FileText },
-      {
-        href: "/admin/testimonials",
-        label: "Testimonials",
-        icon: MessageSquareQuote,
-      },
-      { href: "/admin/contact", label: "Contact Page", icon: ContactRound },
     ],
   },
 ];
@@ -96,15 +87,6 @@ export default function AdminMobileHeader() {
               ))}
             </section>
           ))}
-          <div className="my-2 border-t border-[var(--event-border)] pt-2">
-            <Link
-              href="/admin/site-settings"
-              className="flex items-center gap-3 rounded-[var(--event-radius-sm)] px-4 py-2.5 text-sm font-medium text-[var(--event-text)] hover:bg-[var(--event-accent-soft)] hover:text-[var(--event-accent-strong)]"
-            >
-              <Settings className="h-4 w-4" />
-              Site Settings
-            </Link>
-          </div>
           <form action="/api/admin/logout" method="post">
             <button
               type="submit"

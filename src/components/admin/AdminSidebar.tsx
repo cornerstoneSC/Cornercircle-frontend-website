@@ -11,10 +11,7 @@ import {
   FileText,
   UserRound,
   Users,
-  MessageSquareQuote,
   Mail,
-  ContactRound,
-  Settings,
   ChevronDown,
 } from "lucide-react";
 
@@ -50,21 +47,9 @@ const navGroups: Array<{ label: string; items: NavItem[] }> = [
       { label: "Membership Page", href: "/admin/membership", icon: Users },
       { label: "Services Page", href: "/admin/services", icon: HeartHandshake },
       { label: "Event Policy", href: "/admin/event-policy", icon: FileText },
-      {
-        label: "Testimonials",
-        href: "/admin/testimonials",
-        icon: MessageSquareQuote,
-      },
-      { label: "Contact Page", href: "/admin/contact", icon: ContactRound },
     ],
   },
 ];
-
-const settingsItem: NavItem = {
-  label: "Site Settings",
-  href: "/admin/site-settings",
-  icon: Settings,
-};
 
 export default function AdminSidebar() {
   const pathname = usePathname();
@@ -114,10 +99,6 @@ export default function AdminSidebar() {
             </section>
           ))}
         </nav>
-      </div>
-
-      <div className="border-t border-[var(--event-border)] px-4 py-3">
-        <NavLink item={settingsItem} active={isActive(settingsItem.href)} />
       </div>
 
       {/* User */}
