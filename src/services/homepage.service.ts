@@ -38,6 +38,13 @@ async function prepareImageUpload(file: File): Promise<File> {
   return new File([blob], `${name}.webp`, { type: "image/webp" });
 }
 
+async function uploadError(response: Response, fallback: string) {
+  const result = (await response.json().catch(() => null)) as
+    | { message?: string; detail?: string }
+    | null;
+  return new Error(result?.message || result?.detail || `${fallback} (${response.status})`);
+}
+
 export async function getHomepage(): Promise<HomepageResponse> {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/v1/admin/homepage`,
@@ -75,7 +82,7 @@ export async function uploadBeliefsImage(
     method: "POST",
     body: formData,
   });
-  if (!response.ok) throw new Error("Failed to upload beliefs photo");
+  if (!response.ok) throw await uploadError(response, "Failed to upload beliefs photo");
   const result: HomepageResponse = await response.json();
   if (!result.beliefsImageUrl)
     throw new Error("No saved beliefs photo returned");
@@ -92,7 +99,7 @@ export async function uploadHeroImage(file: File): Promise<HomepageResponse> {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to upload hero image");
+    throw await uploadError(response, "Failed to upload hero image");
   }
   return response.json();
 }
@@ -107,7 +114,7 @@ export async function uploadAboutImage(file: File): Promise<HomepageResponse> {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to upload about image");
+    throw await uploadError(response, "Failed to upload about image");
   }
   return response.json();
 }
@@ -121,6 +128,6 @@ export async function uploadFounderImage(
     method: "POST",
     body: formData,
   });
-  if (!response.ok) throw new Error("Failed to upload founder photo");
+  if (!response.ok) throw await uploadError(response, "Failed to upload founder photo");
   return response.json();
 }

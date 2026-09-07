@@ -80,7 +80,7 @@ export default function HeroEditor({ imageUrl, onPreview, onUploaded }: HeroEdit
     } catch (reason) {
       console.error(reason);
       onPreview(savedImageUrl);
-      setError("The upload failed. Your previous hero image has been restored.");
+      setError(reason instanceof Error ? reason.message : "The upload failed. Your previous hero image has been restored.");
     } finally {
       setIsUploading(false);
       URL.revokeObjectURL(previewUrl);
