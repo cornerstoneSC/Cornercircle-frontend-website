@@ -85,7 +85,7 @@ export default function HeroSection({
             aria-hidden="true"
           />
 
-          <div className="relative aspect-square overflow-hidden rounded-t-full border border-[#b8862b]/70 bg-stone-200 shadow-[0_18px_45px_rgba(52,45,41,0.10)] lg:aspect-[4/3] lg:rounded-none lg:border-0">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-t-full border border-[#b8862b]/70 bg-stone-200 shadow-[0_18px_45px_rgba(52,45,41,0.10)] lg:aspect-[4/3] lg:rounded-none lg:border-0">
             <Image
               src={content.imageUrl}
               alt={content.imageAlt}
