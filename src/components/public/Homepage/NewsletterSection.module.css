@@ -27,16 +27,6 @@
   min-height: 440px;
 }
 
-.paperCircle {
-  position: absolute;
-  width: min(72%, 390px);
-  aspect-ratio: 1;
-  left: -3%;
-  border-radius: 50%;
-  background: #f8f3ea;
-  box-shadow: inset 0 0 0 1px rgba(184, 137, 53, .68);
-}
-
 .photo {
   position: relative;
   width: min(84%, 455px);
@@ -194,7 +184,6 @@
   .section { padding: 52px 0 62px; }
   .panel { grid-template-columns: 1fr; padding: 30px 22px 36px; border-radius: 0; }
   .visual { min-height: auto; margin-bottom: 38px; }
-  .paperCircle { width: 76%; left: -5%; }
   .photo { width: min(88%, 380px); }
   .content { justify-self: auto; padding-left: 0; }
   .content h2 { font-size: clamp(39px, 12vw, 54px); }

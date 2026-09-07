@@ -29,7 +29,6 @@ export default function NewsletterSection({ imageUrl, photoControls, previewOnly
     <section className={styles.section} aria-labelledby="newsletter-heading">
       <div className={styles.panel}>
         <div className={styles.visual} aria-hidden="true">
-          <span className={styles.paperCircle} />
           <div className={styles.photo}>
             <Image
               src={imageUrl || "/images/home/companionship-story.jpg"}
