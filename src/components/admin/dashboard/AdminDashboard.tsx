@@ -1,0 +1,23 @@
+"use client";
+import Link from "next/link";
+import {useEffect,useState} from "react";
+import {AlertCircle,ArrowRight,CalendarDays,ExternalLink,House,Ticket,UserPlus,Users,WalletCards} from "lucide-react";
+import {getAdminDashboard,type DashboardData} from "@/services/admin-dashboard.service";
+import "./admin-dashboard.css";
+const money=new Intl.NumberFormat("en-US",{style:"currency",currency:"USD"});
+const day=new Intl.DateTimeFormat("en-US",{month:"short",day:"numeric",year:"numeric"});
+const fullDate=new Intl.DateTimeFormat("en-US",{month:"long",day:"numeric",year:"numeric"});
+function clock(value:string){const[h,m]=value.split(":").map(Number);return new Intl.DateTimeFormat("en-US",{hour:"numeric",minute:"2-digit"}).format(new Date(2026,0,1,h,m));}
+function relative(value:string){const seconds=Math.max(1,Math.floor((Date.now()-new Date(value).getTime())/1000));if(seconds<3600)return `${Math.max(1,Math.floor(seconds/60))} min ago`;if(seconds<86400)return `${Math.floor(seconds/3600)} hr ago`;return `${Math.floor(seconds/86400)} day${seconds<172800?"":"s"} ago`;}
+export default function AdminDashboard(){const[data,setData]=useState<DashboardData|null>(null);const[error,setError]=useState("");async function load(){setError("");try{setData(await getAdminDashboard());}catch(reason){setError(reason instanceof Error?reason.message:"Unable to load dashboard.");}}useEffect(()=>{void load();},[]);if(!data)return <section className="dashboard-state"><span/>{error||"Loading dashboard…"}{error&&<button onClick={()=>void load()}>Try again</button>}</section>;return <section className="dashboard-page">
+ <header className="dashboard-header"><div><p>Overview</p><h1>Welcome back, Gloria.</h1><span>Here&apos;s what&apos;s happening in your community.</span></div><div><Link href="/" target="_blank">View website <ExternalLink/></Link><time>{fullDate.format(new Date())}</time></div></header>
+ <div className="dashboard-stats"><Stat icon={<Users/>} label="Active members" value={String(data.summary.activeMembers)}/><Stat icon={<Ticket/>} label="Paid event registrations" value={String(data.summary.paidEventRegistrations)}/><Stat icon={<CalendarDays/>} label="Upcoming events" value={String(data.summary.upcomingEvents)}/><Stat icon={<WalletCards/>} label="Revenue this month" value={money.format(data.summary.revenueThisMonth)}/></div>
+ <div className="dashboard-grid"><Panel title="Upcoming events" className="events-panel">{data.upcomingEvents.length?data.upcomingEvents.map(event=><article className="dashboard-event" key={event.id}><CalendarDays/><div><b>{event.title}</b><span>{day.format(new Date(`${event.date}T12:00:00`))} · {clock(event.startTime)}</span></div><div className="event-capacity"><span>{event.registered}{event.capacity?` / ${event.capacity}`:""} registered</span>{event.capacity&&<i><em style={{width:`${Math.min(100,event.registered/event.capacity*100)}%`}}/></i>}</div><Link href={`/admin/events/${event.id}/edit`}>Manage <ArrowRight/></Link></article>):<Empty text="No upcoming published events."/>}</Panel>
+ <Panel title="Needs your attention" className="attention-panel">{data.attentionItems.length?data.attentionItems.map(item=><article key={item.type}><AlertCircle/><div><b>{item.title}</b><span>{item.description}</span></div><Link href={item.href}>{item.actionLabel}<ArrowRight/></Link></article>):<Empty text="Everything looks up to date."/>}</Panel>
+ <Panel title="Recent activity" className="activity-panel">{data.recentActivity.length?data.recentActivity.map((item,index)=><Link href={item.href} key={`${item.occurredAt}-${index}`}><i>{item.type==="MEMBER"?<UserPlus/>:<Ticket/>}</i><span>{item.description}</span><time>{relative(item.occurredAt)}</time></Link>):<Empty text="New member and registration activity will appear here."/>}</Panel>
+ <Panel title="Quick actions" className="quick-panel"><Quick href="/admin/events/new" icon={<CalendarDays/>} text="Create an event"/><Quick href="/admin/event-registrations" icon={<Ticket/>} text="View registrations"/><Quick href="/admin/homepage" icon={<House/>} text="Edit homepage"/></Panel></div>
+ </section>}
+function Stat({icon,label,value}:{icon:React.ReactNode;label:string;value:string}){return <article><i>{icon}</i><div><span>{label}</span><strong>{value}</strong></div></article>}
+function Panel({title,className,children}:{title:string;className:string;children:React.ReactNode}){return <section className={`dashboard-panel ${className}`}><h2>{title}</h2>{children}</section>}
+function Quick({href,icon,text}:{href:string;icon:React.ReactNode;text:string}){return <Link href={href}>{icon}<span>{text}</span><ArrowRight/></Link>}
+function Empty({text}:{text:string}){return <p className="dashboard-empty">{text}</p>}

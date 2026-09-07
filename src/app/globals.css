@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 @theme {
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-cormorant);
   --color-cream: #fbf8f3;
   --color-plum: #21152f;
   --color-plum-light: #352144;
@@ -20,4 +22,24 @@ body {
   margin: 0;
   background: var(--color-cream);
   color: var(--color-plum);
+}
+
+:root {
+  --event-canvas: #fbfaf8;
+  --event-surface: #ffffff;
+  --event-heading: #211e35;
+  --event-text: #514b58;
+  --event-muted: #817a83;
+  --event-border: #e7ddd6;
+  --event-accent: #a97824;
+  --event-accent-strong: #b88935;
+  --event-accent-soft: #f4ead7;
+  --event-success: #52704d;
+  --event-success-soft: #e7efdf;
+  --event-danger: #dc2626;
+  --event-danger-soft: #f6e4e1;
+  --event-radius-sm: 6px;
+  --event-radius-md: 10px;
+  --event-radius-lg: 16px;
+  --event-title-size: clamp(2.75rem, 4.5vw, 4.25rem);
 }

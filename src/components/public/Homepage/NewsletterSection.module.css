@@ -1,0 +1,201 @@
+.section {
+  padding: 74px 0 86px;
+  background: #f7f3ec;
+}
+
+.panel {
+  display: grid;
+  grid-template-columns: minmax(360px, .92fr) minmax(420px, 1.08fr);
+  align-items: center;
+  width: 100%;
+  min-height: 510px;
+  margin: 0;
+  padding: 34px clamp(52px, 6vw, 108px) 34px clamp(34px, 4vw, 70px);
+  overflow: hidden;
+  color: #f9f5ed;
+  border-radius: 0;
+  background:
+    radial-gradient(circle at 70% 20%, rgba(255,255,255,.06), transparent 34%),
+    #657260;
+  box-shadow: 0 20px 48px rgba(59, 52, 41, .12);
+}
+
+.visual {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 440px;
+}
+
+.paperCircle {
+  position: absolute;
+  width: min(72%, 390px);
+  aspect-ratio: 1;
+  left: -3%;
+  border-radius: 50%;
+  background: #f8f3ea;
+  box-shadow: inset 0 0 0 1px rgba(184, 137, 53, .68);
+}
+
+.photo {
+  position: relative;
+  width: min(84%, 455px);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  box-shadow: 0 22px 45px rgba(30, 31, 25, .25);
+}
+
+.image {
+  object-fit: cover;
+  object-position: center;
+}
+
+.content {
+  width: min(100%, 650px);
+  justify-self: start;
+  padding-left: clamp(12px, 2.5vw, 42px);
+  text-align: left;
+}
+
+.content h2 {
+  margin: 0;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(42px, 4.2vw, 66px);
+  font-weight: 400;
+  line-height: .98;
+  letter-spacing: -.035em;
+}
+
+.eyebrow { margin: 0 0 16px; color: #e3bd71; font-size: 11px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; }
+.description { max-width: 560px; margin: 24px 0 0; color: rgba(255,253,248,.86); font-family: var(--font-cormorant), Georgia, serif; font-size: 19px; line-height: 1.5; }
+
+.emailRow {
+  display: block;
+  width: min(100%, 440px);
+  margin-top: 22px;
+}
+
+.emailRow input {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 4px 14px;
+  color: #fffdf8;
+  font: inherit;
+  font-size: 17px;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 253, 248, .86);
+  border-radius: 0;
+  outline: 0;
+  background: transparent;
+}
+
+.emailRow input::placeholder { color: rgba(255, 253, 248, .82); }
+.emailRow input:focus { border-bottom-color: #dfb15a; }
+
+.interests {
+  display: grid;
+  gap: 10px;
+  margin: 26px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.submitButton {
+  display: block;
+  width: min(100%, 340px);
+  margin-top: 28px;
+  margin-right: 0;
+  margin-left: 0;
+  padding: 13px 24px;
+  color: #a96f1f;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  border: 1px solid rgba(255, 253, 248, .7);
+  border-radius: 999px;
+  background: #fffdf8;
+  box-shadow: 0 5px 15px rgba(38, 42, 34, .08);
+  cursor: pointer;
+  transition: color .2s ease, background-color .2s ease, transform .2s ease;
+}
+
+.submitButton:hover {
+  color: #fffdf8;
+  background: #b88935;
+  transform: translateY(-1px);
+}
+
+.submitButton:focus-visible {
+  outline: 2px solid #e5b95f;
+  outline-offset: 3px;
+}
+
+.privacy { width: min(100%, 340px); margin: 12px 0 0; color: rgba(255,253,248,.72); font-size: 12px; text-align: center; }
+
+.interests legend {
+  margin: 0 0 14px;
+  padding: 0;
+  color: rgba(255, 253, 248, .92);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.interests label {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  width: fit-content;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.interests input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: #d6a84b;
+}
+
+.success {
+  margin: 30px 0 0;
+  font-size: 14px;
+  color: rgba(255, 253, 248, .9);
+}
+
+.success {
+  padding: 22px 0;
+  color: #fffdf8;
+  font-size: 19px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 900px) {
+  .panel { grid-template-columns: minmax(280px, .85fr) 1.15fr; min-height: 480px; padding: 30px 34px; }
+  .visual { min-height: 390px; }
+  .content { padding-left: 24px; }
+  .emailRow { gap: 24px; }
+}
+
+@media (max-width: 700px) {
+  .section { padding: 52px 0 62px; }
+  .panel { grid-template-columns: 1fr; padding: 30px 22px 36px; border-radius: 0; }
+  .visual { min-height: auto; margin-bottom: 38px; }
+  .paperCircle { width: 76%; left: -5%; }
+  .photo { width: min(88%, 380px); }
+  .content { justify-self: auto; padding-left: 0; }
+  .content h2 { font-size: clamp(39px, 12vw, 54px); }
+}
