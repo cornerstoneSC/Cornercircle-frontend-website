@@ -10,10 +10,12 @@ export type AdminEventRegistration = {
   paymentStatus: "PAID";
   registrationDate: string;
   confirmationNumber: string;
+  checkedInAt: string | null;
+  ticketToken: string;
 };
 
 export type AdminEventRegistrationsResponse = {
-  summary: { paidRegistrations: number; ticketsSold: number; revenue: number };
+  summary: { paidRegistrations: number; ticketsSold: number; revenue: number; checkedInTickets: number };
   registrations: AdminEventRegistration[];
 };
 
@@ -25,3 +27,29 @@ export async function getEventRegistrations(query = "", event = "") {
   if (!response.ok) throw new Error(`Unable to load registrations (${response.status}).`);
   return response.json() as Promise<AdminEventRegistrationsResponse>;
 }
+
+export type TicketCheckIn = {
+  status: "VALID" | "CHECKED_IN" | "ALREADY_CHECKED_IN";
+  confirmationNumber: string;
+  fullName: string;
+  email: string;
+  guestCount: number;
+  eventTitle: string;
+  eventSlug: string;
+  checkedInAt: string | null;
+};
+
+async function ticketRequest(path: string, ticketToken: string, method = "POST") {
+  const response = await fetch(`/api/admin/event-registrations/${path}`, {
+    method,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ticketToken }),
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data.detail || data.message || "Unable to validate this ticket.");
+  return data as TicketCheckIn;
+}
+
+export const validateTicket = (ticketToken: string) => ticketRequest("check-in/validate", ticketToken);
+export const checkInTicket = (ticketToken: string) => ticketRequest("check-in", ticketToken);
+export const undoTicketCheckIn = (ticketToken: string) => ticketRequest("check-in", ticketToken, "DELETE");

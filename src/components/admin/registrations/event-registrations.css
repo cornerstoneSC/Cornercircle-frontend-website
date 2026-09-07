@@ -5,3 +5,5 @@
 /* Shared compact Community admin scale. */
 .registrations-page{padding:40px}.registrations-header,.registrations-stats,.registrations-layout{max-width:1320px}.registrations-header{padding-bottom:24px;border-bottom:1px solid var(--event-border)}.registrations-header p{margin-bottom:8px;font-size:.72rem}.registrations-header h1{font-size:2.25rem;line-height:1}.registrations-header>div>span{margin-top:8px;font-size:.875rem}.registrations-filters label{height:44px}.registrations-stats{margin:24px auto;gap:16px}.registrations-stats article{min-height:96px;padding:18px;gap:16px}.registrations-stats i{width:46px;height:46px}.registrations-stats svg{width:22px}.registrations-stats span{font-size:.8rem}.registrations-stats strong{font-size:1.9rem}.registrations-table th{padding-block:15px;font-size:.69rem}.registrations-table td{padding-block:13px;font-size:.875rem}
 @media(max-width:620px){.registrations-page{padding:25px 16px 45px}}
+.registrations-stats{grid-template-columns:repeat(4,1fr)}
+@media(max-width:1100px){.registrations-stats{grid-template-columns:1fr}}

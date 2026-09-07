@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { CalendarDays, Mail, Search, Ticket, Users, X } from "lucide-react";
+import { CalendarDays, CheckCircle2, Mail, Search, Ticket, Users, X } from "lucide-react";
 import {
   getEventRegistrations,
   type AdminEventRegistration,
@@ -130,6 +130,7 @@ export default function EventRegistrationsDashboard() {
           label="Revenue"
           value={money.format(data.summary.revenue)}
         />
+        <Stat icon={<CheckCircle2 />} label="Checked in" value={String(data.summary.checkedInTickets)} />
       </div>
       <div className="registrations-layout">
         <div className="registrations-table">
@@ -142,6 +143,7 @@ export default function EventRegistrationsDashboard() {
                 <th>Amount paid</th>
                 <th>Payment</th>
                 <th>Registered</th>
+                <th>Check-in</th>
                 <th />
               </tr>
             </thead>
@@ -166,6 +168,7 @@ export default function EventRegistrationsDashboard() {
                     <Paid />
                   </td>
                   <td>{date.format(new Date(item.registrationDate))}</td>
+                  <td>{item.checkedInAt ? "Checked in" : "Not arrived"}</td>
                   <td>
                     <button onClick={() => setSelected(item)}>View</button>
                   </td>
@@ -244,6 +247,7 @@ function Details({
         value={date.format(new Date(item.registrationDate))}
       />
       <Info label="Confirmation number" value={item.confirmationNumber} />
+      <Info label="Check-in status" value={item.checkedInAt ? `Checked in ${date.format(new Date(item.checkedInAt))}` : "Not checked in"} />
       <div className="details-actions">
         <a href={`mailto:${item.email}`}>
           <Mail />
@@ -252,6 +256,10 @@ function Details({
         <a href={`/events/${item.eventSlug}`}>
           <CalendarDays />
           View event
+        </a>
+        <a href={`/admin/check-in?ticket=${encodeURIComponent(item.ticketToken)}`}>
+          <CheckCircle2 />
+          {item.checkedInAt ? "View check-in" : "Check in"}
         </a>
       </div>
     </aside>

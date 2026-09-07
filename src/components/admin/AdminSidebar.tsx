@@ -13,6 +13,7 @@ import {
   Users,
   Mail,
   ChevronDown,
+  ScanLine,
 } from "lucide-react";
 
 type NavItem = {
@@ -36,6 +37,7 @@ const navGroups: Array<{ label: string; items: NavItem[] }> = [
         href: "/admin/event-registrations",
         icon: ClipboardList,
       },
+      { label: "Ticket Check-in", href: "/admin/check-in", icon: ScanLine },
       { label: "Newsletter", href: "/admin/newsletter", icon: Mail },
     ],
   },
