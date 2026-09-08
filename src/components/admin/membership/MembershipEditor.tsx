@@ -80,7 +80,7 @@ export default function MembershipEditor() {
     setContent((current) => ({
       ...current,
       annualPriceCents: Number.isFinite(amount) ? Math.round(amount * 100) : 0,
-      price: Number.isFinite(amount) ? new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 }).format(amount) : current.price,
+      price: Number.isFinite(amount) ? new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(amount) : current.price,
     }));
   }
 
