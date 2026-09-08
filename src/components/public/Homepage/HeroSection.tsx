@@ -35,7 +35,7 @@ export default function HeroSection({
             <h1 className="mb-8 max-w-[570px] text-[clamp(3.1875rem,4.8vw,4.625rem)] font-medium leading-[0.92] tracking-[-0.04em] text-[#272220] [font-family:var(--font-cormorant)] lg:mb-0">
               <span className="block">{text("titleLineOne", content.titleLineOne)}</span>
               <span className="inline-block lg:block">{text("highlightedText", content.highlightedText)}</span>
-              <span className="block whitespace-nowrap">{text("titleLineTwo", content.titleLineTwo)}</span>
+              <span className="block whitespace-nowrap text-[#a87825]">{text("titleLineTwo", content.titleLineTwo)}</span>
             </h1>
 
             <div className="my-7 hidden max-w-[570px] items-center gap-4 text-[#aa8242] lg:flex" aria-hidden="true">
