@@ -5,11 +5,12 @@ import styles from "./ContactPage.module.css";
 
 type ContactFormProps = {
   email?: string;
+  enabled?: boolean;
 };
 
-export default function ContactForm({ email }: ContactFormProps) {
+export default function ContactForm({ email, enabled = false }: ContactFormProps) {
   const [notice, setNotice] = useState("");
-  const available = Boolean(email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+  const available = enabled && Boolean(email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -77,12 +78,14 @@ export default function ContactForm({ email }: ContactFormProps) {
             : "")}
       </p>
 
-      <p className={styles.directEmail}>
-        Prefer to email us directly?{" "}
-        <a href="mailto:cornerstonesocialcircle@gmail.com">
-          cornerstonesocialcircle@gmail.com
-        </a>
-      </p>
+      {available && (
+        <p className={styles.directEmail}>
+          Prefer to email us directly?{" "}
+          <a href="mailto:cornerstonesocialcircle@gmail.com">
+            cornerstonesocialcircle@gmail.com
+          </a>
+        </p>
+      )}
     </form>
   );
 }
