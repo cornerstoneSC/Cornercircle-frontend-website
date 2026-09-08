@@ -378,6 +378,12 @@
 .agreementSection .longChoice {
   margin-top: 1rem;
 }
+.recurringDisclosure {
+  margin: 0.9rem 0 0 2.05rem;
+  color: #514b45;
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
 .notice p {
   margin: 0.85rem 0;
   color: #514b45;

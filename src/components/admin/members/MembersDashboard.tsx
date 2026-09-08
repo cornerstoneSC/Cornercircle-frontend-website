@@ -420,6 +420,9 @@ export default function MembersDashboard() {
                 label="Ends"
                 value={formatDate(selected.membershipEndsOn)}
               />
+              <Info label="Billing" value={selected.stripeSubscriptionId ? "Annual automatic renewal" : "Legacy one-time membership"} />
+              {selected.stripeSubscriptionId && <Info label="Stripe status" value={selected.stripeSubscriptionStatus ?? "Pending synchronization"} />}
+              {selected.stripeSubscriptionId && <Info label="Automatic renewal" value={selected.subscriptionCancelAtPeriodEnd ? "Canceled — active through paid period" : "Enabled"} />}
             </Detail>
             <Detail title="Interests">
               <div className="member-tags">
@@ -462,7 +465,7 @@ export default function MembersDashboard() {
               {selected.paymentStatus === "PAID" && !selected.welcomeEmailSentAt && (
                 <button onClick={() => void sendWelcomeEmail()}><Mail size={16} /> Send welcome email</button>
               )}
-              {selected.paymentStatus === "PAID" && selected.membershipEndsOn && (
+              {selected.paymentStatus === "PAID" && selected.membershipEndsOn && !selected.stripeSubscriptionId && (
                 <button onClick={() => void prepareReminder(selected)}>
                   <Mail size={16} /> Prepare renewal reminder
                 </button>

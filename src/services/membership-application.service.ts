@@ -55,7 +55,11 @@ export async function createMembershipCheckout(applicationId: string) {
 }
 
 export async function getMembershipStatus(applicationId: string) {
-  return request<{ applicationId: string; status: MembershipState; paymentComplete: boolean }>(`/api/v1/membership-applications/${encodeURIComponent(applicationId)}/status`);
+  return request<{ applicationId: string; status: MembershipState; paymentComplete: boolean; recurring: boolean; cancelAtPeriodEnd: boolean; currentPeriodEnd: string | null }>(`/api/v1/membership-applications/${encodeURIComponent(applicationId)}/status`);
+}
+
+export async function createMembershipBillingPortal(applicationId: string) {
+  return request<{ portalUrl: string }>(`/api/v1/membership-applications/${encodeURIComponent(applicationId)}/billing-portal`, { method: "POST" });
 }
 
 export async function createMembershipRenewalCheckout(applicationId: string) {

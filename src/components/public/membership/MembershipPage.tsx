@@ -279,6 +279,7 @@ export default function MembershipPage({ content = defaultMembershipContent, onE
                     <span className={styles.checkboxIndicator} aria-hidden="true" />
                     <span><Copy value={content.agreementText} path="agreementText" label="membership agreement" onEdit={onEdit} /></span>
                   </label>
+                  <p className={styles.recurringDisclosure}>By continuing, I authorize a {content.price} annual charge that renews automatically each year until canceled. Cancellation takes effect at the end of the paid membership period.</p>
                   {fieldErrors.membershipAgreementAccepted && <p className={styles.fieldError}>{fieldErrors.membershipAgreementAccepted}</p>}
                 </fieldset>
 
@@ -307,7 +308,7 @@ export default function MembershipPage({ content = defaultMembershipContent, onE
                     {submitting ? "Preparing secure checkout…" : "Submit & continue to payment"} {!submitting && <ArrowRight size={18} />}
                   </button>
                 </div>
-                <p className={styles.feeNote}>Your annual membership fee is {content.price}. Confirm the final amount shown in Stripe before paying.</p>
+                <p className={styles.feeNote}>Your membership is {content.price} per year and renews automatically until canceled. Confirm the final amount shown in Stripe before paying.</p>
                 <p className={`${styles.status} ${status && !submitting ? styles.errorStatus : ""}`} aria-live="polite">{status}</p>
               </div>
             )}

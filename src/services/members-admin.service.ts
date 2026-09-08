@@ -26,6 +26,11 @@ export type AdminMember = {
   welcomeEmailError: string | null;
   membershipAgreementVersion: string | null;
   membershipAgreementAcceptedAt: string | null;
+  stripeSubscriptionId: string | null;
+  stripeSubscriptionStatus: string | null;
+  subscriptionCancelAtPeriodEnd: boolean;
+  subscriptionCancelledAt: string | null;
+  lastStripeInvoiceId: string | null;
 };
 
 export type AdminMembersResponse = {
