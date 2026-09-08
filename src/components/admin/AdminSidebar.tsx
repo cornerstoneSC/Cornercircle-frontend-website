@@ -12,6 +12,7 @@ import {
   UserRound,
   Users,
   Mail,
+  MessageSquareText,
   ChevronDown,
   ScanLine,
 } from "lucide-react";
@@ -48,6 +49,7 @@ const navGroups: Array<{ label: string; items: NavItem[] }> = [
       { label: "Founder Page", href: "/admin/founder", icon: UserRound },
       { label: "Membership Page", href: "/admin/membership", icon: Users },
       { label: "Services Page", href: "/admin/services", icon: HeartHandshake },
+      { label: "Contact Page", href: "/admin/contact", icon: MessageSquareText },
       { label: "Event Policy", href: "/admin/event-policy", icon: FileText },
     ],
   },

@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import ContactForm from "./ContactForm";
 import styles from "./ContactPage.module.css";
+import { defaultContactContent, type ContactContent } from "@/lib/contact-content";
+import type { ReactNode } from "react";
 
 function InstagramIcon(props: SVGProps<SVGSVGElement>) {
   return (
@@ -39,27 +41,34 @@ const shortcuts = [
   },
 ] as const;
 
-export default function ContactPage({ enquiryEmail }: { enquiryEmail?: string }) {
+export default function ContactPage({ enquiryEmail, content = defaultContactContent, onEdit, photoControl }: { enquiryEmail?: string; content?: ContactContent; onEdit?: (path: string, value: string) => void; photoControl?: ReactNode }) {
+  const editable = (key: keyof ContactContent, className?: string) => ({
+    className,
+    contentEditable: !!onEdit,
+    suppressContentEditableWarning: true,
+    onBlur: onEdit ? (event: React.FocusEvent<HTMLElement>) => onEdit(key, event.currentTarget.innerText) : undefined,
+  });
   return (
     <section className={styles.page}>
       <div className={styles.editorialGrid}>
         <div className={styles.verticalMark} aria-hidden="true"><i /><span>Cornerstone Social Circle</span><i /></div>
         <div className={styles.leftColumn}>
           <header className={styles.contactHeading}>
-            <p>Get in touch</p>
-            <h1>Let&apos;s begin a<br /><span>conversation.</span></h1>
-            <p className={styles.introCopy}>Whether you are curious about an event, membership, companionship, or simply want to say hello, there is a place for your message here.</p>
+            <p {...editable("eyebrow")}>{content.eyebrow}</p>
+            <h1><span {...editable("title", styles.titleLead)}>{content.title}</span><br /><span {...editable("accentTitle")}>{content.accentTitle}</span></h1>
+            <p {...editable("description", styles.introCopy)}>{content.description}</p>
           </header>
           <div className={styles.photoWrap}>
             <span className={styles.pin} aria-hidden="true" />
             <div className={styles.photo}>
-              <Image src="/images/services/companionship-hero.jpg" alt="Two women enjoying tea and conversation together" fill priority sizes="(max-width: 900px) 100vw, 50vw" />
+              <Image src={content.imageUrl} alt={content.imageAlt} fill priority sizes="(max-width: 900px) 100vw, 50vw" unoptimized={content.imageUrl.startsWith("blob:")} />
             </div>
-            <p className={styles.note}>Connection<br />starts with hello.</p>
+            {photoControl}
+            <p {...editable("imageNote", styles.note)}>{content.imageNote}</p>
           </div>
         </div>
         <div className={styles.formColumn}>
-          <div className={styles.formKicker}><span>Write to us</span><i /></div>
+          <div className={styles.formKicker}><span {...editable("formLabel")}>{content.formLabel}</span><i /></div>
           <div className={styles.formCard}><ContactForm email={enquiryEmail} /></div>
           <p className={styles.responseNote}><strong>01</strong><span>Send your note</span><i /><strong>02</strong><span>We&apos;ll be in touch</span></p>
         </div>

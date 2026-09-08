@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ContactPage from "@/components/public/contact/ContactPage";
+import { getContactContent } from "@/services/contact-page.service";
 
 export const metadata: Metadata = {
   title: "Contact | Cornerstone Social Circle",
@@ -7,7 +8,8 @@ export const metadata: Metadata = {
     "Get in touch with Cornerstone Social Circle about events, membership, or companionship services.",
 };
 
-export default function ContactRoute() {
+export default async function ContactRoute() {
+  const content = await getContactContent().catch(() => undefined);
   return (
     <ContactPage
       enquiryEmail={
@@ -15,6 +17,7 @@ export default function ContactRoute() {
         process.env.COMPANIONSHIP_ENQUIRY_EMAIL ??
         "cornerstonesocialcircle@gmail.com"
       }
+      content={content}
     />
   );
 }
