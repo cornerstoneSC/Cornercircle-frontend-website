@@ -34,7 +34,7 @@ export default function HeroSection({
           <div className="relative">
             <h1 className="mb-8 max-w-[570px] text-[clamp(3.15rem,13.5vw,3.5rem)] font-medium leading-[0.92] tracking-[-0.055em] text-[#272220] [font-family:var(--font-cormorant)] sm:text-[3.5rem] lg:mb-0 lg:text-[3.65rem] xl:text-[4.25rem]">
               <span className="block">{text("titleLineOne", content.titleLineOne)}</span>
-              <span className="relative inline-block after:absolute after:inset-x-0 after:-bottom-1 after:h-[2px] after:rotate-[-1deg] after:bg-[#b8862b] after:content-[''] lg:block lg:after:hidden">{text("highlightedText", content.highlightedText)}</span>
+              <span className="inline-block lg:block">{text("highlightedText", content.highlightedText)}</span>
               <span className="block whitespace-nowrap">{text("titleLineTwo", content.titleLineTwo)}</span>
             </h1>
 
