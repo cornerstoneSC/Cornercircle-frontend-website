@@ -24,7 +24,7 @@ export default function HeroSection({
         <div className="relative z-10 order-1 mx-auto grid w-full min-w-0 max-w-[650px] items-start gap-6 overflow-hidden px-6 pt-16 sm:px-10 lg:overflow-visible lg:px-0 lg:pt-0 xl:grid-cols-[28px_minmax(0,1fr)] xl:gap-7">
           {content.eyebrow && (
             <div className="flex items-center gap-3 xl:h-full xl:flex-col xl:self-stretch">
-              <p className="text-xs font-medium uppercase tracking-[0.24em] text-[#5f5752] xl:mt-1 xl:[writing-mode:vertical-rl] xl:rotate-180">
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#a87825] xl:mt-1 xl:[writing-mode:vertical-rl] xl:rotate-180">
                 Cornerstone Social Circle
               </p>
               <span className="hidden h-px w-12 bg-[#b8862b]/60 lg:block xl:h-auto xl:min-h-16 xl:w-px xl:flex-1" aria-hidden="true" />
@@ -32,7 +32,7 @@ export default function HeroSection({
           )}
 
           <div className="relative">
-            <h1 className="mb-8 max-w-[570px] text-[clamp(3.15rem,13.5vw,3.5rem)] font-medium leading-[0.92] tracking-[-0.055em] text-[#272220] [font-family:var(--font-cormorant)] sm:text-[3.5rem] lg:mb-0 lg:text-[3.65rem] xl:text-[4.25rem]">
+            <h1 className="mb-8 max-w-[570px] text-[clamp(3.1875rem,4.8vw,4.625rem)] font-medium leading-[0.92] tracking-[-0.04em] text-[#272220] [font-family:var(--font-cormorant)] lg:mb-0">
               <span className="block">{text("titleLineOne", content.titleLineOne)}</span>
               <span className="inline-block lg:block">{text("highlightedText", content.highlightedText)}</span>
               <span className="block whitespace-nowrap">{text("titleLineTwo", content.titleLineTwo)}</span>
@@ -48,7 +48,7 @@ export default function HeroSection({
               <span className="h-px flex-1 bg-[#b8862b]/50" />
             </div>
 
-            <p className="max-w-[430px] text-base leading-7 text-[#393330]">
+            <p className="max-w-[570px] text-[19px] font-semibold leading-[1.5] text-[#3e3934] [font-family:var(--font-cormorant)]">
               {text("description", content.description)}
             </p>
 
