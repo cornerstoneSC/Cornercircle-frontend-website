@@ -73,6 +73,17 @@ export default function MembershipEditor() {
     }
   }
 
+  function changeAnnualPrice(value: string) {
+    const amount = Number(value);
+    setError("");
+    setNotice("");
+    setContent((current) => ({
+      ...current,
+      annualPriceCents: Number.isFinite(amount) ? Math.round(amount * 100) : 0,
+      price: Number.isFinite(amount) ? new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 }).format(amount) : current.price,
+    }));
+  }
+
   function edit(path: string, value: string) {
     setNotice("");
     setError("");
@@ -118,6 +129,16 @@ export default function MembershipEditor() {
           {notice}
         </p>
       )}
+      <div className="z-40 flex shrink-0 items-end gap-4 border-b border-stone-200 bg-[#fcfaf7] px-5 py-4">
+        <label className="grid gap-1.5 text-sm font-semibold text-stone-700">
+          Annual membership price
+          <span className="flex h-11 items-center overflow-hidden rounded-md border border-stone-300 bg-white focus-within:border-[#a18452] focus-within:ring-2 focus-within:ring-[#a18452]/20">
+            <span className="border-r border-stone-200 px-3 text-stone-500">$</span>
+            <input aria-label="Annual membership price in US dollars" type="number" min="1" max="10000" step="0.01" value={content.annualPriceCents / 100} onChange={(event) => changeAnnualPrice(event.target.value)} className="h-full w-40 px-3 outline-none" />
+          </span>
+        </label>
+        <p className="max-w-xl pb-2 text-xs leading-5 text-stone-500">This is the real amount Stripe will charge each year for new memberships. Existing subscriptions keep their current price.</p>
+      </div>
       {dirty && (
         <div className="z-40 flex shrink-0 items-center justify-end gap-3 border-b border-stone-200 bg-[#fcfaf7]/95 px-4 py-3 shadow-sm backdrop-blur">
           <span role="status" className="mr-auto text-xs text-stone-500">

@@ -1,4 +1,5 @@
 export type MembershipContent = {
+  annualPriceCents: number;
   eyebrow: string;
   title: string;
   price: string;
@@ -25,6 +26,7 @@ export type MembershipContent = {
 };
 
 export const defaultMembershipContent: MembershipContent = {
+  annualPriceCents: 19900,
   eyebrow: "Cornerstone Social Circle",
   title: "Annual Membership",
   price: "$199",

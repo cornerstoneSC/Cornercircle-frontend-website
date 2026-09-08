@@ -19,7 +19,7 @@ function MembershipSummary({ content, onEdit }: { content: MembershipContent; on
       <p className={styles.summaryEyebrow}><Copy value={content.eyebrow} path="eyebrow" label="membership eyebrow" onEdit={onEdit} /></p>
       <span className={styles.watermark} aria-hidden="true">CSC</span>
       <h1 id="membership-summary-title"><Copy value={content.title} path="title" label="membership title" onEdit={onEdit} /></h1>
-      <div className={styles.price}><span><Copy value={content.price} path="price" label="membership price" onEdit={onEdit} /></span><em><Copy value={content.pricePeriod} path="pricePeriod" label="price period" onEdit={onEdit} /></em></div>
+      <div className={styles.price}><span>{content.price}</span><em><Copy value={content.pricePeriod} path="pricePeriod" label="price period" onEdit={onEdit} /></em></div>
       <p className={styles.tagline}><Copy value={content.tagline} path="tagline" label="membership tagline" onEdit={onEdit} /></p>
       <ul className={styles.benefits}>
         {content.benefits.map((benefit, index) => (
