@@ -3,6 +3,7 @@ import type {
   EventPublicationStatus,
   EventVisibility,
 } from "@/types/admin-event";
+import { prepareImageUpload } from "@/lib/prepare-image-upload";
 
 const API_URL = "/api/admin/events";
 
@@ -71,7 +72,7 @@ export async function uploadEventImage(
 ): Promise<EventImageUploadResponse> {
   const formData = new FormData();
 
-  formData.append("file", file);
+  formData.append("file", await prepareImageUpload(file));
 
   const response = await fetch(`${API_URL}/image`, {
     method: "POST",

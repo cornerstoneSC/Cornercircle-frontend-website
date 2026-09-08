@@ -1,4 +1,5 @@
 import { defaultServicesContent, type ServicesContent } from "@/lib/services-content";
+import { prepareImageUpload } from "@/lib/prepare-image-upload";
 const api = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
 async function check(response: Response) {
@@ -22,7 +23,7 @@ export async function saveServicesContent(content: ServicesContent): Promise<Ser
 }
 
 export async function uploadServicesPhoto(file: File): Promise<string> {
-  const form = new FormData(); form.append("file", file);
+  const form = new FormData(); form.append("file", await prepareImageUpload(file));
   const response = await fetch("/api/admin/services-page/image", { method: "POST", body: form });
   await check(response);
   const result = await response.json();
