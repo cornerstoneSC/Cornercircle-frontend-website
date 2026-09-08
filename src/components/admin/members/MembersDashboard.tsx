@@ -139,15 +139,10 @@ export default function MembersDashboard() {
   }
 
   async function prepareReminder(member: AdminMember) {
-    const subject = "Your Cornerstone Social Circle membership";
-    const body = `Hi ${member.fullName.split(" ")[0]},\n\nYour Cornerstone Social Circle membership ends on ${formatDate(member.membershipEndsOn)}. We would love to welcome you for another year.\n\nWarmly,\nCornerstone Social Circle`;
     try {
       const updated = await recordRenewalReminder(member.applicationId);
       replaceMember(updated);
-      setNotice(
-        "Renewal reminder prepared. Complete and send it in your email app.",
-      );
-      window.location.href = `mailto:${encodeURIComponent(member.email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      setNotice("Renewal reminder sent.");
     } catch (error) {
       setNotice(
         error instanceof Error
@@ -323,7 +318,7 @@ export default function MembersDashboard() {
                 <td>
                   {member.renewalReminderSentAt ? (
                     `Prepared ${formatDate(member.renewalReminderSentAt)}`
-                  ) : member.membershipEndsOn ? (
+                  ) : member.paymentStatus === "PAID" && member.membershipEndsOn ? (
                     <button
                       className="member-link"
                       onClick={() => void prepareReminder(member)}
@@ -467,7 +462,7 @@ export default function MembersDashboard() {
               {selected.paymentStatus === "PAID" && !selected.welcomeEmailSentAt && (
                 <button onClick={() => void sendWelcomeEmail()}><Mail size={16} /> Send welcome email</button>
               )}
-              {selected.membershipEndsOn && (
+              {selected.paymentStatus === "PAID" && selected.membershipEndsOn && (
                 <button onClick={() => void prepareReminder(selected)}>
                   <Mail size={16} /> Prepare renewal reminder
                 </button>
