@@ -14,6 +14,13 @@ export type MembershipApplicationPayload = {
 
 export type MembershipState = "PENDING_PAYMENT" | "ACTIVE" | "PAST_DUE" | "PAYMENT_FAILED" | "CANCELLED" | "REFUNDED" | "EXPIRED";
 
+export class MembershipRequestError extends Error {
+  constructor(message: string, readonly fieldErrors: Record<string, string> = {}) {
+    super(message);
+    this.name = "MembershipRequestError";
+  }
+}
+
 const api = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
 async function request<T>(path: string, init?: RequestInit, notFoundMessage = "This membership application could not be found."): Promise<T> {
@@ -24,9 +31,12 @@ async function request<T>(path: string, init?: RequestInit, notFoundMessage = "T
     throw new Error("We couldn’t connect to secure checkout. Please try again in a moment.");
   }
   if (!response.ok) {
-    if (response.status === 400) throw new Error("Please review the membership form and complete all required fields.");
+    let body: { message?: string; detail?: string; error?: string; fieldErrors?: Record<string, string> } = {};
+    try { body = await response.json(); } catch { /* Use the safe status-specific fallback below. */ }
+    const serverMessage = body.message || body.detail;
+    if (response.status === 400) throw new MembershipRequestError(serverMessage || "Please review the membership form and complete all required fields.", body.fieldErrors);
     if (response.status === 404) throw new Error(notFoundMessage);
-    if (response.status === 409) throw new Error("This membership has already been processed.");
+    if (response.status === 409) throw new Error(serverMessage || "This membership has already been processed.");
     if (response.status === 503) throw new Error("Secure checkout is temporarily unavailable. Please try again shortly.");
     throw new Error("We couldn’t start secure checkout. Your card has not been charged.");
   }

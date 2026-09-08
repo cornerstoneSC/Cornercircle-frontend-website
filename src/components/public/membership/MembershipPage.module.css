@@ -235,6 +235,18 @@
   border-color: var(--gold);
   box-shadow: 0 0 0 3px rgb(177 132 59 / 12%);
 }
+.field input[aria-invalid="true"],
+.comments textarea[aria-invalid="true"] {
+  border-color: #9b493d;
+  box-shadow: 0 0 0 3px rgb(155 73 61 / 10%);
+}
+.fieldError {
+  display: block;
+  margin: 0.4rem 0 0;
+  color: #8b3f32;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
 
 .firstStepFooter {
   margin-top: 2rem;
@@ -275,6 +287,10 @@
   color: var(--ink);
   cursor: pointer;
   pointer-events: auto;
+}
+.tab:disabled {
+  cursor: not-allowed;
+  opacity: 0.52;
 }
 .tab strong {
   font-family: var(--font-cormorant), serif;
