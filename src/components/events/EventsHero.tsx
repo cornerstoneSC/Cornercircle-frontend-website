@@ -20,7 +20,7 @@ export default function EventsHero() {
             <span>connected.</span>
           </h1>
           <p className={styles.intro}>
-            Thoughtful gatherings for adults 45+ who value real conversation
+            Thoughtful gatherings for adults 21+ who value real conversation
             and authentic connection.
           </p>
         </div>
