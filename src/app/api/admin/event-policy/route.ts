@@ -1,3 +1,5 @@
+import EventTermsPage from "@/app/(public)/event-terms/page";
+
 const backend =
   process.env.BACKEND_API_URL ||
   process.env.NEXT_PUBLIC_API_URL ||
@@ -10,7 +12,7 @@ export async function GET() {
       signal: AbortSignal.timeout(10000),
     });
     if (response.status === 204) {
-      return Response.json({ message: "No event policy has been saved." }, { status: 404 });
+      return Response.json(EventTermsPage.defaultPolicy);
     }
     return new Response(response.body, {
       status: response.status,

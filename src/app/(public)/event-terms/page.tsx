@@ -147,7 +147,7 @@ async function getPolicy(): Promise<EventPolicyContent> {
   return defaultEventPolicy;
 }
 
-export default async function EventTermsPage() {
+async function EventTermsPage() {
   const policy = await getPolicy();
   return (
     <article className="bg-[#F8F5EF] px-5 py-14 text-[#332D35] sm:py-20">
@@ -205,3 +205,7 @@ export default async function EventTermsPage() {
     </article>
   );
 }
+
+EventTermsPage.defaultPolicy = defaultEventPolicy;
+
+export default EventTermsPage;
