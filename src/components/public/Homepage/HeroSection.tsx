@@ -17,6 +17,39 @@ export default function HeroSection({
   onEdit,
 }: HeroSectionProps) {
   const text = (key: keyof HeroContent, value: string) => onEdit ? <EditableText label={`hero ${key}`} value={value} onChange={(next) => onEdit(key, next)} /> : value;
+
+  const ctaButtons = (
+    <>
+      {onEdit ? (
+        <span className="inline-flex min-h-12 items-center justify-center border border-[#2d231e] bg-[#2d231e] px-6 text-sm font-medium text-[#fffaf0]">
+          {text("primaryButtonText", content.primaryButtonText)}
+        </span>
+      ) : (
+        <Link
+          href={content.primaryButtonLink}
+          className="group inline-flex min-h-12 items-center justify-center gap-2 border border-[#2d231e] bg-[#2d231e] px-6 text-xs font-semibold uppercase tracking-[0.14em] text-[#fffaf0] shadow-[0_6px_18px_rgba(45,35,30,.12)] transition-colors hover:border-[#49372e] hover:bg-[#49372e] sm:px-8 lg:text-sm lg:font-medium lg:normal-case lg:tracking-normal"
+        >
+          <span className="lg:hidden">View Events</span>
+          <span className="hidden lg:inline">{content.primaryButtonText}</span>
+        </Link>
+      )}
+
+      {onEdit ? (
+        <span className="inline-flex min-h-12 items-center justify-center border border-[#a87825] px-6 text-sm font-medium text-[#8b621f]">
+          {text("secondaryButtonText", content.secondaryButtonText)}
+        </span>
+      ) : (
+        <Link
+          href={content.secondaryButtonLink}
+          className="inline-flex min-h-12 items-center justify-center border border-[#a87825] px-6 text-xs font-semibold uppercase tracking-[0.14em] text-[#8b621f] transition-colors hover:bg-[#efe4d1] hover:text-[#5f4216] sm:px-8 lg:text-sm lg:font-medium lg:normal-case lg:tracking-normal"
+        >
+          <span className="lg:hidden">Our Story</span>
+          <span className="hidden lg:inline">{content.secondaryButtonText}</span>
+        </Link>
+      )}
+    </>
+  );
+
   return (
     <section className="relative isolate overflow-hidden bg-[#f8f5ef]">
       <div className="mx-auto grid max-w-[1680px] items-center justify-items-center gap-12 px-0 pb-20 pt-0 lg:grid-cols-2 lg:gap-16 lg:px-12 lg:pb-14 lg:pt-32 lg:[zoom:1.1] xl:gap-20 xl:px-16 2xl:px-20">
@@ -52,22 +85,8 @@ export default function HeroSection({
               {text("description", content.description)}
             </p>
 
-            <div className="mt-8 flex flex-row items-center gap-3">
-              {onEdit ? <span className="inline-flex min-h-12 items-center justify-center border border-[#2d231e] bg-[#2d231e] px-5 text-sm font-medium text-[#fffaf0]">{text("primaryButtonText",content.primaryButtonText)}</span> : <Link
-                href={content.primaryButtonLink}
-                className="inline-flex min-h-12 items-center justify-center border border-[#2d231e] bg-[#2d231e] px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#fffaf0] shadow-[0_6px_18px_rgba(45,35,30,.12)] transition-colors hover:border-[#49372e] hover:bg-[#49372e] sm:px-7 lg:text-sm lg:font-medium lg:normal-case lg:tracking-normal"
-              >
-                <span className="lg:hidden">View Events</span>
-                <span className="hidden lg:inline">{content.primaryButtonText}</span>
-              </Link>}
-
-              {onEdit ? <span className="inline-flex min-h-12 items-center justify-center border border-[#a87825] px-5 text-sm font-medium text-[#8b621f]">{text("secondaryButtonText",content.secondaryButtonText)}</span> : <Link
-                href={content.secondaryButtonLink}
-                className="inline-flex min-h-12 items-center justify-center border border-[#a87825] px-5 text-xs font-semibold uppercase tracking-[0.14em] text-[#8b621f] transition-colors hover:bg-[#efe4d1] hover:text-[#5f4216] sm:px-7 lg:text-sm lg:font-medium lg:normal-case lg:tracking-normal"
-              >
-                <span className="lg:hidden">Our Story</span>
-                <span className="hidden lg:inline">{content.secondaryButtonText}</span>
-              </Link>}
+            <div className="mt-8 hidden flex-row items-center gap-3 lg:flex">
+              {ctaButtons}
             </div>
           </div>
         </div>
@@ -75,7 +94,7 @@ export default function HeroSection({
         {/* Layered editorial image panel */}
         <div className="relative order-2 mx-auto w-full max-w-[520px] px-6 pb-8 sm:px-10 lg:max-w-[720px] lg:px-0 lg:pb-12 lg:pr-8">
           <div
-            className="absolute inset-x-5 bottom-5 top-6 hidden translate-x-4 bg-[#ddd6cd] lg:block lg:inset-x-10 lg:bottom-7 lg:translate-x-8"
+            className="absolute inset-x-5 bottom-5 top-6 hidden translate-x-4 bg-gradient-to-br from-[#c9a25a] to-[#3d2b3f] lg:block lg:inset-x-10 lg:bottom-7 lg:translate-x-8"
             aria-hidden="true"
           />
 
@@ -99,6 +118,11 @@ export default function HeroSection({
             height={1024}
             className="pointer-events-none absolute -bottom-8 right-1 z-10 h-auto w-[185px] rotate-2 drop-shadow-[0_12px_18px_rgba(52,45,41,0.20)] sm:right-4 sm:w-[220px] lg:-bottom-8 lg:-right-6 lg:w-[305px] lg:rotate-0"
           />
+        </div>
+
+        {/* Mobile-only CTA row, placed right after the hero photo */}
+        <div className="order-3 flex w-full max-w-[520px] flex-row items-center justify-center gap-3 px-6 lg:hidden">
+          {ctaButtons}
         </div>
       </div>
     </section>
