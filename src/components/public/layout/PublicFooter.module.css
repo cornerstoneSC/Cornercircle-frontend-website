@@ -59,9 +59,9 @@
 }
 
 @media (max-width: 700px) {
-  .top { grid-template-columns: 1fr; gap: 3.25rem; padding: 4rem 1.5rem 3.5rem; text-align: center; }
+  .top { grid-template-columns: 1fr; gap: 3.25rem; padding: 3.5rem 1.5rem; text-align: center; }
   .brand, .instagramIntro, .features { justify-self: center; }
-  .brand img { width: min(100%, 245px); }
+  .brand { display: none; }
   .instagramIntro p { font-size: 2.75rem; }
   .features { width: min(100%, 340px); }
   .features a { min-height: 3.65rem; text-align: left; }
