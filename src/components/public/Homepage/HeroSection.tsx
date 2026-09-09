@@ -54,13 +54,13 @@ export default function HeroSection({
     <section className="relative isolate overflow-hidden bg-[#f8f5ef]">
       <div className="mx-auto grid max-w-[1680px] items-center justify-items-center gap-12 px-0 pb-20 pt-0 lg:grid-cols-2 lg:gap-16 lg:px-12 lg:pb-14 lg:pt-32 lg:[zoom:1.1] xl:gap-20 xl:px-16 2xl:px-20">
         {/* Editorial text panel */}
-        <div className="relative z-10 order-1 mx-auto grid w-full min-w-0 max-w-[650px] grid-cols-[24px_minmax(0,1fr)] items-start gap-4 overflow-hidden px-5 pt-16 sm:grid-cols-[28px_minmax(0,1fr)] sm:gap-6 sm:px-10 lg:overflow-visible lg:px-0 lg:pt-0 xl:gap-7">
+        <div className="relative z-10 order-1 mx-auto grid w-full min-w-0 max-w-[650px] grid-cols-1 items-start overflow-hidden px-5 pt-16 sm:px-10 lg:grid-cols-[28px_minmax(0,1fr)] lg:gap-6 lg:overflow-visible lg:px-0 lg:pt-0 xl:gap-7">
           {content.eyebrow && (
-            <div className="flex flex-col items-center gap-3 self-stretch">
+            <div className="hidden flex-col items-center gap-3 self-stretch lg:flex">
               <p className="whitespace-nowrap text-xs font-bold uppercase tracking-[0.22em] text-[#a87825] [writing-mode:vertical-rl] rotate-180 xl:mt-1">
                 Cornerstone Social Circle
               </p>
-              <span className="w-px flex-1 bg-[#b8862b]/60" aria-hidden="true" />
+              <span className="hidden w-px flex-1 bg-[#b8862b]/60 lg:block" aria-hidden="true" />
             </div>
           )}
 
