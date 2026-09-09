@@ -107,16 +107,16 @@ export default function PublicHeader() {
         <button
           type="button"
           onClick={() => setIsMobileMenuOpen((current) => !current)}
-          className="group ml-auto inline-flex size-11 flex-col items-end justify-center gap-[5px] text-[#a87825] lg:hidden"
+          className="group ml-auto inline-flex size-12 flex-col items-end justify-center gap-1.5 text-[#a87825] lg:hidden"
           aria-label={
             isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"
           }
           aria-expanded={isMobileMenuOpen}
           aria-controls="mobile-navigation"
         >
-          <span className="h-px w-7 bg-current transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
-          <span className="h-px w-7 bg-current" aria-hidden="true" />
-          <span className="h-px w-7 bg-current transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
+          <span className="h-[2px] w-9 bg-current transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
+          <span className="h-[2px] w-9 bg-current" aria-hidden="true" />
+          <span className="h-[2px] w-9 bg-current transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
         </button>
       </div>
 
@@ -141,7 +141,7 @@ export default function PublicHeader() {
                   key={link.href}
                   href={link.href}
                   onClick={closeMobileMenu}
-                  className={`flex min-h-[74px] items-center justify-between border-b border-[#b88935]/45 font-serif text-[2rem] font-medium leading-none transition-colors ${
+                  className={`flex min-h-16 items-center justify-between border-b border-[#b88935]/45 font-serif text-[1.6rem] font-medium leading-none transition-colors ${
                     active ? "text-[#9c7127]" : "text-[#292620] hover:text-[#9c7127]"
                   }`}
                 >
