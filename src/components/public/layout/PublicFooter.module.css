@@ -1,9 +1,73 @@
-.footer{color:#292620;background:#f7f3ec;font-family:var(--font-sans),Arial,sans-serif;border-top:1px solid rgba(184,137,53,.22)}
-.top{display:grid;grid-template-columns:1.05fr .95fr .9fr;align-items:center;gap:54px;max-width:1320px;margin:0 auto;padding:54px 46px 49px}
-.instagramIntro{display:block;justify-self:center;color:#292620;text-align:center;text-decoration:none}.instagramIntro p{margin:0 0 16px;color:#657260;font-size:clamp(34px,2.5vw,43px);font-weight:400;line-height:.95}.instagramIntro span{font-size:11px;letter-spacing:.12em}.instagramIntro:hover span{text-decoration:underline;text-underline-offset:5px}.instagramIntro:focus-visible{outline:1px solid #b88935;outline-offset:10px}
-.brand{display:flex;flex-direction:column;align-items:flex-start;gap:13px;color:#b88935;text-decoration:none}.brand img{width:min(100%,225px);height:auto}
-.features{display:grid;width:min(100%,270px);justify-self:end}.features a{display:flex;align-items:center;justify-content:space-between;padding:15px 2px;color:#292620;font-size:13px;font-weight:650;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(184,137,53,.65)}.features a span{color:#b88935;font-size:20px;font-weight:400;transition:transform .2s ease}.features a:hover span{transform:translateX(4px)}
-.divider{display:flex;align-items:center;max-width:1510px;margin:0 auto;padding:0 42px;color:#b88935}.divider:before,.divider:after{content:"";flex:1;height:1px;background:rgba(184,137,53,.72)}.divider span{padding:0 8px;font-size:13px}
-.bottom{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:28px;max-width:1380px;margin:0 auto;padding:26px 42px 34px}.bottom>p{margin:0;font-family:var(--font-cormorant),Georgia,serif;font-size:16px}.utility{display:flex;flex-wrap:wrap;justify-content:center;gap:18px}.utility a,.credits a{color:#292620;text-decoration:none}.utility a{font-size:10px;font-weight:650;letter-spacing:.09em;text-transform:uppercase}.utility a:hover,.credits a:hover{text-decoration:underline;text-underline-offset:5px}.credits{display:flex;align-items:center;justify-self:end;gap:15px}.credits>a:first-child{display:grid;place-items:center}.credits svg{width:20px;height:20px}.credits>span{width:1px;height:25px;background:rgba(184,137,53,.65)}.credits>a:last-child{font-size:12px}.credits b{color:#b88935;font-weight:500}.sageBand{height:28px;background:#657260}
-@media(max-width:1000px){.top{gap:28px;padding-inline:30px}.bottom{grid-template-columns:1fr 1fr}.utility{grid-column:1/-1;grid-row:1}.credits{grid-column:2}.bottom>p{grid-column:1}.instagramIntro p{font-size:34px}}
-@media(max-width:700px){.top{grid-template-columns:1fr;padding:44px 24px 38px;text-align:center}.instagramIntro,.features,.brand{justify-self:center}.brand{align-items:center;grid-row:1}.instagramIntro p{font-size:38px}.features{width:min(100%,340px)}.features a{text-align:left}.divider{padding-inline:22px}.bottom{grid-template-columns:1fr;padding:25px 24px 30px;text-align:center}.utility{grid-column:1;grid-row:auto;gap:13px 18px}.bottom>p,.credits{grid-column:1;justify-self:center}.credits{flex-wrap:wrap;justify-content:center}.sageBand{height:22px}}
+.footer {
+  border-top: 2px solid #657260;
+  background: #f7f3ec;
+  color: #292620;
+  font-family: var(--font-sans), Arial, sans-serif;
+}
+
+.top {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr 1fr;
+  align-items: center;
+  gap: clamp(3.5rem, 7vw, 8rem);
+  width: min(100%, 1600px);
+  margin-inline: auto;
+  padding: clamp(4.75rem, 7vw, 7rem) clamp(3rem, 5vw, 5.5rem) clamp(4rem, 6vw, 6rem);
+}
+
+.brand { display: flex; justify-self: start; align-items: center; color: #b88935; text-decoration: none; }
+.brand img { width: min(100%, 285px); height: auto; }
+
+.instagramIntro { display: block; justify-self: center; color: #292620; text-align: center; text-decoration: none; }
+.instagramIntro p { margin: 0 0 1.75rem; color: #657260; font-size: clamp(2.75rem, 3.25vw, 4rem); font-weight: 400; line-height: .92; }
+.instagramIntro span { font-size: .72rem; font-weight: 500; letter-spacing: .16em; }
+.instagramIntro:hover span { text-decoration: underline; text-underline-offset: .35rem; }
+.instagramIntro:focus-visible { outline: 1px solid #b88935; outline-offset: .75rem; }
+
+.features { display: grid; width: min(100%, 360px); justify-self: end; }
+.features a { display: flex; min-height: 4.5rem; align-items: center; justify-content: space-between; border-bottom: 1px solid rgb(184 137 53 / 62%); color: #292620; font-size: .78rem; font-weight: 650; letter-spacing: .19em; text-decoration: none; text-transform: uppercase; }
+.features a span { color: #b88935; font-size: 1.35rem; font-weight: 400; transition: transform 180ms ease; }
+.features a:hover span { transform: translateX(.3rem); }
+
+.divider { display: flex; width: min(100%, 1780px); align-items: center; margin-inline: auto; padding-inline: clamp(2rem, 4vw, 4.5rem); color: #b88935; }
+.divider::before, .divider::after { height: 1px; flex: 1; background: rgb(184 137 53 / 68%); content: ""; }
+.divider span { padding-inline: .75rem; font-size: .9rem; line-height: 1; }
+
+.bottom { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 2rem; width: min(100%, 1700px); margin-inline: auto; padding: 2.25rem clamp(2.5rem, 5vw, 5.5rem) 2.75rem; }
+.bottom > p { margin: 0; font-family: var(--font-cormorant), Georgia, serif; font-size: 1.05rem; }
+.utility { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.75rem; }
+.utility a, .credits a { color: #292620; text-decoration: none; }
+.utility a { font-size: .67rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.utility a:hover, .credits a:hover { text-decoration: underline; text-underline-offset: .35rem; }
+.credits { display: flex; align-items: center; justify-self: end; gap: 1rem; }
+.credits > a:first-child { display: grid; place-items: center; }
+.credits svg { width: 1.35rem; height: 1.35rem; }
+.credits > span { width: 1px; height: 1.8rem; background: rgb(184 137 53 / 65%); }
+.credits > a:last-child { font-size: .78rem; }
+.credits b { color: #b88935; font-weight: 500; }
+.sageBand { height: .5rem; background: #657260; }
+
+@media (max-width: 1000px) {
+  .top { gap: 2.25rem; padding-inline: 2rem; }
+  .brand img { width: min(100%, 235px); }
+  .instagramIntro p { font-size: 2.6rem; }
+  .features { width: min(100%, 300px); }
+  .bottom { grid-template-columns: 1fr 1fr; }
+  .utility { grid-column: 1 / -1; grid-row: 1; }
+  .credits { grid-column: 2; }
+  .bottom > p { grid-column: 1; }
+}
+
+@media (max-width: 700px) {
+  .top { grid-template-columns: 1fr; gap: 3.25rem; padding: 4rem 1.5rem 3.5rem; text-align: center; }
+  .brand, .instagramIntro, .features { justify-self: center; }
+  .brand img { width: min(100%, 245px); }
+  .instagramIntro p { font-size: 2.75rem; }
+  .features { width: min(100%, 340px); }
+  .features a { min-height: 4.25rem; text-align: left; }
+  .divider { padding-inline: 1.4rem; }
+  .bottom { grid-template-columns: 1fr; gap: 1.65rem; padding: 2rem 1.5rem 2.5rem; text-align: center; }
+  .utility { grid-column: 1; grid-row: auto; gap: .9rem 1.2rem; }
+  .bottom > p, .credits { grid-column: 1; justify-self: center; }
+  .credits { flex-wrap: wrap; justify-content: center; }
+}
