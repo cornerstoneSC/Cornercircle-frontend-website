@@ -25,7 +25,7 @@
 .instagramIntro:focus-visible { outline: 1px solid #b88935; outline-offset: .75rem; }
 
 .features { display: grid; width: min(100%, 360px); justify-self: end; }
-.features a { display: flex; min-height: 4.5rem; align-items: center; justify-content: space-between; border-bottom: 1px solid rgb(184 137 53 / 62%); color: #292620; font-size: .78rem; font-weight: 650; letter-spacing: .19em; text-decoration: none; text-transform: uppercase; }
+.features a { display: flex; min-height: 3.65rem; align-items: center; justify-content: space-between; border-bottom: 1px solid rgb(184 137 53 / 62%); color: #292620; font-size: .78rem; font-weight: 650; letter-spacing: .19em; text-decoration: none; text-transform: uppercase; }
 .features a span { color: #b88935; font-size: 1.35rem; font-weight: 400; transition: transform 180ms ease; }
 .features a:hover span { transform: translateX(.3rem); }
 
@@ -64,7 +64,7 @@
   .brand img { width: min(100%, 245px); }
   .instagramIntro p { font-size: 2.75rem; }
   .features { width: min(100%, 340px); }
-  .features a { min-height: 4.25rem; text-align: left; }
+  .features a { min-height: 3.65rem; text-align: left; }
   .divider { padding-inline: 1.4rem; }
   .bottom { grid-template-columns: 1fr; gap: 1.65rem; padding: 2rem 1.5rem 2.5rem; text-align: center; }
   .utility { grid-column: 1; grid-row: auto; gap: .9rem 1.2rem; }
