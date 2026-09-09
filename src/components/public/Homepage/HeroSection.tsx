@@ -56,11 +56,11 @@ export default function HeroSection({
         {/* Editorial text panel */}
         <div className="relative z-10 order-1 mx-auto grid w-full min-w-0 max-w-[650px] grid-cols-[24px_minmax(0,1fr)] items-start gap-4 overflow-hidden px-5 pt-16 sm:grid-cols-[28px_minmax(0,1fr)] sm:gap-6 sm:px-10 lg:overflow-visible lg:px-0 lg:pt-0 xl:gap-7">
           {content.eyebrow && (
-            <div className="flex h-full min-h-36 flex-col items-center gap-3 self-stretch">
+            <div className="flex flex-col items-center gap-3 self-stretch">
               <p className="whitespace-nowrap text-xs font-bold uppercase tracking-[0.22em] text-[#a87825] [writing-mode:vertical-rl] rotate-180 xl:mt-1">
                 Cornerstone Social Circle
               </p>
-              <span className="min-h-12 w-px flex-1 bg-[#b8862b]/60" aria-hidden="true" />
+              <span className="w-px flex-1 bg-[#b8862b]/60" aria-hidden="true" />
             </div>
           )}
 
