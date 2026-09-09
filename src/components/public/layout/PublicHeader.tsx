@@ -1,6 +1,5 @@
 "use client";
 
-import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -108,18 +107,16 @@ export default function PublicHeader() {
         <button
           type="button"
           onClick={() => setIsMobileMenuOpen((current) => !current)}
-          className="ml-auto inline-flex size-10 items-center justify-center rounded-[5px] border border-stone-300 text-plum transition hover:border-gold hover:text-gold lg:hidden"
+          className="group ml-auto inline-flex size-11 flex-col items-end justify-center gap-[5px] text-[#a87825] lg:hidden"
           aria-label={
             isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"
           }
           aria-expanded={isMobileMenuOpen}
           aria-controls="mobile-navigation"
         >
-          {isMobileMenuOpen ? (
-            <X aria-hidden="true" size={22} />
-          ) : (
-            <Menu aria-hidden="true" size={22} />
-          )}
+          <span className="h-px w-7 bg-current transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
+          <span className="h-px w-7 bg-current" aria-hidden="true" />
+          <span className="h-px w-7 bg-current transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
         </button>
       </div>
 
@@ -127,12 +124,15 @@ export default function PublicHeader() {
       {isMobileMenuOpen && (
         <div
           id="mobile-navigation"
-          className="border-t border-stone-200 bg-cream px-5 py-6 lg:hidden"
+          className="absolute inset-x-0 top-full max-h-[calc(100vh-74px)] overflow-y-auto border-t border-[#b88935]/45 bg-[#faf8f3] px-6 pb-9 pt-8 lg:hidden"
         >
           <nav
-            className="mx-auto flex max-w-7xl flex-col"
+            className="mx-auto flex max-w-lg flex-col"
             aria-label="Mobile navigation"
           >
+            <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.25em] text-[#657260]">
+              Navigation
+            </p>
             {navigationLinks.map((link) => {
               const active = isActiveLink(link.href);
 
@@ -141,20 +141,21 @@ export default function PublicHeader() {
                   key={link.href}
                   href={link.href}
                   onClick={closeMobileMenu}
-                  className={`border-b border-stone-200 py-4 text-base font-medium ${
-                    active ? "text-gold" : "text-plum"
+                  className={`flex min-h-[74px] items-center justify-between border-b border-[#b88935]/45 font-serif text-[2rem] font-medium leading-none transition-colors ${
+                    active ? "text-[#9c7127]" : "text-[#292620] hover:text-[#9c7127]"
                   }`}
                 >
-                  {link.label}
+                  <span>{link.label}</span>
+                  <span className="text-2xl font-normal text-[#b88935]" aria-hidden="true">↗</span>
                 </Link>
               );
             })}
 
-            <div className="mt-6 grid gap-3">
+            <div className="mt-8 grid gap-3">
               <Link
                 href="/membership"
                 onClick={closeMobileMenu}
-                className="rounded-md border border-[#a18452] bg-[#a18452] px-5 py-3 text-center text-sm font-semibold text-[#211b18]"
+                className="inline-flex min-h-14 items-center justify-center border border-[#a18452] bg-[#a18452] px-5 text-center text-xs font-semibold uppercase tracking-[0.16em] text-[#211b18] transition hover:bg-[#8f7448]"
               >
                 Become a Member
               </Link>
@@ -162,11 +163,19 @@ export default function PublicHeader() {
               <Link
                 href="/events"
                 onClick={closeMobileMenu}
-                className="rounded-md border border-[#312927] px-5 py-3 text-center text-sm font-semibold text-[#312927]"
+                className="inline-flex min-h-14 items-center justify-center border border-[#312927] px-5 text-center text-xs font-semibold uppercase tracking-[0.16em] text-[#312927] transition hover:bg-[#312927] hover:text-white"
               >
-                Browse Events
+                Browse Events <span className="ml-3" aria-hidden="true">→</span>
               </Link>
             </div>
+            <a
+              href="https://www.instagram.com/cornerstonesocialcircle/"
+              target="_blank"
+              rel="noreferrer"
+              className="mt-8 border-t border-[#657260]/55 pt-5 text-center text-xs tracking-[0.12em] text-[#657260]"
+            >
+              @cornerstonesocialcircle
+            </a>
           </nav>
         </div>
       )}
