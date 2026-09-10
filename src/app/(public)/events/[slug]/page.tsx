@@ -391,7 +391,7 @@ export default async function EventDetailPage({
       </div>
 
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[#D9D4CC] bg-[#F8F8F4]/95 px-5 py-4 shadow-[0_-8px_28px_rgba(40,35,30,0.08)] backdrop-blur lg:hidden">
-        <div className="mx-auto flex max-w-md items-center justify-between gap-5">
+        <div className="mx-auto flex max-w-md items-center justify-between gap-3">
           <div className="min-w-0 text-[#171719]">
             <p className="text-[18px] font-bold leading-none">
               {formatPrice(event.pricePerPerson)}
@@ -404,12 +404,12 @@ export default async function EventDetailPage({
           {event.registrationOpen ? (
             <Link
               href={`/events/${event.slug}/register`}
-              className="flex min-h-14 min-w-[168px] shrink-0 items-center justify-center rounded-full bg-[#171719] px-7 text-[17px] font-bold text-white transition hover:bg-[#302D31] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8892C] focus-visible:ring-offset-2"
+              className="flex min-h-14 min-w-[clamp(140px,43vw,168px)] shrink-0 items-center justify-center rounded-full bg-[#171719] px-5 text-[17px] font-bold text-white transition hover:bg-[#302D31] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B8892C] focus-visible:ring-offset-2"
             >
               Get tickets
             </Link>
           ) : (
-            <span className="flex min-h-14 min-w-[168px] shrink-0 items-center justify-center rounded-full bg-[#D9D5CF] px-7 text-[15px] font-semibold text-[#66615E]">
+            <span className="flex min-h-14 min-w-[clamp(140px,43vw,168px)] shrink-0 items-center justify-center rounded-full bg-[#D9D5CF] px-4 text-center text-[14px] font-semibold text-[#66615E]">
               Registration closed
             </span>
           )}
