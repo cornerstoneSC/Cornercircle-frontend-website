@@ -20,16 +20,29 @@ const labelFont = Space_Mono({
 });
 
 const founderBrand = "Cornerstone Social Circle (CSC)";
+const biographyEmphasis = [
+  founderBrand,
+  "Doctorate",
+  "Master’s",
+  "Bachelor's",
+];
+const biographyEmphasisPattern = new RegExp(
+  `(${biographyEmphasis
+    .map((phrase) => phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+    .join("|")})`,
+  "g",
+);
 
 function BiographyCopy({ value }: { value: string }) {
-  const brandIndex = value.indexOf(founderBrand);
-  if (brandIndex < 0) return value;
-
   return (
     <>
-      {value.slice(0, brandIndex)}
-      <strong>{founderBrand}</strong>
-      {value.slice(brandIndex + founderBrand.length)}
+      {value.split(biographyEmphasisPattern).map((part, index) =>
+        biographyEmphasis.includes(part) ? (
+          <strong key={index}>{part}</strong>
+        ) : (
+          part
+        ),
+      )}
     </>
   );
 }
@@ -124,7 +137,11 @@ export default function FounderStoryEditorial({
         </header>
       </section>
 
-      <section className={styles.editorial}>
+      <section
+        className={`${styles.editorial} ${
+          content.personalNotes.length === 0 ? styles.editorialSolo : ""
+        }`}
+      >
         <div className={styles.vision}>
           <p className={styles.sectionLabel}>
             <Copy
@@ -164,29 +181,32 @@ export default function FounderStoryEditorial({
           </div>
         </div>
 
-        <aside className={styles.pillars}>
-          {content.personalNotes.map((note, index) => (
-            <article key={index}>
-              <h3>
-                <Copy
-                  value={note.title}
-                  path={`personalNotes.${index}.title`}
-                  label={`personal note ${index + 1} title`}
-                  onEdit={onEdit}
-                />
-              </h3>
-              <p>
-                <Copy
-                  value={note.description}
-                  path={`personalNotes.${index}.description`}
-                  label={`personal note ${index + 1} description`}
-                  onEdit={onEdit}
-                />
-              </p>
-            </article>
-          ))}
-        </aside>
+        {content.personalNotes.length > 0 && (
+          <aside className={styles.pillars}>
+            {content.personalNotes.map((note, index) => (
+              <article key={index}>
+                <h3>
+                  <Copy
+                    value={note.title}
+                    path={`personalNotes.${index}.title`}
+                    label={`personal note ${index + 1} title`}
+                    onEdit={onEdit}
+                  />
+                </h3>
+                <p>
+                  <Copy
+                    value={note.description}
+                    path={`personalNotes.${index}.description`}
+                    label={`personal note ${index + 1} description`}
+                    onEdit={onEdit}
+                  />
+                </p>
+              </article>
+            ))}
+          </aside>
+        )}
       </section>
+
     </article>
   );
 }

@@ -144,28 +144,7 @@ export const defaultHomepageContent: HomepageContent = {
       "We know that life gets busy, and making new friends as an adult can be hard. That’s why we take the guesswork out of it — bringing together amazing people in a supportive, judgment-free environment where authentic connection can thrive.",
       "Whether you’re new to a city, in a life transition, or simply looking to expand your circle, Cornerstone Social Circle is here to help you feel at home — wherever you are on your journey.",
     ],
-    personalNotes: [
-      {
-        title: "I Believe In",
-        description:
-          "The power of genuine connection, kind people, intentional community, and a life that feels both successful and fulfilling.",
-      },
-      {
-        title: "I’m Not About",
-        description:
-          "Surface-level small talk, cliques, or performing. I’m not here for comparison — I’m here for real people and real conversations.",
-      },
-      {
-        title: "You Can Find Me",
-        description:
-          "At a cozy café, a local event, exploring a new city, or anywhere good people are gathering. I’m usually with a matcha in hand and a smile, always up for a great conversation.",
-      },
-      {
-        title: "Daily Rituals",
-        description:
-          "Morning gratitude, movement, a good cup of matcha, time in nature, and checking in on the people I care about.",
-      },
-    ],
+    personalNotes: [],
     credentialsHeading: "Her Foundation",
     credentials: [
       "Doctorate in Healthcare Administration",
@@ -244,5 +223,15 @@ export function updateLegacyFounderStory(founder: FounderContent) {
       defaultHomepageContent.founder.biography,
     );
   }
+  const removedPersonalNotes = new Set([
+    "i believe in",
+    "i’m not about",
+    "i'm not about",
+    "you can find me",
+    "daily rituals",
+  ]);
+  founder.personalNotes = founder.personalNotes.filter(
+    (note) => !removedPersonalNotes.has(note.title.trim().toLowerCase()),
+  );
   return founder;
 }
