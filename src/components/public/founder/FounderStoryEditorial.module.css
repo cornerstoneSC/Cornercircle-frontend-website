@@ -110,6 +110,15 @@
   grid-template-columns: minmax(0, 760px);
   justify-content: start;
 }
+.editorialSolo .visionIntro,
+.editorialSolo .vision h2 {
+  max-width: 100%;
+}
+.editorialSolo .visionIntro,
+.editorialSolo .communityBody p {
+  text-align: justify;
+  text-align-last: left;
+}
 .sectionLabel {
   display: flex;
   align-items: center;
