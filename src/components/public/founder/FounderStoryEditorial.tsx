@@ -19,6 +19,21 @@ const labelFont = Space_Mono({
   variable: "--font-founder-label",
 });
 
+const founderBrand = "Cornerstone Social Circle (CSC)";
+
+function BiographyCopy({ value }: { value: string }) {
+  const brandIndex = value.indexOf(founderBrand);
+  if (brandIndex < 0) return value;
+
+  return (
+    <>
+      {value.slice(0, brandIndex)}
+      <strong>{founderBrand}</strong>
+      {value.slice(brandIndex + founderBrand.length)}
+    </>
+  );
+}
+
 type Props = {
   content: FounderContent;
   imageUrl?: string;
@@ -93,12 +108,16 @@ export default function FounderStoryEditorial({
           <div className={styles.biography}>
             {content.biography.map((paragraph, index) => (
               <p key={index}>
-                <Copy
-                  value={paragraph}
-                  path={`biography.${index}`}
-                  label={`founder biography paragraph ${index + 1}`}
-                  onEdit={onEdit}
-                />
+                {onEdit ? (
+                  <Copy
+                    value={paragraph}
+                    path={`biography.${index}`}
+                    label={`founder biography paragraph ${index + 1}`}
+                    onEdit={onEdit}
+                  />
+                ) : (
+                  <BiographyCopy value={paragraph} />
+                )}
               </p>
             ))}
           </div>

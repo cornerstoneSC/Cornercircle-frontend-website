@@ -130,10 +130,10 @@ export const defaultHomepageContent: HomepageContent = {
     storyEyebrow: "How It All Started",
     storySubtitle: "Founder · Community Builder · Advocate for Connection",
     biography: [
-      "Dr. Eya Touglo has always believed in the power of people. As a physician, a daughter of immigrants, and a lifelong community builder, she has seen firsthand how meaningful connection enriches our health, happiness, and sense of purpose.",
-      "After years of navigating demanding careers, new cities, and the ups and downs of adult life, Dr. Touglo noticed something missing — an easy, intentional way for adults to make real friends. In 2023, she founded Cornerstone Social Circle (CSC) to change that.",
-      "What began as a few informal gatherings quickly grew into a vibrant community of people who value kindness, curiosity, and showing up for one another. Today, Cornerstone Social Circle brings adults together through thoughtfully curated events, experiences, and resources — creating space for genuine friendships and a stronger, more connected life.",
-      "At its heart, CSC is a reminder that it’s never too late to find your people.",
+      "Dr. Eya Touglo is the founder of Cornerstone Social Circle (CSC), a community-centered initiative created to bring people together, encourage meaningful friendships, and reduce adults' social isolation and loneliness.",
+      "Dr. Touglo holds a Doctorate in Healthcare Administration, a Master’s degree in Nonprofit Leadership and Management, and a Bachelor's degree in Health Communication. Her professional background spans healthcare, community health, nonprofit leadership, education, executive administration, senior support, community outreach, community collaborations, and partnerships.",
+      "Throughout her career, she has remained passionate about improving quality of life and helping people feel supported, valued, and connected. That passion inspired the creation of CSC — a welcoming space where adults and seniors can meet new people, enjoy meaningful conversations, build genuine friendships, and develop a stronger sense of belonging.",
+      "Through CSC, Dr. Touglo hopes to create more than social events. Her vision is to build a community where people know they do not have to navigate life alone.",
     ],
     communityHeading: "A Community Centered Initiative",
     communityIntro:
@@ -235,10 +235,11 @@ export function updateLegacyFounderStory(founder: FounderContent) {
   if (founder.storyEyebrow === "The Heart Behind CSC") {
     founder.storyEyebrow = "How It All Started";
   }
-  if (
-    founder.biography[0] ===
-    "Dr. Eya Touglo is the founder of Cornerstone Social Circle (CSC), a community-centered initiative created to bring people together, encourage meaningful friendships, and reduce social isolation and loneliness among adults."
-  ) {
+  const legacyBiographyOpenings = [
+    "Dr. Eya Touglo is the founder of Cornerstone Social Circle (CSC), a community-centered initiative created to bring people together, encourage meaningful friendships, and reduce social isolation and loneliness among adults.",
+    "Dr. Eya Touglo has always believed in the power of people. As a physician, a daughter of immigrants, and a lifelong community builder, she has seen firsthand how meaningful connection enriches our health, happiness, and sense of purpose.",
+  ];
+  if (legacyBiographyOpenings.includes(founder.biography[0])) {
     founder.biography = structuredClone(
       defaultHomepageContent.founder.biography,
     );
