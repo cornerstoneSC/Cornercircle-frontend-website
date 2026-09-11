@@ -7,7 +7,7 @@ import HeroSection from "@/components/public/Homepage/HeroSection";
 import GallerySection from "@/components/public/Homepage/GallerySection";
 import FounderSection from "@/components/public/Homepage/FounderSection";
 import NewsletterSection from "@/components/public/Homepage/NewsletterSection";
-import FounderStory from "@/components/public/founder/FounderStory";
+import FounderStory from "@/components/public/founder/FounderStoryEditorial";
 import PublicFooter from "@/components/public/layout/PublicFooter";
 import {
   defaultHomepageContent,

@@ -1,0 +1,244 @@
+.page {
+  padding: clamp(52px, 7vw, 96px) 24px clamp(70px, 9vw, 120px);
+  overflow: hidden;
+  color: #222;
+  background: #faf6ee;
+}
+.collage {
+  position: relative;
+  min-height: 940px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 6%;
+  width: 66%;
+  height: 730px;
+  background: url("/images/home/founder-background-gathering-space.png")
+    center/cover no-repeat;
+}
+.portrait {
+  position: absolute;
+  z-index: 2;
+  top: 345px;
+  left: 0;
+  width: 330px;
+  height: 430px;
+  overflow: hidden;
+  background: #e8e1d7;
+}
+.image {
+  object-fit: cover;
+  object-position: center top;
+}
+.placeholder {
+  display: grid;
+  height: 100%;
+  place-content: center;
+  justify-items: center;
+  gap: 12px;
+  color: #77756d;
+  background: #e8e1d7;
+}
+.placeholder svg {
+  width: 68px;
+  height: 68px;
+  stroke-width: 1.1;
+}
+.placeholder span {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.portrait > div:last-of-type:not(.placeholder) {
+  position: absolute;
+  z-index: 3;
+  top: 14px;
+  right: 14px;
+}
+.sectionLabel {
+  margin: 0;
+  color: #a97420;
+  font-family: var(--font-founder-label), "Courier New", monospace;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.storyPanel {
+  position: absolute;
+  z-index: 4;
+  top: 62px;
+  right: 0;
+  width: min(540px, 48%);
+  min-height: 690px;
+  padding: 55px 58px 42px;
+  text-align: center;
+  background: rgba(255, 253, 249, 0.98);
+}
+.storyPanel h1 {
+  margin: 0 0 30px;
+  color: #a97420;
+  font-family: var(--font-cormorant), "Cormorant Garamond", Garamond, serif;
+  font-size: clamp(36px, 3.3vw, 46px);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+.biography {
+  margin-top: 0;
+}
+.biography p {
+  margin: 0 0 17px;
+  font-family: var(--font-founder-body), Baskerville, Georgia, serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+.editorial {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(300px, 0.85fr);
+  gap: clamp(50px, 7vw, 90px);
+  max-width: 1120px;
+  margin: 12px auto 0;
+}
+.sectionLabel {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.vision h2 {
+  max-width: 620px;
+  margin: 34px 0 42px;
+  color: #a97420;
+  font-family: var(--font-cormorant), "Cormorant Garamond", Garamond, serif;
+  font-size: clamp(32px, 3.2vw, 42px);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+.visionIntro {
+  max-width: 650px;
+  margin: 28px 0 0;
+  font-family: var(--font-founder-body), Baskerville, Georgia, serif;
+  font-size: 16px;
+  line-height: 1.65;
+}
+.communityBody {
+  margin-top: 30px;
+}
+.communityBody p {
+  margin: 0 0 22px;
+  font-family: var(--font-founder-body), Baskerville, Georgia, serif;
+  font-size: 16px;
+  line-height: 1.65;
+}
+.pillars {
+  padding-left: 0;
+}
+.pillars article {
+  padding: 23px 0;
+}
+.pillars article:first-child {
+  padding-top: 0;
+}
+.pillars article:not(:last-child) {
+  border-bottom: 1px solid rgba(169, 116, 32, 0.55);
+}
+.pillars h3 {
+  margin: 0 0 11px;
+  color: #a97420;
+  font-family: var(--font-founder-label), "Courier New", monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.pillars article p {
+  margin: 0;
+  font-family: var(--font-founder-body), Baskerville, Georgia, serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+@media (max-width: 1050px) {
+  .collage {
+    min-height: 1020px;
+  }
+  .backdrop {
+    left: 0;
+    width: 69%;
+  }
+  .portrait {
+    top: 410px;
+    width: 290px;
+    height: 390px;
+  }
+  .storyPanel {
+    width: 52%;
+    padding: 48px 40px 40px;
+  }
+}
+@media (max-width: 760px) {
+  .page {
+    padding: 36px 18px 68px;
+  }
+  .collage {
+    display: flex;
+    min-height: 0;
+    flex-direction: column;
+  }
+  .backdrop,
+  .portrait,
+  .storyPanel {
+    position: relative;
+    inset: auto;
+    width: 100%;
+  }
+  .backdrop {
+    height: min(88vw, 400px);
+    background-position: center;
+  }
+  .portrait {
+    z-index: 2;
+    width: calc(100% - 44px);
+    height: auto;
+    aspect-ratio: 4 / 5;
+    margin: -118px auto 0;
+  }
+  .storyPanel {
+    min-height: 0;
+    margin-top: 22px;
+    padding: 42px 25px 34px;
+  }
+  .storyPanel h1 {
+    margin-bottom: 28px;
+    font-size: clamp(25px, 7.2vw, 34px);
+  }
+  .biography p {
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  .editorial {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    margin-top: 54px;
+  }
+  .vision h2 {
+    margin-top: 28px;
+    font-size: clamp(30px, 8vw, 38px);
+    line-height: 1.05;
+  }
+  .pillars {
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+@media (max-width: 360px) {
+  .storyPanel h1 {
+    font-size: 23px;
+  }
+}

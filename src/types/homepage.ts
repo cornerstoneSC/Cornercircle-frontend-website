@@ -60,6 +60,11 @@ export type FounderContent = {
   storyEyebrow: string;
   storySubtitle: string;
   biography: string[];
+  communityHeading: string;
+  communityIntro: string;
+  communityStatement: string;
+  communityBody: string[];
+  personalNotes: Array<{ title: string; description: string }>;
   credentialsHeading: string;
   credentials: string[];
   visionHeading: string;

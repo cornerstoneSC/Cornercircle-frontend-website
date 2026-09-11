@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import FounderStory from "@/components/public/founder/FounderStory";
-import { defaultHomepageContent } from "@/data/homepage";
+import FounderStory from "@/components/public/founder/FounderStoryEditorial";
+import {
+  defaultHomepageContent,
+  updateLegacyFounderStory,
+} from "@/data/homepage";
 import { getHomepage } from "@/services/homepage.service";
 import type { HomepageContent } from "@/types/homepage";
 
 export const metadata: Metadata = {
-  title: "Dr. Eya Touglo | Cornerstone Social Circle",
+  title: "Dr. Eya Touglo",
   description: "Meet Dr. Eya Touglo, founder of Cornerstone Social Circle.",
 };
 export default async function FounderPage() {
@@ -27,5 +30,10 @@ export default async function FounderPage() {
       };
     }
   } catch {}
-  return <FounderStory content={founder} imageUrl={imageUrl} />;
+  return (
+    <FounderStory
+      content={updateLegacyFounderStory(founder)}
+      imageUrl={imageUrl}
+    />
+  );
 }
