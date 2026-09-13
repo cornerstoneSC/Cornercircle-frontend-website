@@ -16,7 +16,7 @@ export default function NoEvents() {
     setBusy(true);
     setError("");
     try {
-      await subscribeNewsletter(email);
+      await subscribeNewsletter(email, "", "/events");
       setSubmitted(true);
       setEmail("");
     } catch (reason) {

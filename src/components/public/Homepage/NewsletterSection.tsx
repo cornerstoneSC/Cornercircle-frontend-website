@@ -8,7 +8,7 @@ import { subscribeNewsletter } from "@/services/newsletter.service";
 type Props = { imageUrl?: string; photoControls?: ReactNode; previewOnly?: boolean };
 
 export default function NewsletterSection({ imageUrl, photoControls, previewOnly = false }: Props) {
-  const [submitted, setSubmitted] = useState(false);
+  const [success, setSuccess] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
@@ -18,8 +18,19 @@ export default function NewsletterSection({ imageUrl, photoControls, previewOnly
     const fields = new FormData(form);
     setBusy(true); setError("");
     try {
-      await subscribeNewsletter(String(fields.get("email") || ""), String(fields.get("website") || ""));
-      form.reset(); setSubmitted(true);
+      const status = await subscribeNewsletter(
+        String(fields.get("email") || ""),
+        String(fields.get("website") || ""),
+        window.location.pathname,
+      );
+      form.reset();
+      setSuccess(
+        status === "ALREADY_SUBSCRIBED"
+          ? "You’re already part of the Circle. We’re glad you’re here."
+          : status === "REACTIVATED"
+            ? "Welcome back! Your subscription is active again."
+            : "Welcome to the Circle! Please check your inbox.",
+      );
     } catch (reason) {
       setError(reason instanceof Error ? reason.message : "Unable to subscribe right now.");
     } finally { setBusy(false); }
@@ -44,9 +55,9 @@ export default function NewsletterSection({ imageUrl, photoControls, previewOnly
 
         <div className={styles.content}>
           <h2 id="newsletter-heading">Subscribe to stay connected.</h2>
-          {submitted ? (
+          {success ? (
             <p className={styles.success} role="status">
-              You&apos;re on the list. We&apos;re glad you&apos;re here.
+              {success}
             </p>
           ) : (
             <form className={styles.form} onSubmit={handleSubmit}>

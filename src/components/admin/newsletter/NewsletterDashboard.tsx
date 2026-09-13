@@ -1,8 +1,9 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import { Download, Mail, Search, Users } from "lucide-react";
+import { Download, Mail, RefreshCw, Search, Users } from "lucide-react";
 import {
   getNewsletterSubscribers,
+  retryNewsletterSubscriber,
   type NewsletterSubscriber,
 } from "@/services/newsletter.service";
 const date = new Intl.DateTimeFormat("en-US", {
@@ -15,6 +16,7 @@ export default function NewsletterDashboard() {
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(true);
+  const [retrying, setRetrying] = useState<number | null>(null);
   const [error, setError] = useState("");
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -35,17 +37,37 @@ export default function NewsletterDashboard() {
     () => data.filter((s) => s.status === "ACTIVE").length,
     [data],
   );
+  async function retrySubscriber(id: number) {
+    setRetrying(id);
+    setError("");
+    try {
+      const updated = await retryNewsletterSubscriber(id);
+      setData((current) =>
+        current.map((subscriber) =>
+          subscriber.id === updated.id ? updated : subscriber,
+        ),
+      );
+    } catch (reason) {
+      setError(
+        reason instanceof Error
+          ? reason.message
+          : "Unable to retry synchronization.",
+      );
+    } finally {
+      setRetrying(null);
+    }
+  }
   function exportCsv() {
     const safe = (v: string) => (/^[=+\-@]/.test(v) ? `'${v}` : v);
-    const origin = window.location.origin;
     const rows = [
-      ["Email", "Status", "Subscribed", "Unsubscribed", "Unsubscribe URL"],
+      ["Email", "Status", "Source", "Resend status", "Subscribed", "Unsubscribed"],
       ...data.map((s) => [
         safe(s.email),
         s.status,
+        s.source || "website",
+        s.resendSyncStatus,
         s.subscribedAt,
         s.unsubscribedAt || "",
-        `${origin}/newsletter/unsubscribe?token=${s.unsubscribeToken}`,
       ]),
     ];
     const csv = rows
@@ -81,12 +103,21 @@ export default function NewsletterDashboard() {
           Export CSV
         </button>
       </header>
-      <div className="my-6 grid gap-4 sm:grid-cols-2">
+      <div className="my-6 grid gap-4 sm:grid-cols-3">
         <article className="flex items-center gap-4 rounded-xl border border-stone-200 bg-white p-5">
           <Users className="text-[#a17834]" />
           <div>
             <span className="text-xs text-stone-500">Active subscribers</span>
             <strong className="block text-2xl">{active}</strong>
+          </div>
+        </article>
+        <article className="flex items-center gap-4 rounded-xl border border-stone-200 bg-white p-5">
+          <Mail className="text-amber-700" />
+          <div>
+            <span className="text-xs text-stone-500">Needs attention</span>
+            <strong className="block text-2xl">
+              {data.filter((s) => s.resendSyncStatus === "FAILED").length}
+            </strong>
           </div>
         </article>
         <article className="flex items-center gap-4 rounded-xl border border-stone-200 bg-white p-5">
@@ -128,8 +159,11 @@ export default function NewsletterDashboard() {
               <tr>
                 <th className="px-5 py-4">Email</th>
                 <th className="px-5 py-4">Status</th>
+                <th className="px-5 py-4">Source</th>
+                <th className="px-5 py-4">Email sync</th>
                 <th className="px-5 py-4">Subscribed</th>
                 <th className="px-5 py-4">Unsubscribed</th>
+                <th className="px-5 py-4"><span className="sr-only">Actions</span></th>
               </tr>
             </thead>
             <tbody>
@@ -143,6 +177,23 @@ export default function NewsletterDashboard() {
                       {s.status.toLowerCase()}
                     </span>
                   </td>
+                  <td className="px-5 py-4 text-stone-600">
+                    {s.source || "website"}
+                  </td>
+                  <td className="px-5 py-4">
+                    <span
+                      className={`rounded-full px-2.5 py-1 text-xs ${
+                        s.resendSyncStatus === "SYNCED"
+                          ? "bg-green-50 text-green-800"
+                          : s.resendSyncStatus === "FAILED"
+                            ? "bg-red-50 text-red-800"
+                            : "bg-amber-50 text-amber-800"
+                      }`}
+                      title={s.resendSyncError || undefined}
+                    >
+                      {s.resendSyncStatus.toLowerCase()}
+                    </span>
+                  </td>
                   <td className="px-5 py-4">
                     {date.format(new Date(s.subscribedAt))}
                   </td>
@@ -150,6 +201,22 @@ export default function NewsletterDashboard() {
                     {s.unsubscribedAt
                       ? date.format(new Date(s.unsubscribedAt))
                       : "—"}
+                  </td>
+                  <td className="px-5 py-4 text-right">
+                    {s.resendSyncStatus !== "SYNCED" && (
+                      <button
+                        type="button"
+                        onClick={() => void retrySubscriber(s.id)}
+                        disabled={retrying === s.id}
+                        className="inline-flex items-center gap-1.5 rounded-lg border border-stone-300 px-3 py-2 text-xs font-semibold disabled:opacity-50"
+                      >
+                        <RefreshCw
+                          size={14}
+                          className={retrying === s.id ? "animate-spin" : ""}
+                        />
+                        Retry
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}
