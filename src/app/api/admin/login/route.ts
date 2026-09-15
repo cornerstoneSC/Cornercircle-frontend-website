@@ -1,4 +1,3 @@
-import { timingSafeEqual } from "node:crypto";
 import { ADMIN_REMEMBERED_SESSION_MAX_AGE, ADMIN_SESSION_COOKIE, ADMIN_SESSION_MAX_AGE, createAdminSession } from "@/lib/admin-session";
 
 type Attempt = { count: number; resetAt: number };
@@ -10,16 +9,10 @@ function clientKey(request: Request) {
   return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
 }
 
-function equal(expected: string, supplied: string) {
-  const left = Buffer.from(expected);
-  const right = Buffer.from(supplied);
-  return left.length === right.length && timingSafeEqual(left, right);
-}
-
 export async function POST(request: Request) {
-  const configuredUsername = process.env.ADMIN_USERNAME;
-  const configuredPassword = process.env.ADMIN_PASSWORD;
-  if (!configuredUsername || !configuredPassword || configuredPassword.length < 8) {
+  const backend = process.env.BACKEND_API_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+  const authToken = process.env.MEMBERSHIP_ADMIN_TOKEN;
+  if (!authToken || authToken.length < 32) {
     return Response.json({ message: "Admin sign-in is not configured." }, { status: 503 });
   }
   const key = clientKey(request);
@@ -35,7 +28,13 @@ export async function POST(request: Request) {
   const body = await request.json().catch(() => null) as { username?: unknown; password?: unknown; remember?: unknown } | null;
   const username = typeof body?.username === "string" ? body.username : "";
   const password = typeof body?.password === "string" ? body.password : "";
-  if (!equal(configuredUsername, username) || !equal(configuredPassword, password)) {
+  let authenticated = false;
+  try {
+    const response = await fetch(`${backend}/api/v1/admin/auth/login`, { method: "POST", headers: { "Content-Type": "application/json", "X-Admin-Auth-Token": authToken }, body: JSON.stringify({ username, password }), cache: "no-store", signal: AbortSignal.timeout(10000) });
+    authenticated = response.ok;
+    if (response.status >= 500) return Response.json({ message: "Admin sign-in is temporarily unavailable." }, { status: 503 });
+  } catch { return Response.json({ message: "Admin sign-in is temporarily unavailable." }, { status: 503 }); }
+  if (!authenticated) {
     const current = attempts.get(key);
     attempts.set(key, {
       count: (current?.count || 0) + 1,

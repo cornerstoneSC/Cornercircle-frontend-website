@@ -9,13 +9,14 @@ export default function AdminLoginForm({ googleEnabled }: { googleEnabled: boole
   const search = useSearchParams();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState(() => search.get("error") || "");
+  const [message, setMessage] = useState(() => search.get("error") || (search.get("reset") === "success" ? "Your password has been reset. You can sign in now." : ""));
+  const [successMessage, setSuccessMessage] = useState(search.get("reset") === "success");
   const [pending, setPending] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(false);
 
   async function submit(event: React.FormEvent) {
-    event.preventDefault(); setPending(true); setMessage("");
+    event.preventDefault(); setPending(true); setMessage(""); setSuccessMessage(false);
     try {
       const response = await fetch("/api/admin/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ username, password, remember }) });
       if (!response.ok) {
@@ -44,14 +45,14 @@ export default function AdminLoginForm({ googleEnabled }: { googleEnabled: boole
       <label htmlFor="admin-username">Email or username</label>
       <input id="admin-username" value={username} onChange={(event) => setUsername(event.target.value)} autoComplete="username" placeholder="you@company.com" required />
 
-      <div className="admin-password-label"><label htmlFor="admin-password">Password</label><a href="mailto:support@cornerstonesocialcircle.com?subject=Admin password reset">Forgot password?</a></div>
+      <div className="admin-password-label"><label htmlFor="admin-password">Password</label><a href="/admin-forgot-password">Forgot password?</a></div>
       <div className="admin-password-field">
         <input id="admin-password" type={showPassword ? "text" : "password"} value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="current-password" placeholder="Enter your password" required />
         <button type="button" onClick={() => setShowPassword((visible) => !visible)} aria-label={showPassword ? "Hide password" : "Show password"}>{showPassword ? <EyeOff /> : <Eye />}</button>
       </div>
 
       <label className="admin-remember"><input type="checkbox" name="remember" checked={remember} onChange={(event) => setRemember(event.target.checked)} /><span>Keep me signed in</span></label>
-      {message && <p role="alert" className="admin-login-error">{message}</p>}
+      {message && <p role={successMessage ? "status" : "alert"} className={successMessage ? "admin-reset-message" : "admin-login-error"}>{message}</p>}
       <button className="admin-submit-button" disabled={pending}><span>{pending ? "Signing in…" : "Sign in securely"}</span>{!pending && <ArrowRight size={19} />}</button>
     </form>
   </div>;
