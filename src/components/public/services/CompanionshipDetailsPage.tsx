@@ -1,7 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
-import { CalendarCheck, CalendarDays, Check, Coffee, ExternalLink, HeartHandshake, MessagesSquare, Salad, ShieldCheck, ShoppingCart, Trees, UsersRound } from "lucide-react";
+import { CalendarCheck, CalendarDays, Check, Coffee, HeartHandshake, MessagesSquare, Salad, ShieldCheck, ShoppingCart, Trees, UsersRound } from "lucide-react";
 import styles from "./CompanionshipDetailsPage.module.css";
+import ConsultationPlanner from "./ConsultationPlanner";
 
 const options = [
   { icon: MessagesSquare, title: "Friendly visits", text: "Relaxed conversation, a shared hobby, games, music, or simply friendly company." },
@@ -20,8 +20,6 @@ const audiences = [
 ];
 
 export default function CompanionshipDetailsPage({ googleBookingUrl }: { googleBookingUrl?: string }) {
-  const validGoogleUrl = googleBookingUrl?.startsWith("https://calendar.app.google/") || googleBookingUrl?.startsWith("https://calendar.google.com/");
-  const bookingHref: string = validGoogleUrl && googleBookingUrl ? googleBookingUrl : "/contact?topic=companionship";
   return <div className={styles.page}>
     <section className={styles.hero}>
       <div className={styles.heroCopy}><p className={styles.eyebrow}>Real connections. Brighter days.</p><h1>Companionship that makes everyday life feel brighter.</h1><p>Friendly, dependable company tailored to your interests, routines, and preferred pace.</p><div className={styles.actions}><a className={styles.goldButton} href="#consultation">Book a free 30-minute consultation</a><a className={styles.outlineButton} href="#options">Explore companionship options</a></div><ul><li><HeartHandshake />Meaningful moments</li><li><ShieldCheck />Thoughtful support</li><li><Coffee />A brighter tomorrow</li></ul></div>
@@ -39,6 +37,6 @@ export default function CompanionshipDetailsPage({ googleBookingUrl }: { googleB
       <div className={styles.process}><p className={styles.eyebrow}>How it works</p><h2>A simple process to get started.</h2><div>{[ ["1","Free 30-minute consultation","Required before your first paid visit."], ["2","Tell us your needs","We’ll learn about your interests, routines, and preferences."], ["3","Client approval","We’ll confirm the details and make sure it’s a good fit."], ["4","Book companionship","Once approved, choose your preferred visit dates."] ].map(([number,title,text]) => <article key={number}><b>{number}</b><h3>{title}</h3><p>{text}</p></article>)}</div></div>
     </section>
 
-    <section id="consultation" className={styles.consultation}><div><p className={styles.eyebrow}>Take the first step</p><h2>Let’s begin with a conversation.</h2><p>A friendly, no-obligation 30-minute consultation helps us understand your needs and explore how we can help.</p><ul><li><CalendarDays />30-minute appointment</li><li><CalendarCheck />Live availability</li><li><ShieldCheck />No payment today</li></ul></div><div className={styles.calendarCard}><CalendarCheck aria-hidden="true" /><div><h3>Book a consultation</h3><p>Choose a live 30-minute appointment in the Cornerstone Social Circle Google Calendar.</p></div>{validGoogleUrl ? <a href={bookingHref} target="_blank" rel="noreferrer">View available consultation times <ExternalLink size={16} /></a> : <Link href={bookingHref}>Request a consultation</Link>}<small>{validGoogleUrl ? "Google Calendar manages confirmation, rescheduling, and cancellation." : "Live calendar connection is being completed. You can still request a consultation."}</small></div></section>
+    <section id="consultation" className={styles.consultation}><div><p className={styles.eyebrow}>Take the first step</p><h2>Let’s begin with a conversation.</h2><p>A friendly, no-obligation 30-minute consultation helps us understand your needs and explore how we can help.</p><ul><li><CalendarDays />30-minute appointment</li><li><CalendarCheck />Live availability</li><li><ShieldCheck />No payment today</li></ul></div><ConsultationPlanner googleBookingUrl={googleBookingUrl}/></section>
   </div>;
 }

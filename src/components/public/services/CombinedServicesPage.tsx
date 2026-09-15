@@ -37,7 +37,7 @@ export default function CombinedServicesPage({ googleBookingUrl }: { googleBooki
           <footer>Connection <span>•</span> Independence <span>•</span> A brighter everyday</footer>
         </article>
         <article className={styles.serviceCard}>
-          <div className={styles.cardCopy}><h3>Events &amp; group<br />experiences</h3><p>Social gatherings, tea parties, arts and crafts, music, holiday celebrations, and community outings — thoughtfully planned and beautifully executed.</p><a className={styles.cardButton} href="#consultation">Explore event planning</a></div>
+          <div className={styles.cardCopy}><h3>Events &amp; group<br />experiences</h3><p>Social gatherings, tea parties, arts and crafts, music, holiday celebrations, and community outings — thoughtfully planned and beautifully executed.</p><Link className={styles.cardButton} href="/services/event-planning">Explore event planning</Link></div>
           <div className={styles.cardPhoto}><Image src="/images/services/companionship-garden.jpg" alt="Older adults taking part in a welcoming group activity" fill sizes="(max-width: 760px) 100vw, 25vw" /></div>
           <footer>People <span>•</span> Celebration <span>•</span> Stronger communities</footer>
         </article>
