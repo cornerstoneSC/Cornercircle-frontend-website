@@ -24,7 +24,7 @@ const navigationLinks = [
   },
 ];
 
-export default function PublicHeader() {
+export default function PublicHeader({ servicesEnabled = false }: { servicesEnabled?: boolean }) {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -63,7 +63,7 @@ export default function PublicHeader() {
           className="ml-auto hidden items-center gap-6 xl:gap-9 lg:flex"
           aria-label="Main navigation"
         >
-          {navigationLinks.map((link) => {
+          {navigationLinks.filter((link) => servicesEnabled || link.href !== "/services").map((link) => {
             const active = isActiveLink(link.href);
 
             return (
@@ -133,7 +133,7 @@ export default function PublicHeader() {
             <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.25em] text-[#657260]">
               Navigation
             </p>
-            {navigationLinks.map((link) => {
+            {navigationLinks.filter((link) => servicesEnabled || link.href !== "/services").map((link) => {
               const active = isActiveLink(link.href);
 
               return (

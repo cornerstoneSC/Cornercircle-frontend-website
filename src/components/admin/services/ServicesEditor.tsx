@@ -17,7 +17,7 @@ function PhotoPicker({ label, onSelect }: { label: string; onSelect: (file: File
   </>;
 }
 
-export default function ServicesEditor() {
+export default function ServicesEditor({ publicEnabled = false }: { publicEnabled?: boolean }) {
   const [content, setContent] = useState<ServicesContent>(defaultServicesContent);
   const [saved, setSaved] = useState<ServicesContent>(defaultServicesContent);
   const [ready, setReady] = useState(false);
@@ -79,7 +79,7 @@ export default function ServicesEditor() {
       }
       setUploading(null);
       const result = await saveServicesContent(draft);
-      setContent(result); setSaved(result); setNotice("Saved. Your changes are now published on the Services page.");
+      setContent(result); setSaved(result); setNotice("Legacy Services draft saved. The new combined page is managed separately.");
       clearPendingPhotos();
     } catch (err) { setError(err instanceof Error ? err.message : "Unable to save. Your changes are still here."); }
     finally { setBusy(false); setUploading(null); }
@@ -97,6 +97,7 @@ export default function ServicesEditor() {
   const locked = loading || busy || !!uploading;
 
   return <div className="relative min-h-full bg-[#f7f3ec]">
+    <p className="border-b border-amber-200 bg-amber-50 px-5 py-3 text-sm font-medium text-amber-900">{publicEnabled ? "Legacy editor: this content is not connected to the new combined Services design." : "Draft mode: the public Services pages are hidden. This legacy content is not connected to the new combined design."}</p>
     {dirty && <div className="sticky top-0 z-40 flex items-center justify-end gap-3 border-b border-stone-200 bg-[#fcfaf7]/95 px-4 py-3 shadow-sm backdrop-blur">
       <span role="status" className="mr-auto text-xs text-stone-500">{uploading ? "Uploading photo…" : busy ? "Saving…" : "Unsaved changes"}</span>
       <button disabled={locked} onClick={() => { setContent(saved); clearPendingPhotos(); setNotice(""); setError(""); }} className="rounded-lg border border-stone-300 bg-white px-4 py-2.5 text-sm font-medium text-stone-700 disabled:opacity-40">Discard changes</button>

@@ -41,7 +41,7 @@ const shortcuts = [
   },
 ] as const;
 
-export default function ContactPage({ enquiryEmail, content = defaultContactContent, onEdit, photoControl }: { enquiryEmail?: string; content?: ContactContent; onEdit?: (path: string, value: string) => void; photoControl?: ReactNode }) {
+export default function ContactPage({ enquiryEmail, content = defaultContactContent, servicesEnabled = true, onEdit, photoControl }: { enquiryEmail?: string; content?: ContactContent; servicesEnabled?: boolean; onEdit?: (path: string, value: string) => void; photoControl?: ReactNode }) {
   const editable = (key: keyof ContactContent, className?: string) => ({
     className,
     contentEditable: !!onEdit,
@@ -75,7 +75,7 @@ export default function ContactPage({ enquiryEmail, content = defaultContactCont
       </div>
 
       <nav className={styles.shortcuts} aria-label="Contact page shortcuts">
-        {shortcuts.map(({ eyebrow, label, href, icon: Icon, external }) => {
+        {shortcuts.filter((item) => servicesEnabled || item.href !== "/services").map(({ eyebrow, label, href, icon: Icon, external }) => {
           const content = (
             <>
               <span className={styles.shortcutIcon}><Icon aria-hidden="true" /></span>

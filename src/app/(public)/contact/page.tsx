@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import ContactPage from "@/components/public/contact/ContactPage";
 import { getContactContent } from "@/services/contact-page.service";
+import { servicesPublicEnabled } from "@/lib/services-release";
 
 export const metadata: Metadata = {
   title: "Contact | Cornerstone Social Circle",
@@ -18,6 +19,7 @@ export default async function ContactRoute() {
         "cornerstonesocialcircle@gmail.com"
       }
       content={content}
+      servicesEnabled={servicesPublicEnabled()}
     />
   );
 }

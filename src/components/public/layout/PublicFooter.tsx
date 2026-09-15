@@ -23,7 +23,7 @@ const featureLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
-export default function PublicFooter() {
+export default function PublicFooter({ servicesEnabled = false }: { servicesEnabled?: boolean }) {
   return (
     <footer className={styles.footer}>
       <div className={styles.top}>
@@ -69,7 +69,7 @@ export default function PublicFooter() {
       <div className={styles.bottom}>
         <p>© 2026 Cornerstone Social Circle</p>
         <nav className={styles.utility} aria-label="Footer navigation">
-          {footerLinks.map((link) => (
+          {footerLinks.filter((link) => servicesEnabled || link.href !== "/services").map((link) => (
             <Link href={link.href} key={link.href}>
               {link.label}
             </Link>

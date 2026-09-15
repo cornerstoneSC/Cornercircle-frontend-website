@@ -12,8 +12,10 @@ import {
 } from "@/data/homepage";
 import type { HomepageContent } from "@/types/homepage";
 import type { Event } from "@/types/event";
+import { servicesPublicEnabled } from "@/lib/services-release";
 
 export default async function HomePage() {
+  const servicesEnabled = servicesPublicEnabled();
   let content: HomepageContent = structuredClone(defaultHomepageContent);
   let imageUrl = content.hero.imageUrl;
   let aboutImageUrl: string | undefined;
@@ -97,6 +99,7 @@ export default async function HomePage() {
         <AboutHomeSection
           story={content.story}
           servicesPreview={content.servicesPreview}
+          servicesEnabled={servicesEnabled}
           imageUrl={aboutImageUrl}
         />
       )}

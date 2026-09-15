@@ -8,13 +8,13 @@ import EditableText from "@/components/public/services/EditableText";
 import { defaultHomepageContent } from "@/data/homepage";
 import type { ServicesPreviewContent, StoryContent } from "@/types/homepage";
 
-type AboutHomeSectionProps = { imageUrl?: string; photoControls?: ReactNode; story?: StoryContent; servicesPreview?: ServicesPreviewContent; onEdit?: (path: string, value: string) => void };
+type AboutHomeSectionProps = { imageUrl?: string; photoControls?: ReactNode; story?: StoryContent; servicesPreview?: ServicesPreviewContent; servicesEnabled?: boolean; onEdit?: (path: string, value: string) => void };
 
 function PanelLabel({ children }: { children: React.ReactNode }) {
   return <div className={styles.label}>{children}<span className={styles.labelLine} aria-hidden="true" /></div>;
 }
 
-export default function AboutHomeSection({ imageUrl, photoControls, story = defaultHomepageContent.story, servicesPreview = defaultHomepageContent.servicesPreview, onEdit }: AboutHomeSectionProps) {
+export default function AboutHomeSection({ imageUrl, photoControls, story = defaultHomepageContent.story, servicesPreview = defaultHomepageContent.servicesPreview, servicesEnabled = true, onEdit }: AboutHomeSectionProps) {
   const photo = imageUrl || "/images/home/companionship-story.jpg";
 
   return (
@@ -57,7 +57,7 @@ export default function AboutHomeSection({ imageUrl, photoControls, story = defa
               <li key={index}><span>{onEdit ? <EditableText value={service} label={`service ${index + 1}`} onChange={(value) => onEdit(`servicesPreview.services.${index}`, value)} /> : service}</span><ArrowRight size={17} aria-hidden="true" /></li>
             ))}
           </ul>
-          {onEdit ? <span className={`${styles.button} ${styles.serviceButton}`}><EditableText value={servicesPreview.buttonLabel} label="services button label" onChange={(value) => onEdit("servicesPreview.buttonLabel", value)} /><ArrowRight size={18} aria-hidden="true" /></span> : <Link href={servicesPreview.buttonLink} className={`${styles.button} ${styles.serviceButton}`}>{servicesPreview.buttonLabel}<ArrowRight size={18} aria-hidden="true" /></Link>}
+          {onEdit ? <span className={`${styles.button} ${styles.serviceButton}`}><EditableText value={servicesPreview.buttonLabel} label="services button label" onChange={(value) => onEdit("servicesPreview.buttonLabel", value)} /><ArrowRight size={18} aria-hidden="true" /></span> : <Link href={servicesEnabled ? servicesPreview.buttonLink : "/contact?topic=companionship"} className={`${styles.button} ${styles.serviceButton}`}>{servicesEnabled ? servicesPreview.buttonLabel : "Contact us"}<ArrowRight size={18} aria-hidden="true" /></Link>}
         </aside>
       </div>
     </section>
