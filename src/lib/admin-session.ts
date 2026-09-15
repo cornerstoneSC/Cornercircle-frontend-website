@@ -14,8 +14,11 @@ async function signature(payload: string) {
   return Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
-export async function createAdminSession() {
-  const payload = String(Date.now() + 8 * 60 * 60 * 1000);
+export const ADMIN_SESSION_MAX_AGE = 8 * 60 * 60;
+export const ADMIN_REMEMBERED_SESSION_MAX_AGE = 30 * 24 * 60 * 60;
+
+export async function createAdminSession(maxAgeSeconds = ADMIN_SESSION_MAX_AGE) {
+  const payload = String(Date.now() + maxAgeSeconds * 1000);
   const signed = await signature(payload);
   return signed ? `${payload}.${signed}` : null;
 }

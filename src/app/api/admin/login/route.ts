@@ -1,5 +1,5 @@
 import { timingSafeEqual } from "node:crypto";
-import { ADMIN_SESSION_COOKIE, createAdminSession } from "@/lib/admin-session";
+import { ADMIN_REMEMBERED_SESSION_MAX_AGE, ADMIN_SESSION_COOKIE, ADMIN_SESSION_MAX_AGE, createAdminSession } from "@/lib/admin-session";
 
 type Attempt = { count: number; resetAt: number };
 const attempts = new Map<string, Attempt>();
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     );
   }
   if (previous && previous.resetAt <= now) attempts.delete(key);
-  const body = await request.json().catch(() => null) as { username?: unknown; password?: unknown } | null;
+  const body = await request.json().catch(() => null) as { username?: unknown; password?: unknown; remember?: unknown } | null;
   const username = typeof body?.username === "string" ? body.username : "";
   const password = typeof body?.password === "string" ? body.password : "";
   if (!equal(configuredUsername, username) || !equal(configuredPassword, password)) {
@@ -49,10 +49,11 @@ export async function POST(request: Request) {
     return Response.json({ message: "The username or password is incorrect." }, { status: 401 });
   }
   attempts.delete(key);
-  const session = await createAdminSession();
+  const maxAge = body?.remember === true ? ADMIN_REMEMBERED_SESSION_MAX_AGE : ADMIN_SESSION_MAX_AGE;
+  const session = await createAdminSession(maxAge);
   if (!session) return Response.json({ message: "Admin session security is not configured." }, { status: 503 });
   return new Response(null, {
     status: 204,
-    headers: { "Set-Cookie": `${ADMIN_SESSION_COOKIE}=${session}; HttpOnly; SameSite=Strict; Path=/; Max-Age=28800${process.env.NODE_ENV === "production" ? "; Secure" : ""}` },
+    headers: { "Set-Cookie": `${ADMIN_SESSION_COOKIE}=${session}; HttpOnly; SameSite=Strict; Path=/; Max-Age=${maxAge}${process.env.NODE_ENV === "production" ? "; Secure" : ""}` },
   });
 }

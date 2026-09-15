@@ -15,6 +15,7 @@ import {
   Users,
   UserRound,
 } from "lucide-react";
+import NotificationBell from "@/components/admin/NotificationBell";
 
 const groups = [
   {
@@ -65,6 +66,7 @@ export default function AdminMobileHeader() {
         </span>
       </Link>
 
+      <div className="ml-auto mr-2"><NotificationBell /></div>
       <details className="group">
         <summary className="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-[var(--event-radius-sm)] border border-[var(--event-border)] bg-[var(--event-surface)] text-[var(--event-text)]">
           <Menu className="h-5 w-5" />
