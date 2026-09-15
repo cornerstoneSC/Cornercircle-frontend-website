@@ -1,3 +1,4 @@
+import { timingSafeEqual } from "node:crypto";
 import { ADMIN_REMEMBERED_SESSION_MAX_AGE, ADMIN_SESSION_COOKIE, ADMIN_SESSION_MAX_AGE, createAdminSession } from "@/lib/admin-session";
 
 type Attempt = { count: number; resetAt: number };
@@ -7,6 +8,16 @@ const maxAttempts = 5;
 
 function clientKey(request: Request) {
   return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+}
+
+function legacyCredentialsMatch(username: string, password: string) {
+  const configuredUsername = process.env.ADMIN_USERNAME || "";
+  const configuredPassword = process.env.ADMIN_PASSWORD || "";
+  if (!configuredUsername || configuredPassword.length < 8) return false;
+  const expectedUser = Buffer.from(configuredUsername), suppliedUser = Buffer.from(username);
+  const expectedPassword = Buffer.from(configuredPassword), suppliedPassword = Buffer.from(password);
+  return expectedUser.length === suppliedUser.length && expectedPassword.length === suppliedPassword.length
+    && timingSafeEqual(expectedUser, suppliedUser) && timingSafeEqual(expectedPassword, suppliedPassword);
 }
 
 export async function POST(request: Request) {
@@ -33,8 +44,8 @@ export async function POST(request: Request) {
     const response = await fetch(`${backend}/api/v1/admin/auth/login`, { method: "POST", headers: { "Content-Type": "application/json", "X-Admin-Auth-Token": authToken }, body: JSON.stringify({ username, password }), cache: "no-store", signal: AbortSignal.timeout(10000) });
     authenticated = response.ok;
     if (response.status === 403) return Response.json({ message: "Frontend and backend admin security tokens do not match." }, { status: 503 });
-    if (response.status >= 500) return Response.json({ message: "Admin sign-in is temporarily unavailable." }, { status: 503 });
-  } catch { return Response.json({ message: "Admin sign-in is temporarily unavailable." }, { status: 503 }); }
+    if (response.status === 404 || response.status >= 500) authenticated = legacyCredentialsMatch(username, password);
+  } catch { authenticated = legacyCredentialsMatch(username, password); }
   if (!authenticated) {
     const current = attempts.get(key);
     attempts.set(key, {
