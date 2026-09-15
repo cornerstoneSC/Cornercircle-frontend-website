@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import CombinedServicesPage from "@/components/public/services/CombinedServicesPage";
+import ServicesComingSoon from "@/components/public/services/ServicesComingSoon";
 
 export const metadata: Metadata = {
-  title: "Companionship & Event Planning | Cornerstone Social Circle",
-  description: "Personal companionship and thoughtfully planned group experiences, beginning with a complimentary 30-minute consultation.",
+  title: "Coming Soon | Cornerstone Social Circle",
+  description: "Our services page is coming soon. Join our newsletter to be notified as soon as it's available.",
 };
 
 export default function ServicesPage() {
-  return <CombinedServicesPage googleBookingUrl={process.env.GOOGLE_APPOINTMENT_SCHEDULE_URL} />;
+  return <ServicesComingSoon />;
 }
