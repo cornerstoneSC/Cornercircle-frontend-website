@@ -32,6 +32,7 @@ export async function POST(request: Request) {
   try {
     const response = await fetch(`${backend}/api/v1/admin/auth/login`, { method: "POST", headers: { "Content-Type": "application/json", "X-Admin-Auth-Token": authToken }, body: JSON.stringify({ username, password }), cache: "no-store", signal: AbortSignal.timeout(10000) });
     authenticated = response.ok;
+    if (response.status === 403) return Response.json({ message: "Frontend and backend admin security tokens do not match." }, { status: 503 });
     if (response.status >= 500) return Response.json({ message: "Admin sign-in is temporarily unavailable." }, { status: 503 });
   } catch { return Response.json({ message: "Admin sign-in is temporarily unavailable." }, { status: 503 }); }
   if (!authenticated) {
