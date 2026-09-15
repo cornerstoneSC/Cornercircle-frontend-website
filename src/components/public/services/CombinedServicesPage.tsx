@@ -32,7 +32,7 @@ export default function CombinedServicesPage({ googleBookingUrl }: { googleBooki
       <p className={styles.sectionIntro}>Two ways to make life richer — the same caring team, the same personal approach.</p>
       <div className={styles.serviceGrid}>
         <article className={styles.serviceCard}>
-          <div className={styles.cardCopy}><h3>Personal<br />companionship</h3><p>Friendly visits, errands, outings, games, movies, and recurring support — all tailored to individual interests and needs.</p><a className={styles.cardButton} href="#consultation">Explore companionship</a></div>
+          <div className={styles.cardCopy}><h3>Personal<br />companionship</h3><p>Friendly visits, errands, outings, games, movies, and recurring support — all tailored to individual interests and needs.</p><Link className={styles.cardButton} href="/services/companionship">Explore companionship</Link></div>
           <div className={styles.cardPhoto}><Image src="/images/home/companionship-story.jpg" alt="A companion spending meaningful time with an older adult" fill sizes="(max-width: 760px) 100vw, 25vw" /></div>
           <footer>Connection <span>•</span> Independence <span>•</span> A brighter everyday</footer>
         </article>
