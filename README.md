@@ -34,3 +34,13 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Google Calendar consultations
+
+Create a 30-minute Appointment Schedule in the Cornerstone Social Circle Google Calendar, copy its public booking-page link, and configure it in the frontend deployment:
+
+```bash
+GOOGLE_APPOINTMENT_SCHEDULE_URL=https://calendar.app.google/your-booking-page
+```
+
+When this value is present, the Services page opens live Google Calendar availability. Without it, visitors are sent to the existing consultation request form instead.

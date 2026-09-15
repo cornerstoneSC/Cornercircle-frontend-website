@@ -10,7 +10,7 @@ const benefits = [
   { icon: Sparkles, title: "Together", text: "We make life richer" },
 ];
 
-export default function CombinedServicesPage() {
+export default function CombinedServicesPage({ googleBookingUrl }: { googleBookingUrl?: string }) {
   return <div className={styles.page}>
     <section className={styles.hero} aria-labelledby="services-title">
       <div className={styles.heroCopy}>
@@ -61,7 +61,7 @@ export default function CombinedServicesPage() {
 
     <section id="consultation" className={styles.consultation} aria-labelledby="consultation-heading">
       <div className={styles.consultationIntro}><p className={styles.eyebrow}>Take the first step</p><h2 id="consultation-heading">Start with a conversation</h2><p>A complimentary 30-minute consultation helps us understand your needs and explore the best options for you.</p><ul><li><MessageCircle size={18} />No obligation</li><li><CalendarDays size={18} />30 minutes</li><li><Heart size={18} />A more connected tomorrow</li></ul></div>
-      <ConsultationPlanner />
+      <ConsultationPlanner googleBookingUrl={googleBookingUrl} />
     </section>
 
     <section className={styles.bottomCta}><div><p className={styles.eyebrow}>Ready when you are</p><h2>A kinder, more connected tomorrow is within reach.</h2></div><Link className={styles.primaryButton} href="#consultation">Book your consultation</Link></section>

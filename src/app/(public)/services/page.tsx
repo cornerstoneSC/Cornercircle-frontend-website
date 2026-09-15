@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function ServicesPage() {
-  return <CombinedServicesPage />;
+  return <CombinedServicesPage googleBookingUrl={process.env.GOOGLE_APPOINTMENT_SCHEDULE_URL} />;
 }
