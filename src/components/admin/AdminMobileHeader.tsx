@@ -14,6 +14,7 @@ import {
   Menu,
   Users,
   UserRound,
+  ShieldCheck,
 } from "lucide-react";
 import NotificationBell from "@/components/admin/NotificationBell";
 
@@ -34,6 +35,10 @@ const groups = [
       },
       { href: "/admin/newsletter", label: "Newsletter", icon: Mail },
     ],
+  },
+  {
+    label: "Security",
+    links: [{ href: "/admin/administrators", label: "Administrators", icon: ShieldCheck }],
   },
   {
     label: "Website",

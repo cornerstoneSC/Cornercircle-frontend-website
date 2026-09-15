@@ -15,6 +15,7 @@ import {
   MessageSquareText,
   ChevronDown,
   ScanLine,
+  ShieldCheck,
 } from "lucide-react";
 
 type NavItem = {
@@ -41,6 +42,10 @@ const navGroups: Array<{ label: string; items: NavItem[] }> = [
       { label: "Ticket Check-in", href: "/admin/check-in", icon: ScanLine },
       { label: "Newsletter", href: "/admin/newsletter", icon: Mail },
     ],
+  },
+  {
+    label: "Security",
+    items: [{ label: "Administrators", href: "/admin/administrators", icon: ShieldCheck }],
   },
   {
     label: "Website",
