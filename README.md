@@ -45,8 +45,8 @@ GOOGLE_APPOINTMENT_SCHEDULE_URL=https://calendar.app.google/your-booking-page
 
 When this value is present, the Services page opens live Google Calendar availability. Without it, visitors are sent to the existing consultation request form instead.
 
-The Services pages are hidden by default. Publish them together by configuring:
+The Services pages are visible by default. To hide them temporarily, configure:
 
 ```bash
-SERVICES_PUBLIC_ENABLED=true
+SERVICES_PUBLIC_ENABLED=false
 ```

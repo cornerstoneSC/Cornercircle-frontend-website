@@ -1,4 +1,4 @@
-import { defaultServicesContent, type ServicesContent } from "@/lib/services-content";
+import { defaultCurrentServicesContent, defaultServicesContent, type CurrentServicesContent, type ServicesContent } from "@/lib/services-content";
 import { prepareImageUpload } from "@/lib/prepare-image-upload";
 const api = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
@@ -20,6 +20,20 @@ export async function getServicesContent(): Promise<ServicesContent> {
 export async function saveServicesContent(content: ServicesContent): Promise<ServicesContent> {
   const response = await fetch("/api/admin/services-page", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(content) });
   await check(response); return response.json();
+}
+
+export async function getCurrentServicesContent(): Promise<CurrentServicesContent> {
+  const response = await fetch(`${api}/api/v1/services-page`, { cache: "no-store", signal: AbortSignal.timeout(10000) });
+  await check(response);
+  if (response.status === 204) return structuredClone(defaultCurrentServicesContent);
+  const value = await response.json();
+  return value?.schemaVersion === 2 ? value : structuredClone(defaultCurrentServicesContent);
+}
+
+export async function saveCurrentServicesContent(content: CurrentServicesContent): Promise<CurrentServicesContent> {
+  const response = await fetch("/api/admin/services-page", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(content) });
+  await check(response);
+  return response.json();
 }
 
 export async function uploadServicesPhoto(file: File): Promise<string> {

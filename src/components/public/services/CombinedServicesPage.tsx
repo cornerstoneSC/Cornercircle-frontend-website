@@ -1,27 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, CalendarDays, Heart, MessageCircle, Sparkles, UsersRound } from "lucide-react";
-import ConsultationPlanner from "./ConsultationPlanner";
+import { ArrowRight, Flower2, Leaf } from "lucide-react";
+import ConsultationSection from "./ConsultationSection";
 import styles from "./CombinedServicesPage.module.css";
+import type { CurrentServicesContent } from "@/lib/services-content";
 
-const benefits = [
-  { icon: Heart, title: "Companionship", text: "Builds brighter days" },
-  { icon: UsersRound, title: "Community", text: "Brings joy" },
-  { icon: Sparkles, title: "Together", text: "We make life richer" },
-];
-
-export default function CombinedServicesPage({ googleBookingUrl }: { googleBookingUrl?: string }) {
+export default function CombinedServicesPage({ googleBookingUrl, content }: { googleBookingUrl?: string; content: CurrentServicesContent }) {
   return <div className={styles.page}>
     <section className={styles.hero} aria-labelledby="services-title">
       <div className={styles.heroCopy}>
-        <p className={styles.eyebrow}>A more connected tomorrow</p>
-        <h1 id="services-title">Meaningful companionship.<br />Memorable experiences.</h1>
-        <p className={styles.lead}>Personalized companionship and thoughtfully planned events for individuals, families, retirement homes, and senior communities.</p>
+        <p className={styles.eyebrow}>{content.main.eyebrow}</p>
+        <h1 id="services-title">{content.main.title.split("\n").map((line,index)=><span key={line}>{index>0&&<br/>}{line}</span>)}</h1>
+        <p className={styles.lead}>{content.main.description}</p>
         <div className={styles.actions}>
           <a className={styles.primaryButton} href="#consultation">Book a free 30-minute consultation</a>
           <a className={styles.textLink} href="#process">See how it works <ArrowRight size={17} /></a>
         </div>
-        <div className={styles.benefits}>{benefits.map(({ icon: Icon, title, text }) => <div key={title} className={styles.benefit}><span><Icon size={21} /></span><div><strong>{title}</strong><small>{text}</small></div></div>)}</div>
       </div>
       <div className={styles.heroPhoto}><Image src="/images/home/hero.jpg" alt="Members of the Cornerstone Social Circle community enjoying time together" fill priority sizes="(max-width: 820px) 100vw, 58vw" /></div>
     </section>
@@ -30,17 +24,15 @@ export default function CombinedServicesPage({ googleBookingUrl }: { googleBooki
       <p className={styles.eyebrow}>Our services</p>
       <h2 id="help-heading">How can we help?</h2>
       <p className={styles.sectionIntro}>Two ways to make life richer — the same caring team, the same personal approach.</p>
-      <div className={styles.serviceGrid}>
-        <article className={styles.serviceCard}>
-          <div className={styles.cardCopy}><h3>Personal<br />companionship</h3><p>Friendly visits, errands, outings, games, movies, and recurring support — all tailored to individual interests and needs.</p><Link className={styles.cardButton} href="/services/companionship">Explore companionship</Link></div>
-          <div className={styles.cardPhoto}><Image src="/images/home/companionship-story.jpg" alt="A companion spending meaningful time with an older adult" fill sizes="(max-width: 760px) 100vw, 25vw" /></div>
-          <footer>Connection <span>•</span> Independence <span>•</span> A brighter everyday</footer>
-        </article>
-        <article className={styles.serviceCard}>
-          <div className={styles.cardCopy}><h3>Events &amp; group<br />experiences</h3><p>Social gatherings, tea parties, arts and crafts, music, holiday celebrations, and community outings — thoughtfully planned and beautifully executed.</p><Link className={styles.cardButton} href="/services/event-planning">Explore event planning</Link></div>
-          <div className={styles.cardPhoto}><Image src="/images/services/companionship-garden.jpg" alt="Older adults taking part in a welcoming group activity" fill sizes="(max-width: 760px) 100vw, 25vw" /></div>
-          <footer>People <span>•</span> Celebration <span>•</span> Stronger communities</footer>
-        </article>
+      <div className={styles.editorialServiceGrid}>
+        <Link className={styles.editorialServiceCard} href="/services/companionship" aria-label="Explore personal companionship">
+          <span className={styles.editorialCardCopy}><Leaf aria-hidden="true"/><span><h3>Companionship</h3><small>Real connections. Richer days.</small><i aria-hidden="true"/><p>From shared interests to everyday outings, our team brings warmth, conversation, and joy to daily life.</p><strong>Explore companionship <ArrowRight size={17} aria-hidden="true"/></strong></span></span>
+          <span className={styles.editorialCardPhoto}><Image src="/images/home/companionship-story.jpg" alt="An older adult enjoying a friendly walk with her companion" fill sizes="(max-width: 700px) 100vw, 25vw"/></span>
+        </Link>
+        <Link className={`${styles.editorialServiceCard} ${styles.eventServiceCard}`} href="/services/event-planning" aria-label="Explore event planning">
+          <span className={styles.editorialCardCopy}><Flower2 aria-hidden="true"/><span><h3>Event planning</h3><small>Meaningful gatherings. Lasting memories.</small><i aria-hidden="true"/><p>Let our team handle the details, creating thoughtful experiences for your family, retirement home, or community.</p><strong>Explore event planning <ArrowRight size={17} aria-hidden="true"/></strong></span></span>
+          <span className={styles.editorialCardPhoto}><Image src="/images/home/hero.jpg" alt="A thoughtfully arranged social gathering for older adults and their community" fill sizes="(max-width: 700px) 100vw, 25vw"/></span>
+        </Link>
       </div>
     </section>
 
@@ -59,10 +51,7 @@ export default function CombinedServicesPage({ googleBookingUrl }: { googleBooki
       </div>
     </section>
 
-    <section id="consultation" className={styles.consultation} aria-labelledby="consultation-heading">
-      <div className={styles.consultationIntro}><p className={styles.eyebrow}>Take the first step</p><h2 id="consultation-heading">Start with a conversation</h2><p>A complimentary 30-minute consultation helps us understand your needs and explore the best options for you.</p><ul><li><MessageCircle size={18} />No obligation</li><li><CalendarDays size={18} />30 minutes</li><li><Heart size={18} />A more connected tomorrow</li></ul></div>
-      <ConsultationPlanner googleBookingUrl={googleBookingUrl} />
-    </section>
+    <ConsultationSection googleBookingUrl={googleBookingUrl}/>
 
     <section className={styles.bottomCta}><div><p className={styles.eyebrow}>Ready when you are</p><h2>A kinder, more connected tomorrow is within reach.</h2></div><Link className={styles.primaryButton} href="#consultation">Book your consultation</Link></section>
   </div>;

@@ -1,7 +1,7 @@
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowLeft, CalendarHeart, ClipboardCheck, Music, Palette, PartyPopper, UsersRound } from "lucide-react";
-import ConsultationPlanner from "./ConsultationPlanner";
+import { Music, Palette, PartyPopper, UsersRound } from "lucide-react";
+import ConsultationSection from "./ConsultationSection";
+import EventPlanningHero from "./EventPlanningHero";
+import type { CurrentServicesContent } from "@/lib/services-content";
 import styles from "./CombinedServicesPage.module.css";
 
 const experiences = [
@@ -11,18 +11,9 @@ const experiences = [
   { icon: UsersRound, title: "Community outings", text: "Thoughtfully coordinated local outings with clear logistics and personal attention." },
 ];
 
-export default function EventPlanningDetailsPage({ googleBookingUrl }: { googleBookingUrl?: string }) {
+export default function EventPlanningDetailsPage({ googleBookingUrl, content }: { googleBookingUrl?: string; content: CurrentServicesContent }) {
   return <div className={styles.page}>
-    <section className={styles.hero} aria-labelledby="event-planning-title">
-      <div className={styles.heroCopy}>
-        <Link className={styles.textLink} href="/services"><ArrowLeft size={17}/> All services</Link>
-        <p className={styles.eyebrow}>Events &amp; group experiences</p>
-        <h1 id="event-planning-title">Gatherings that feel personal, joyful, and well cared for.</h1>
-        <p className={styles.lead}>We plan engaging experiences for retirement homes, senior communities, families, and local groups—from the first idea through the final detail.</p>
-        <a className={styles.primaryButton} href="#event-consultation">Plan a free consultation</a>
-      </div>
-      <div className={styles.heroPhoto}><Image src="/images/services/companionship-garden.jpg" alt="Older adults enjoying a thoughtfully planned group gathering" fill priority sizes="(max-width: 820px) 100vw, 58vw"/></div>
-    </section>
+    <EventPlanningHero content={content.eventPlanning}/>
 
     <section className={styles.services} aria-labelledby="experiences-heading">
       <p className={styles.eyebrow}>Designed around your community</p>
@@ -41,9 +32,6 @@ export default function EventPlanningDetailsPage({ googleBookingUrl }: { googleB
       </div>
     </section>
 
-    <section id="event-consultation" className={styles.consultation} aria-labelledby="event-consultation-heading">
-      <div className={styles.consultationIntro}><p className={styles.eyebrow}>Start here</p><h2 id="event-consultation-heading">Tell us what you are planning</h2><p>Your complimentary 30-minute call comes first. It helps us confirm fit and prepare the right proposal—without requiring payment today.</p><ul><li><CalendarHeart size={18}/>30-minute conversation</li><li><ClipboardCheck size={18}/>Custom proposal after review</li><li><UsersRound size={18}/>One caring planning team</li></ul></div>
-      <ConsultationPlanner googleBookingUrl={googleBookingUrl} initialType="event"/>
-    </section>
+    <ConsultationSection googleBookingUrl={googleBookingUrl} variant="event" id="event-consultation"/>
   </div>;
 }
