@@ -11,9 +11,9 @@ const experiences = [
   { icon: UsersRound, title: "Community outings", text: "Thoughtfully coordinated local outings with clear logistics and personal attention." },
 ];
 
-export default function EventPlanningDetailsPage({ googleBookingUrl, content }: { googleBookingUrl?: string; content: CurrentServicesContent }) {
+export default function EventPlanningDetailsPage({ googleBookingUrl, content, onEdit }: { googleBookingUrl?: string; content: CurrentServicesContent; onEdit?: (field: string, value: string) => void }) {
   return <div className={styles.page}>
-    <EventPlanningHero content={content.eventPlanning}/>
+    <EventPlanningHero content={content.eventPlanning} onEdit={onEdit}/>
 
     <section className={styles.services} aria-labelledby="experiences-heading">
       <p className={styles.eyebrow}>Designed around your community</p>

@@ -4,14 +4,18 @@ import { ArrowRight, Flower2, Leaf } from "lucide-react";
 import ConsultationSection from "./ConsultationSection";
 import styles from "./CombinedServicesPage.module.css";
 import type { CurrentServicesContent } from "@/lib/services-content";
+import EditableText from "./EditableText";
 
-export default function CombinedServicesPage({ googleBookingUrl, content }: { googleBookingUrl?: string; content: CurrentServicesContent }) {
+export default function CombinedServicesPage({ googleBookingUrl, content, onEdit }: { googleBookingUrl?: string; content: CurrentServicesContent; onEdit?: (field: string, value: string) => void }) {
+  const text = (field: keyof CurrentServicesContent["main"], value: string, options?: { multiline?: boolean; maxLength?: number }) => onEdit
+    ? <EditableText value={value} label={`Services ${field}`} onChange={(next) => onEdit(field, next)} {...options}/>
+    : value;
   return <div className={styles.page}>
     <section className={styles.hero} aria-labelledby="services-title">
       <div className={styles.heroCopy}>
-        <p className={styles.eyebrow}>{content.main.eyebrow}</p>
-        <h1 id="services-title">{content.main.title.split("\n").map((line,index)=><span key={line}>{index>0&&<br/>}{line}</span>)}</h1>
-        <p className={styles.lead}>{content.main.description}</p>
+        <p className={styles.eyebrow}>{text("eyebrow", content.main.eyebrow, { maxLength: 80 })}</p>
+        <h1 id="services-title">{text("title", content.main.title, { multiline: true, maxLength: 180 })}</h1>
+        <p className={styles.lead}>{text("description", content.main.description, { multiline: true, maxLength: 700 })}</p>
         <div className={styles.actions}>
           <a className={styles.primaryButton} href="#consultation">Book a free 30-minute consultation</a>
           <a className={styles.textLink} href="#process">See how it works <ArrowRight size={17} /></a>
