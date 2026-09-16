@@ -69,7 +69,10 @@ export async function GET(request: Request) {
     const storedNext = decodeURIComponent(cookieStore.get(NEXT_COOKIE)?.value || "");
     const destination = storedNext.startsWith("/admin") && !storedNext.startsWith("//") ? storedNext : "/admin/members";
     const headers = new Headers({ Location: new URL(destination, request.url).toString() });
-    headers.append("Set-Cookie", `${ADMIN_SESSION_COOKIE}=${session}; HttpOnly; SameSite=Strict; Path=/; Max-Age=${ADMIN_SESSION_MAX_AGE}${secure}`);
+    // The administrator is returning from accounts.google.com. A Lax cookie is
+    // required so the new session is available throughout that top-level OAuth
+    // redirect chain; Strict can send the user straight back to the login page.
+    headers.append("Set-Cookie", `${ADMIN_SESSION_COOKIE}=${session}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${ADMIN_SESSION_MAX_AGE}${secure}`);
     clearCookies.forEach((cookie) => headers.append("Set-Cookie", cookie));
     return new Response(null, { status: 303, headers });
   } catch {
