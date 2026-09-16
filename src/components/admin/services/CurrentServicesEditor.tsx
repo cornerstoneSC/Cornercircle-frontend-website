@@ -41,7 +41,7 @@ export default function CurrentServicesEditor(){
       {loading&&<p className="mb-4 rounded-md bg-white p-3 text-sm text-stone-600">Loading Services content…</p>}
       {error&&<p role="alert" className="mb-4 rounded-md bg-red-50 p-3 text-sm text-red-800">{error}</p>}
       {message&&<p role="status" className="mb-4 rounded-md bg-green-50 p-3 text-sm text-green-800">{message}</p>}
-      <div className="min-w-0 overflow-hidden rounded-xl border border-stone-300 bg-white shadow-xl"><div className="flex items-center gap-2 border-b border-stone-200 bg-white px-4 py-3 text-xs font-semibold uppercase tracking-[.15em] text-stone-500"><Eye size={16}/>Live inline editor · click text to edit</div><div aria-label={`Editable preview of ${active} page`} className="max-h-[1100px] overflow-y-auto" onClickCapture={(event)=>{const target=event.target as HTMLElement;if(target.closest("a")&&!target.closest("button,input,[contenteditable='plaintext-only']"))event.preventDefault()}}>{preview}</div></div>
+      <div className="min-w-0 overflow-hidden rounded-xl border border-stone-300 bg-white shadow-xl"><div className="flex items-center gap-2 border-b border-stone-200 bg-white px-4 py-3 text-xs font-semibold uppercase tracking-[.15em] text-stone-500"><Eye size={16}/>Live inline editor · click text to edit</div><div aria-label={`Editable preview of ${active} page`} className="max-h-[1100px] overflow-y-auto" onClickCapture={(event)=>{if((event.target as HTMLElement).closest("a"))event.preventDefault()}}>{preview}</div></div>
     </div>
   </section>;
 }
