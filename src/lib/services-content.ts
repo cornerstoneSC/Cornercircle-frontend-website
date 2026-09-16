@@ -43,6 +43,7 @@ export type CurrentServicesContent = {
   main: { eyebrow: string; title: string; description: string };
   companionship: { eyebrow: string; title: string; description: string; primaryCta: string; secondaryCta: string; hourlyRate: string; minimum: string; startingTotal: string; audience: string[] };
   eventPlanning: { eyebrow: string; title: string; description: string; primaryCta: string; secondaryCta: string };
+  images: { mainHero: string; companionshipCard: string; eventCard: string };
   copy: Record<string, string>;
 };
 
@@ -75,6 +76,7 @@ export const defaultCurrentServicesContent: CurrentServicesContent = {
   main: { eyebrow: "A more connected tomorrow", title: "Meaningful companionship.\nMemorable experiences.", description: "Personalized companionship and thoughtfully planned events for individuals, families, retirement homes, and senior communities." },
   companionship: { eyebrow: "Real connections. Brighter days.", title: "Companionship that\nmakes everyday life\nfeel brighter.", description: "Friendly, dependable company tailored to your interests, routines, and preferred pace.", primaryCta: "Book a free 30-minute consultation", secondaryCta: "Explore companionship options", hourlyRate: "$75", minimum: "Two-hour minimum", startingTotal: "Starting total $150", audience: ["Older adults seeking connection and meaningful social interaction", "Families arranging companionship for a loved one", "People wanting company for errands, appointments, or outings", "Retirement-home residents seeking individual engagement"] },
   eventPlanning: { eyebrow: "Events & group experiences", title: "Gatherings that feel\npersonal, joyful, and\nwell cared for.", description: "Thoughtfully planned experiences for retirement homes, senior communities, families, and local groups.", primaryCta: "Book a free 30-minute consultation", secondaryCta: "Explore event options" },
+  images: { mainHero: "/images/home/hero.jpg", companionshipCard: "/images/home/companionship-story.jpg", eventCard: "/images/home/hero.jpg" },
   copy: defaultServicesCopy,
 };
 
@@ -85,6 +87,7 @@ export function normalizeCurrentServicesContent(value: Partial<CurrentServicesCo
     main: { ...defaultCurrentServicesContent.main, ...(value?.main || {}) },
     companionship: { ...defaultCurrentServicesContent.companionship, ...(value?.companionship || {}), audience: value?.companionship?.audience || defaultCurrentServicesContent.companionship.audience },
     eventPlanning: { ...defaultCurrentServicesContent.eventPlanning, ...(value?.eventPlanning || {}) },
+    images: { ...defaultCurrentServicesContent.images, ...(value?.images || {}) },
     copy: { ...defaultServicesCopy, ...(value?.copy || {}) },
     schemaVersion: 2,
   };

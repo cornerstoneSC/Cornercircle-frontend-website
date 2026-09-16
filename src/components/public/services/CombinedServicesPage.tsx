@@ -5,8 +5,9 @@ import ConsultationSection from "./ConsultationSection";
 import styles from "./CombinedServicesPage.module.css";
 import type { CurrentServicesContent } from "@/lib/services-content";
 import EditableText from "./EditableText";
+import type { ReactNode } from "react";
 
-export default function CombinedServicesPage({ googleBookingUrl, content, onEdit, onEditCopy }: { googleBookingUrl?: string; content: CurrentServicesContent; onEdit?: (field: string, value: string) => void; onEditCopy?: (field: string, value: string) => void }) {
+export default function CombinedServicesPage({ googleBookingUrl, content, onEdit, onEditCopy, photoControls }: { googleBookingUrl?: string; content: CurrentServicesContent; onEdit?: (field: string, value: string) => void; onEditCopy?: (field: string, value: string) => void; photoControls?: Partial<Record<keyof CurrentServicesContent["images"], ReactNode>> }) {
   const text = (field: keyof CurrentServicesContent["main"], value: string, options?: { multiline?: boolean; maxLength?: number }) => onEdit
     ? <EditableText value={value} label={`Services ${field}`} onChange={(next) => onEdit(field, next)} {...options}/>
     : value;
@@ -24,7 +25,7 @@ export default function CombinedServicesPage({ googleBookingUrl, content, onEdit
           <a className={styles.textLink} href="#process">{copy("mainSecondaryCta")} <ArrowRight size={17} /></a>
         </div>
       </div>
-      <div className={styles.heroPhoto}><Image src="/images/home/hero.jpg" alt="Members of the Cornerstone Social Circle community enjoying time together" fill priority sizes="(max-width: 820px) 100vw, 58vw" /></div>
+      <div className={styles.heroPhoto}><Image src={content.images.mainHero} alt="Members of the Cornerstone Social Circle community enjoying time together" fill priority sizes="(max-width: 820px) 100vw, 58vw" unoptimized={content.images.mainHero.startsWith("blob:")}/>{photoControls?.mainHero}</div>
     </section>
 
     <section className={styles.services} aria-labelledby="help-heading">
@@ -34,11 +35,11 @@ export default function CombinedServicesPage({ googleBookingUrl, content, onEdit
       <div className={styles.editorialServiceGrid}>
         <Link className={styles.editorialServiceCard} href="/services/companionship" aria-label="Explore personal companionship">
           <span className={styles.editorialCardCopy}><Leaf aria-hidden="true"/><span><h3>{copy("companionshipCardTitle")}</h3><small>{copy("companionshipCardTagline")}</small><i aria-hidden="true"/><p>{copy("companionshipCardDescription", { multiline: true, maxLength: 500 })}</p><strong>{copy("companionshipCardLink")} <ArrowRight size={17} aria-hidden="true"/></strong></span></span>
-          <span className={styles.editorialCardPhoto}><Image src="/images/home/companionship-story.jpg" alt="An older adult enjoying a friendly walk with her companion" fill sizes="(max-width: 700px) 100vw, 25vw"/></span>
+          <span className={styles.editorialCardPhoto}><Image src={content.images.companionshipCard} alt="An older adult enjoying a friendly walk with her companion" fill sizes="(max-width: 700px) 100vw, 25vw" unoptimized={content.images.companionshipCard.startsWith("blob:")}/>{photoControls?.companionshipCard}</span>
         </Link>
         <Link className={`${styles.editorialServiceCard} ${styles.eventServiceCard}`} href="/services/event-planning" aria-label="Explore event planning">
           <span className={styles.editorialCardCopy}><Flower2 aria-hidden="true"/><span><h3>{copy("eventCardTitle")}</h3><small>{copy("eventCardTagline")}</small><i aria-hidden="true"/><p>{copy("eventCardDescription", { multiline: true, maxLength: 500 })}</p><strong>{copy("eventCardLink")} <ArrowRight size={17} aria-hidden="true"/></strong></span></span>
-          <span className={styles.editorialCardPhoto}><Image src="/images/home/hero.jpg" alt="A thoughtfully arranged social gathering for older adults and their community" fill sizes="(max-width: 700px) 100vw, 25vw"/></span>
+          <span className={styles.editorialCardPhoto}><Image src={content.images.eventCard} alt="A thoughtfully arranged social gathering for older adults and their community" fill sizes="(max-width: 700px) 100vw, 25vw" unoptimized={content.images.eventCard.startsWith("blob:")}/>{photoControls?.eventCard}</span>
         </Link>
       </div>
     </section>
