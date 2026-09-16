@@ -19,12 +19,13 @@ export default function CurrentServicesEditor(){
   useEffect(()=>{getCurrentServicesContent().then(value=>{setContent(value);setSaved(value)}).catch(err=>setError(err instanceof Error?err.message:"Unable to load Services content.")).finally(()=>setLoading(false))},[]);
   function edit(section:PageKey,field:string,value:string){setMessage("");setContent(current=>({...current,[section]:{...current[section],[field]:value}}))}
   function editAudience(index:number,value:string){setMessage("");setContent(current=>({...current,companionship:{...current.companionship,audience:current.companionship.audience.map((item,i)=>i===index?value:item)}}))}
+  function editCopy(field:string,value:string){setMessage("");setContent(current=>({...current,copy:{...current.copy,[field]:value}}))}
   async function publish(){setBusy(true);setError("");setMessage("");try{const result=await saveCurrentServicesContent(content);setContent(result);setSaved(result);setMessage("Services pages published successfully.")}catch(err){setError(err instanceof Error?err.message:"Unable to publish Services pages.")}finally{setBusy(false)}}
   const preview=active==="main"
-    ? <CombinedServicesPage content={content} onEdit={(field,value)=>edit("main",field,value)}/>
+    ? <CombinedServicesPage content={content} onEdit={(field,value)=>edit("main",field,value)} onEditCopy={editCopy}/>
     : active==="companionship"
-      ? <CompanionshipDetailsPage content={content} onEdit={(field,value)=>edit("companionship",field,value)} onEditAudience={editAudience}/>
-      : <EventPlanningDetailsPage content={content} onEdit={(field,value)=>edit("eventPlanning",field,value)}/>;
+      ? <CompanionshipDetailsPage content={content} onEdit={(field,value)=>edit("companionship",field,value)} onEditAudience={editAudience} onEditCopy={editCopy}/>
+      : <EventPlanningDetailsPage content={content} onEdit={(field,value)=>edit("eventPlanning",field,value)} onEditCopy={editCopy}/>;
   return <section className="border-b border-stone-200 bg-[#ebe8df]">
     <header className="sticky top-0 z-40 border-b border-stone-200 bg-[#fbfaf7]/95 px-5 py-4 shadow-sm backdrop-blur md:px-8"><div className="mx-auto flex max-w-[1500px] flex-wrap items-center gap-4"><div className="mr-auto"><p className="text-[10px] font-bold uppercase tracking-[.24em] text-[#9c7127]">Page editor</p><h1 className="font-serif text-3xl text-[#173b2c]">Services</h1></div><nav className="flex rounded-lg border border-stone-300 bg-white p-1" aria-label="Services page previews">{pages.map(page=><button key={page.key} type="button" onClick={()=>setActive(page.key)} className={`rounded-md px-4 py-2 text-sm font-semibold ${active===page.key?"bg-[#52704d] text-white":"text-stone-600 hover:bg-stone-100"}`}>{page.label}</button>)}</nav><button type="button" disabled={!dirty||busy} onClick={()=>{setContent(saved);setMessage("")}} className="rounded-md border border-stone-300 bg-white px-4 py-2.5 text-sm disabled:opacity-40">Discard</button><button type="button" disabled={!dirty||busy||loading} onClick={()=>void publish()} className="rounded-md bg-[#9d7a3c] px-5 py-2.5 text-sm font-semibold text-white disabled:opacity-40">{busy?"Publishing…":"Publish changes"}</button></div></header>
     <div className="mx-auto max-w-[1700px] p-5 xl:p-8">

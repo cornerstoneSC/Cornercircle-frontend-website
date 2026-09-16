@@ -1,6 +1,7 @@
 import { CalendarDays, ClipboardCheck, Heart, MessageCircle, ShieldCheck, UsersRound } from "lucide-react";
 import ConsultationPlanner from "./ConsultationPlanner";
 import styles from "./CombinedServicesPage.module.css";
+import EditableText from "./EditableText";
 
 type Variant="general"|"companionship"|"event";
 
@@ -10,10 +11,12 @@ const content={
   event:{eyebrow:"Start here",title:"Tell us what you are planning.",description:"Share your goals, audience, timing, and setting so we can prepare for a thoughtful first conversation.",quote:"Every memorable gathering begins with a good conversation.",items:[[CalendarDays,"30-minute consultation","A focused conversation about your event."],[ClipboardCheck,"Custom proposal","Prepared after we understand your needs."],[UsersRound,"One caring team","Clear support from planning to delivery."]]},
 } as const;
 
-export default function ConsultationSection({googleBookingUrl,variant="general",id="consultation"}:{googleBookingUrl?:string;variant?:Variant;id?:string}){
+export default function ConsultationSection({googleBookingUrl,variant="general",id="consultation",editableCopy,onEditCopy}:{googleBookingUrl?:string;variant?:Variant;id?:string;editableCopy?:Record<string,string>;onEditCopy?:(field:string,value:string)=>void}){
   const value=content[variant];
+  const prefix=variant==="general"?"generalConsult":variant==="companionship"?"companionshipConsult":"eventConsult";
+  const edit=(field:string,fallback:string,multiline=false)=>editableCopy&&onEditCopy?<EditableText value={editableCopy[`${prefix}${field}`]??fallback} label={`${variant} consultation ${field}`} onChange={next=>onEditCopy(`${prefix}${field}`,next)} multiline={multiline} maxLength={multiline?700:180}/>:fallback;
   return <section id={id} className={styles.consultation} aria-labelledby={`${id}-heading`}>
-    <div className={styles.consultationIntro}><p className={styles.eyebrow}>{value.eyebrow}</p><h2 id={`${id}-heading`}>{value.title}</h2><p>{value.description}</p><ul>{value.items.map(([Icon,title,text])=><li key={title}><Icon aria-hidden="true"/><span><strong>{title}</strong><small>{text}</small></span></li>)}</ul><blockquote>{value.quote}</blockquote><p className={styles.values}>People <span>•</span> Purpose <span>•</span> Progress</p></div>
+    <div className={styles.consultationIntro}><p className={styles.eyebrow}>{edit("Eyebrow",value.eyebrow)}</p><h2 id={`${id}-heading`}>{edit("Title",value.title)}</h2><p>{edit("Description",value.description,true)}</p><ul>{value.items.map(([Icon,title,text],index)=><li key={index}><Icon aria-hidden="true"/><span><strong>{edit(`Item${index+1}Title`,title)}</strong><small>{edit(`Item${index+1}Text`,text,true)}</small></span></li>)}</ul><blockquote>{edit("Quote",value.quote,true)}</blockquote><p className={styles.values}>{editableCopy&&onEditCopy?<EditableText value={editableCopy.consultationValues} label="consultation values" onChange={next=>onEditCopy("consultationValues",next)} maxLength={100}/>:"People • Purpose • Progress"}</p></div>
     <ConsultationPlanner googleBookingUrl={googleBookingUrl} initialType={variant==="event"?"event":"companionship"}/>
   </section>;
 }

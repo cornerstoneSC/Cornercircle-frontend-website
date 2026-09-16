@@ -3,35 +3,31 @@ import ConsultationSection from "./ConsultationSection";
 import EventPlanningHero from "./EventPlanningHero";
 import type { CurrentServicesContent } from "@/lib/services-content";
 import styles from "./CombinedServicesPage.module.css";
+import EditableText from "./EditableText";
 
-const experiences = [
-  { icon: PartyPopper, title: "Celebrations", text: "Birthdays, holiday gatherings, appreciation events, and meaningful milestones." },
-  { icon: Palette, title: "Creative programs", text: "Arts, crafts, themed workshops, and hands-on activities designed for the group." },
-  { icon: Music, title: "Social experiences", text: "Music, tea parties, games, and welcoming opportunities to connect." },
-  { icon: UsersRound, title: "Community outings", text: "Thoughtfully coordinated local outings with clear logistics and personal attention." },
-];
+const experienceIcons = [PartyPopper, Palette, Music, UsersRound];
 
-export default function EventPlanningDetailsPage({ googleBookingUrl, content, onEdit }: { googleBookingUrl?: string; content: CurrentServicesContent; onEdit?: (field: string, value: string) => void }) {
+export default function EventPlanningDetailsPage({ googleBookingUrl, content, onEdit, onEditCopy }: { googleBookingUrl?: string; content: CurrentServicesContent; onEdit?: (field: string, value: string) => void; onEditCopy?: (field: string, value: string) => void }) {
+  const copy = (field: string, options?: { multiline?: boolean; maxLength?: number }) => onEditCopy
+    ? <EditableText value={content.copy[field]} label={field} onChange={(next) => onEditCopy(field, next)} {...options}/>
+    : content.copy[field];
   return <div className={styles.page}>
     <EventPlanningHero content={content.eventPlanning} onEdit={onEdit}/>
 
     <section className={styles.services} aria-labelledby="experiences-heading">
-      <p className={styles.eyebrow}>Designed around your community</p>
-      <h2 id="experiences-heading">What we can plan</h2>
-      <p className={styles.sectionIntro}>Every experience is shaped around your audience, space, goals, accessibility needs, and budget.</p>
-      <div className={styles.eventExperiences}>{experiences.map(({icon:Icon,title,text})=><article key={title}><span><Icon size={24}/></span><h3>{title}</h3><p>{text}</p></article>)}</div>
+      <p className={styles.eyebrow}>{copy("eventExperiencesEyebrow")}</p>
+      <h2 id="experiences-heading">{copy("eventExperiencesTitle")}</h2>
+      <p className={styles.sectionIntro}>{copy("eventExperiencesIntro", { multiline: true })}</p>
+      <div className={styles.eventExperiences}>{experienceIcons.map((Icon,index)=><article key={index}><span><Icon size={24}/></span><h3>{copy(`experience${index + 1}Title`)}</h3><p>{copy(`experience${index + 1}Text`, { multiline: true })}</p></article>)}</div>
     </section>
 
     <section id="process" className={styles.process} aria-labelledby="event-process-heading">
-      <p className={styles.eyebrow}>A clear planning process</p><h2 id="event-process-heading">From idea to memorable experience</h2>
+      <p className={styles.eyebrow}>{copy("eventProcessEyebrow")}</p><h2 id="event-process-heading">{copy("eventProcessTitle")}</h2>
       <div className={styles.eventFlow}>
-        <article><b>1</b><h3>Free consultation</h3><p>Tell us about your organization, audience, goals, timing, and budget.</p></article>
-        <article><b>2</b><h3>Custom proposal</h3><p>We shape the concept, inclusions, staffing, schedule, and transparent pricing.</p></article>
-        <article><b>3</b><h3>Review &amp; deposit</h3><p>Approve the written plan and secure your date with the stated deposit.</p></article>
-        <article><b>4</b><h3>We coordinate</h3><p>Our team handles the agreed details and keeps your contact informed.</p></article>
+        {[1,2,3,4].map(number=><article key={number}><b>{number}</b><h3>{copy(`eventProcess${number}Title`)}</h3><p>{copy(`eventProcess${number}Text`, { multiline: true })}</p></article>)}
       </div>
     </section>
 
-    <ConsultationSection googleBookingUrl={googleBookingUrl} variant="event" id="event-consultation"/>
+    <ConsultationSection googleBookingUrl={googleBookingUrl} variant="event" id="event-consultation" editableCopy={content.copy} onEditCopy={onEditCopy}/>
   </div>;
 }

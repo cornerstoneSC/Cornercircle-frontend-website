@@ -1,4 +1,4 @@
-import { defaultCurrentServicesContent, defaultServicesContent, type CurrentServicesContent, type ServicesContent } from "@/lib/services-content";
+import { defaultCurrentServicesContent, defaultServicesContent, normalizeCurrentServicesContent, type CurrentServicesContent, type ServicesContent } from "@/lib/services-content";
 import { prepareImageUpload } from "@/lib/prepare-image-upload";
 const api = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
@@ -27,7 +27,7 @@ export async function getCurrentServicesContent(): Promise<CurrentServicesConten
   await check(response);
   if (response.status === 204) return structuredClone(defaultCurrentServicesContent);
   const value = await response.json();
-  return value?.schemaVersion === 2 ? value : structuredClone(defaultCurrentServicesContent);
+  return value?.schemaVersion === 2 ? normalizeCurrentServicesContent(value) : structuredClone(defaultCurrentServicesContent);
 }
 
 export async function saveCurrentServicesContent(content: CurrentServicesContent): Promise<CurrentServicesContent> {
