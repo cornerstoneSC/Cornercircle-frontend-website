@@ -33,14 +33,20 @@ export default function CombinedServicesPage({ googleBookingUrl, content, onEdit
       <h2 id="help-heading">{copy("servicesTitle")}</h2>
       <p className={styles.sectionIntro}>{copy("servicesIntro", { multiline: true, maxLength: 500 })}</p>
       <div className={styles.editorialServiceGrid}>
-        <Link className={styles.editorialServiceCard} href="/services/companionship" aria-label="Explore personal companionship">
-          <span className={styles.editorialCardCopy}><Leaf aria-hidden="true"/><span><h3>{copy("companionshipCardTitle")}</h3><small>{copy("companionshipCardTagline")}</small><i aria-hidden="true"/><p>{copy("companionshipCardDescription", { multiline: true, maxLength: 500 })}</p><strong>{copy("companionshipCardLink")} <ArrowRight size={17} aria-hidden="true"/></strong></span></span>
-          <span className={styles.editorialCardPhoto}><Image src={content.images.companionshipCard} alt="An older adult enjoying a friendly walk with her companion" fill sizes="(max-width: 700px) 100vw, 25vw" unoptimized={content.images.companionshipCard.startsWith("blob:")}/>{photoControls?.companionshipCard}</span>
-        </Link>
-        <Link className={`${styles.editorialServiceCard} ${styles.eventServiceCard}`} href="/services/event-planning" aria-label="Explore event planning">
-          <span className={styles.editorialCardCopy}><Flower2 aria-hidden="true"/><span><h3>{copy("eventCardTitle")}</h3><small>{copy("eventCardTagline")}</small><i aria-hidden="true"/><p>{copy("eventCardDescription", { multiline: true, maxLength: 500 })}</p><strong>{copy("eventCardLink")} <ArrowRight size={17} aria-hidden="true"/></strong></span></span>
-          <span className={styles.editorialCardPhoto}><Image src={content.images.eventCard} alt="A thoughtfully arranged social gathering for older adults and their community" fill sizes="(max-width: 700px) 100vw, 25vw" unoptimized={content.images.eventCard.startsWith("blob:")}/>{photoControls?.eventCard}</span>
-        </Link>
+        <div className={styles.editorialServiceCardWrap}>
+          <Link className={styles.editorialServiceCard} href="/services/companionship" aria-label="Explore personal companionship">
+            <span className={styles.editorialCardCopy}><Leaf aria-hidden="true"/><span><h3>{copy("companionshipCardTitle")}</h3><small>{copy("companionshipCardTagline")}</small><i aria-hidden="true"/><p>{copy("companionshipCardDescription", { multiline: true, maxLength: 500 })}</p><strong>{copy("companionshipCardLink")} <ArrowRight size={17} aria-hidden="true"/></strong></span></span>
+            <span className={styles.editorialCardPhoto}><Image src={content.images.companionshipCard} alt="An older adult enjoying a friendly walk with her companion" fill sizes="(max-width: 700px) 100vw, 25vw" unoptimized={content.images.companionshipCard.startsWith("blob:")}/></span>
+          </Link>
+          {photoControls?.companionshipCard}
+        </div>
+        <div className={styles.editorialServiceCardWrap}>
+          <Link className={`${styles.editorialServiceCard} ${styles.eventServiceCard}`} href="/services/event-planning" aria-label="Explore event planning">
+            <span className={styles.editorialCardCopy}><Flower2 aria-hidden="true"/><span><h3>{copy("eventCardTitle")}</h3><small>{copy("eventCardTagline")}</small><i aria-hidden="true"/><p>{copy("eventCardDescription", { multiline: true, maxLength: 500 })}</p><strong>{copy("eventCardLink")} <ArrowRight size={17} aria-hidden="true"/></strong></span></span>
+            <span className={styles.editorialCardPhoto}><Image src={content.images.eventCard} alt="A thoughtfully arranged social gathering for older adults and their community" fill sizes="(max-width: 700px) 100vw, 25vw" unoptimized={content.images.eventCard.startsWith("blob:")}/></span>
+          </Link>
+          {photoControls?.eventCard}
+        </div>
       </div>
     </section>
 
