@@ -153,6 +153,7 @@ export default function NewsletterDashboard() {
           {error}
         </p>
       ) : (
+        <>
         <div className="overflow-x-auto rounded-xl border border-stone-200 bg-white">
           <table className="w-full text-left text-sm">
             <thead className="bg-stone-50 text-xs uppercase tracking-wider text-stone-500">
@@ -169,18 +170,18 @@ export default function NewsletterDashboard() {
             <tbody>
               {data.map((s) => (
                 <tr key={s.id} className="border-t border-stone-100">
-                  <td className="px-5 py-4 font-medium">{s.email}</td>
-                  <td className="px-5 py-4">
+                  <td data-label="Email" className="px-5 py-4 font-medium">{s.email}</td>
+                  <td data-label="Status" className="px-5 py-4">
                     <span
                       className={`rounded-full px-2.5 py-1 text-xs ${s.status === "ACTIVE" ? "bg-green-50 text-green-800" : "bg-stone-100 text-stone-600"}`}
                     >
                       {s.status.toLowerCase()}
                     </span>
                   </td>
-                  <td className="px-5 py-4 text-stone-600">
+                  <td data-label="Source" className="px-5 py-4 text-stone-600">
                     {s.source || "website"}
                   </td>
-                  <td className="px-5 py-4">
+                  <td data-label="Email sync" className="px-5 py-4">
                     <span
                       className={`rounded-full px-2.5 py-1 text-xs ${
                         s.resendSyncStatus === "SYNCED"
@@ -194,15 +195,15 @@ export default function NewsletterDashboard() {
                       {s.resendSyncStatus.toLowerCase()}
                     </span>
                   </td>
-                  <td className="px-5 py-4">
+                  <td data-label="Subscribed" className="px-5 py-4">
                     {date.format(new Date(s.subscribedAt))}
                   </td>
-                  <td className="px-5 py-4">
+                  <td data-label="Unsubscribed" className="px-5 py-4">
                     {s.unsubscribedAt
                       ? date.format(new Date(s.unsubscribedAt))
                       : "—"}
                   </td>
-                  <td className="px-5 py-4 text-right">
+                  <td data-label="Action" className="px-5 py-4 text-right">
                     {s.resendSyncStatus !== "SYNCED" && (
                       <button
                         type="button"
@@ -233,6 +234,18 @@ export default function NewsletterDashboard() {
             </p>
           )}
         </div>
+        <style jsx>{`
+          @media (max-width: 700px) {
+            table, tbody { display: block; }
+            thead { display: none; }
+            tbody { padding: 12px; }
+            tbody tr { display: block; margin-bottom: 12px; overflow: hidden; border: 1px solid #e7ddd6; border-radius: 10px; background: white; }
+            tbody td { display: flex; align-items: center; justify-content: space-between; gap: 18px; border-top: 1px solid #f1ece8; padding: 11px 14px; text-align: right; overflow-wrap: anywhere; }
+            tbody td:first-child { border-top: 0; padding-block: 15px; }
+            tbody td::before { content: attr(data-label); flex: 0 0 auto; color: #817a83; font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; text-align: left; }
+          }
+        `}</style>
+        </>
       )}
     </section>
   );

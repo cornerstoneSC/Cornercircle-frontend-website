@@ -784,6 +784,13 @@ function EventDetailsDrawer({
   event: AdminEvent;
   onClose: () => void;
 }) {
+  useEffect(() => {
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [onClose]);
   return (
     <>
       <button
@@ -792,14 +799,14 @@ function EventDetailsDrawer({
         className="fixed inset-0 z-40 bg-black/20"
       />
 
-      <aside className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto border-l border-[#E6DED5] bg-[#FCFAF7] shadow-2xl sm:max-w-md">
+      <aside className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto border-l border-[#E6DED5] bg-[#FCFAF7] shadow-2xl sm:max-w-md" role="dialog" aria-modal="true" aria-labelledby="event-details-title">
         <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#E9E2D9] bg-[#FCFAF7]/95 px-6 py-5 backdrop-blur">
           <div>
             <p className="text-xs uppercase tracking-[0.16em] text-[var(--event-accent)]">
               Event Details
             </p>
 
-            <h2 className="mt-1 font-serif text-2xl text-[var(--event-heading)]">
+            <h2 id="event-details-title" className="mt-1 font-serif text-2xl text-[var(--event-heading)]">
               {event.title}
             </h2>
           </div>
@@ -807,6 +814,7 @@ function EventDetailsDrawer({
           <button
             type="button"
             onClick={onClose}
+            aria-label="Close event details"
             className="rounded-full border border-[#E1D9CF] p-2 text-[#655E68]"
           >
             <X className="h-4 w-4" />

@@ -37,7 +37,7 @@ export default function NewsletterSection({ imageUrl, photoControls, previewOnly
   }
 
   return (
-    <section className={styles.section} aria-labelledby="newsletter-heading">
+    <section id="newsletter" className={styles.section} aria-labelledby="newsletter-heading">
       <div className={styles.panel}>
         <div className={styles.visual} aria-hidden="true">
           <div className={styles.photo}>
@@ -78,7 +78,7 @@ export default function NewsletterSection({ imageUrl, photoControls, previewOnly
               <label className={styles.srOnly} aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
 
               <button className={styles.submitButton} type="submit" disabled={busy || previewOnly}>{busy ? "Joining…" : "Join the Circle"}</button>
-              {error && <p className={styles.success} role="alert">{error}</p>}
+              {error && <p className={styles.error} role="alert">{error}</p>}
               <p className={styles.privacy}>Thoughtful updates only. Unsubscribe anytime.</p>
             </form>
           )}

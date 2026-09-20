@@ -155,6 +155,16 @@
   color: rgba(255, 253, 248, .9);
 }
 
+.error {
+  width: min(100%, 440px);
+  margin: 18px 0 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 220, 214, .75);
+  background: rgba(91, 27, 24, .28);
+  color: #fff7f3;
+  font-size: 14px;
+}
+
 .success {
   padding: 22px 0;
   color: #fffdf8;

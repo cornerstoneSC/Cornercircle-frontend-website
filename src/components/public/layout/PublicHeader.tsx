@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const navigationLinks = [
   {
@@ -27,13 +27,34 @@ const navigationLinks = [
 export default function PublicHeader({ servicesEnabled = false }: { servicesEnabled?: boolean }) {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const menuButton = useRef<HTMLButtonElement>(null);
+  const mobileMenu = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.requestAnimationFrame(() => mobileMenu.current?.querySelector<HTMLAnchorElement>("a")?.focus());
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMobileMenuOpen(false);
+        menuButton.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [isMobileMenuOpen]);
 
   function closeMobileMenu() {
     setIsMobileMenuOpen(false);
   }
 
   function isActiveLink(href: string) {
-    return pathname === href || pathname.startsWith(`${href}/`);
+    const path = href.split("#")[0] || "/";
+    return pathname === path || (path !== "/" && pathname.startsWith(`${path}/`));
   }
 
   return (
@@ -70,6 +91,7 @@ export default function PublicHeader({ servicesEnabled = false }: { servicesEnab
               <Link
                 key={link.href}
                 href={link.href}
+                aria-current={active ? "page" : undefined}
                 className={`group relative py-2 text-[15px] font-medium transition-colors ${
                   active ? "text-plum" : "text-stone-600 hover:text-plum"
                 }`}
@@ -105,6 +127,7 @@ export default function PublicHeader({ servicesEnabled = false }: { servicesEnab
 
         {/* Mobile menu button */}
         <button
+          ref={menuButton}
           type="button"
           onClick={() => setIsMobileMenuOpen((current) => !current)}
           className="group ml-auto inline-flex size-12 flex-col items-end justify-center gap-1.5 text-[#a87825] lg:hidden"
@@ -123,6 +146,7 @@ export default function PublicHeader({ servicesEnabled = false }: { servicesEnab
       {/* Mobile navigation */}
       {isMobileMenuOpen && (
         <div
+          ref={mobileMenu}
           id="mobile-navigation"
           className="absolute inset-x-0 top-full max-h-[calc(100vh-74px)] overflow-y-auto border-t border-[#b88935]/45 bg-[#faf8f3] px-6 pb-9 pt-8 lg:hidden"
         >
@@ -141,6 +165,7 @@ export default function PublicHeader({ servicesEnabled = false }: { servicesEnab
                   key={link.href}
                   href={link.href}
                   onClick={closeMobileMenu}
+                  aria-current={active ? "page" : undefined}
                   className={`flex min-h-16 items-center justify-between border-b border-[#b88935]/45 font-serif text-[1.6rem] font-medium leading-none transition-colors ${
                     active ? "text-[#9c7127]" : "text-[#292620] hover:text-[#9c7127]"
                   }`}

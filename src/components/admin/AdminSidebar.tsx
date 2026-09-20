@@ -120,15 +120,15 @@ export default function AdminSidebar() {
           >
             <div className="flex items-center gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[var(--event-accent-soft)] text-[var(--event-accent-strong)] font-semibold">
-                AD
+                  CS
               </div>
 
               <div>
                 <p className="text-sm font-semibold text-[var(--event-heading)]">
-                  Admin User
+                  Admin workspace
                 </p>
                 <p className="text-xs text-[var(--event-muted)]">
-                  Administrator
+                  Secure session
                 </p>
               </div>
             </div>

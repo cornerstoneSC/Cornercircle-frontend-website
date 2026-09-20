@@ -15,6 +15,7 @@ import {
   Users,
   UserRound,
   ShieldCheck,
+  ScanLine,
 } from "lucide-react";
 import NotificationBell from "@/components/admin/NotificationBell";
 
@@ -33,6 +34,7 @@ const groups = [
         label: "Event Registrations",
         icon: ClipboardList,
       },
+      { href: "/admin/check-in", label: "Ticket Check-in", icon: ScanLine },
       { href: "/admin/newsletter", label: "Newsletter", icon: Mail },
     ],
   },
@@ -88,6 +90,7 @@ export default function AdminMobileHeader() {
                 <Link
                   key={href}
                   href={href}
+                  onClick={(event) => event.currentTarget.closest("details")?.removeAttribute("open")}
                   className="flex items-center gap-3 rounded-[var(--event-radius-sm)] px-4 py-2.5 text-sm font-medium text-[var(--event-text)] hover:bg-[var(--event-accent-soft)] hover:text-[var(--event-accent-strong)]"
                 >
                   <Icon className="h-4 w-4" />

@@ -47,10 +47,12 @@ export default function MembersDashboard() {
   const [selected, setSelected] = useState<AdminMember | null>(null);
   const [query, setQuery] = useState("");
   const [notice, setNotice] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [notes, setNotes] = useState("");
   const [page, setPage] = useState(1);
   const closeButton = useRef<HTMLButtonElement>(null);
+  const drawerOpener = useRef<HTMLElement | null>(null);
 
   const paidMembers = useMemo(
     () =>
@@ -96,7 +98,7 @@ export default function MembersDashboard() {
   }, [selected]);
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setSelected(null);
+      if (event.key === "Escape") closeDrawer();
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
@@ -108,10 +110,11 @@ export default function MembersDashboard() {
   async function load() {
     setLoading(true);
     setNotice("");
+    setError("");
     try {
       setData(await getAdminMembers());
     } catch (error) {
-      setNotice(
+      setError(
         error instanceof Error ? error.message : "Unable to load members.",
       );
     } finally {
@@ -120,8 +123,13 @@ export default function MembersDashboard() {
   }
 
   function choose(member: AdminMember) {
+    drawerOpener.current = document.activeElement as HTMLElement | null;
     setSelected(member);
     setNotes(member.internalNotes ?? "");
+  }
+  function closeDrawer() {
+    setSelected(null);
+    window.requestAnimationFrame(() => drawerOpener.current?.focus());
   }
   function replaceMember(updated: AdminMember) {
     setSelected(updated);
@@ -139,12 +147,13 @@ export default function MembersDashboard() {
   }
 
   async function prepareReminder(member: AdminMember) {
+    setError("");
     try {
       const updated = await recordRenewalReminder(member.applicationId);
       replaceMember(updated);
       setNotice("Renewal reminder sent.");
     } catch (error) {
-      setNotice(
+      setError(
         error instanceof Error
           ? error.message
           : "The reminder could not be prepared.",
@@ -154,19 +163,21 @@ export default function MembersDashboard() {
 
   async function saveNotes() {
     if (!selected) return;
+    setError("");
     try {
       replaceMember(await saveMemberNotes(selected.applicationId, notes));
       setNotice("Internal notes saved.");
     } catch (error) {
-      setNotice(
+      setError(
         error instanceof Error ? error.message : "Notes could not be saved.",
       );
     }
   }
   async function sendWelcomeEmail() {
     if (!selected) return;
+    setError("");
     try { replaceMember(await sendMembershipWelcomeEmail(selected.applicationId)); setNotice("Membership welcome email sent."); }
-    catch (error) { setNotice(error instanceof Error ? error.message : "Welcome email could not be sent."); }
+    catch (error) { setError(error instanceof Error ? error.message : "Welcome email could not be sent."); }
   }
 
   function exportCsv() {
@@ -214,7 +225,7 @@ export default function MembersDashboard() {
         <p>
           {loading
             ? "Loading members…"
-            : notice || "Members could not be loaded."}
+            : error || "Members could not be loaded."}
         </p>
         {!loading && <button onClick={() => void load()}>Try again</button>}
       </section>
@@ -255,6 +266,11 @@ export default function MembersDashboard() {
       {notice && (
         <p role="status" className="members-notice">
           {notice}
+        </p>
+      )}
+      {error && (
+        <p role="alert" className="members-error">
+          {error}
         </p>
       )}
       <div className="members-stats">
@@ -298,7 +314,7 @@ export default function MembersDashboard() {
           <tbody>
             {visible.map((member) => (
               <tr key={member.applicationId}>
-                <td>
+                <td data-label="Member">
                   <span className="member-avatar">
                     {initials(member.fullName)}
                   </span>
@@ -307,15 +323,15 @@ export default function MembersDashboard() {
                     <small>{member.email}</small>
                   </span>
                 </td>
-                <td>
+                <td data-label="Membership">
                   <PaymentBadge status={member.paymentStatus} />
                   <small>Annual membership</small>
                 </td>
-                <td>
+                <td data-label="Joined">
                   {formatDate(member.membershipStartsOn ?? member.joinedAt)}
                 </td>
-                <td>{formatDate(member.membershipEndsOn)}</td>
-                <td>
+                <td data-label="Ends">{formatDate(member.membershipEndsOn)}</td>
+                <td data-label="Reminder">
                   {member.renewalReminderSentAt ? (
                     `Prepared ${formatDate(member.renewalReminderSentAt)}`
                   ) : member.paymentStatus === "PAID" && member.membershipEndsOn ? (
@@ -329,8 +345,8 @@ export default function MembersDashboard() {
                     "—"
                   )}
                 </td>
-                <td>{member.city}</td>
-                <td>
+                <td data-label="City">{member.city}</td>
+                <td data-label="Details">
                   <button
                     className="member-open"
                     onClick={() => choose(member)}
@@ -377,7 +393,7 @@ export default function MembersDashboard() {
       {selected && (
         <div
           className="member-drawer-backdrop"
-          onClick={() => setSelected(null)}
+          onClick={closeDrawer}
         >
           <aside
             className="member-drawer"
@@ -389,7 +405,7 @@ export default function MembersDashboard() {
             <button
               ref={closeButton}
               className="member-close"
-              onClick={() => setSelected(null)}
+              onClick={closeDrawer}
               aria-label="Close member details"
             >
               <X />

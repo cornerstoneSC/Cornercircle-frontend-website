@@ -158,19 +158,19 @@ export default function EventRegistrationsDashboard() {
                       : ""
                   }
                 >
-                  <td>
+                  <td data-label="Attendee">
                     <b>{item.fullName}</b>
                     <small>{item.email}</small>
                   </td>
-                  <td>{item.eventTitle}</td>
-                  <td>{item.ticketQuantity}</td>
-                  <td>{money.format(item.amountPaid)}</td>
-                  <td>
+                  <td data-label="Event">{item.eventTitle}</td>
+                  <td data-label="Tickets">{item.ticketQuantity}</td>
+                  <td data-label="Amount paid">{money.format(item.amountPaid)}</td>
+                  <td data-label="Payment">
                     <Paid />
                   </td>
-                  <td>{date.format(new Date(item.registrationDate))}</td>
-                  <td>{item.checkedInAt ? "Checked in" : "Not arrived"}</td>
-                  <td>
+                  <td data-label="Registered">{date.format(new Date(item.registrationDate))}</td>
+                  <td data-label="Check-in">{item.checkedInAt ? "Checked in" : "Not arrived"}</td>
+                  <td data-label="Details">
                     <button onClick={() => setSelected(item)}>View</button>
                   </td>
                 </tr>
@@ -223,6 +223,13 @@ function Details({
   const [emailSentAt, setEmailSentAt] = useState(item.confirmationEmailSentAt);
   const [emailError, setEmailError] = useState(item.confirmationEmailError || "");
   const [sendingEmail, setSendingEmail] = useState(false);
+  useEffect(() => {
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") close();
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [close]);
   async function sendEmail() {
     setSendingEmail(true); setEmailError("");
     try { const updated = await sendRegistrationConfirmationEmail(item.registrationId); setEmailSentAt(updated.confirmationEmailSentAt); setEmailError(updated.confirmationEmailError || ""); }
@@ -230,7 +237,7 @@ function Details({
     finally { setSendingEmail(false); }
   }
   return (
-    <aside className="registration-details">
+    <aside className="registration-details" role="dialog" aria-modal="true" aria-labelledby="registration-details-title">
       <button
         className="details-close"
         onClick={close}
@@ -240,7 +247,7 @@ function Details({
       </button>
       <div className="details-heading">
         <span>⌁</span>
-        <h2>Registration details</h2>
+        <h2 id="registration-details-title">Registration details</h2>
       </div>
       <Info label="Attendee name" value={item.fullName} />
       <Info label="Email" value={item.email} />

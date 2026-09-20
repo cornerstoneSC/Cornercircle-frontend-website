@@ -316,7 +316,7 @@ export default function EventRegistrationCheckout({ event }: { event: Event }) {
                 </label>
               </div>
               {error && (
-                <p className="mt-4 bg-red-50 p-3 text-sm text-red-700">
+                <p role="alert" className="mt-4 bg-red-50 p-3 text-sm text-red-700">
                   {error}
                 </p>
               )}

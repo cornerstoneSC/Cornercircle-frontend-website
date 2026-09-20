@@ -9,13 +9,18 @@ export default function NotificationBell() {
   const { notifications, affectedCount, loading, error, refresh } = useAdminNotifications();
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function close(event: MouseEvent) {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) setOpen(false);
     }
     function escape(event: KeyboardEvent) {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") {
+        setOpen(false);
+        triggerRef.current?.focus();
+      }
     }
     document.addEventListener("mousedown", close);
     document.addEventListener("keydown", escape);
@@ -25,16 +30,24 @@ export default function NotificationBell() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+    window.requestAnimationFrame(() => {
+      const focusable = panelRef.current?.querySelector<HTMLElement>("a, button");
+      (focusable ?? panelRef.current)?.focus();
+    });
+  }, [open]);
+
   return (
     <div className="relative" ref={containerRef}>
-      <button type="button" onClick={() => setOpen((value) => !value)}
+      <button ref={triggerRef} type="button" onClick={() => setOpen((value) => !value)}
         className="relative flex h-10 w-10 items-center justify-center rounded-[var(--event-radius-sm)] border border-[var(--event-border)] bg-[var(--event-canvas)] text-[var(--event-text)] transition hover:border-[var(--event-accent-strong)] hover:text-[var(--event-accent-strong)]"
         aria-label="Notifications" aria-expanded={open} aria-haspopup="dialog">
         <Bell className="h-5 w-5" />
         {affectedCount > 0 && <span className="absolute -right-1 -top-1 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-[var(--event-danger)] px-1 text-[10px] font-semibold text-white">{affectedCount > 9 ? "9+" : affectedCount}</span>}
       </button>
       {open && (
-        <div role="dialog" aria-label="Notifications" className="absolute right-0 top-[calc(100%+10px)] z-50 w-[min(20rem,calc(100vw-2rem))] rounded-[var(--event-radius-md)] border border-[var(--event-border)] bg-[var(--event-surface)] shadow-xl">
+        <div ref={panelRef} tabIndex={-1} role="dialog" aria-label="Notifications" className="absolute right-0 top-[calc(100%+10px)] z-50 w-[min(20rem,calc(100vw-2rem))] rounded-[var(--event-radius-md)] border border-[var(--event-border)] bg-[var(--event-surface)] shadow-xl outline-none">
           <div className="flex items-center justify-between border-b border-[var(--event-border)] px-4 py-3">
             <p className="text-sm font-semibold text-[var(--event-heading)]">Notifications</p>
             {affectedCount > 0 && <span className="text-xs text-[var(--event-muted)]">{affectedCount} need attention</span>}

@@ -1,35 +1,6 @@
-"use client";
-
-import { useState, type FormEvent } from "react";
 import { CalendarDays, Mail } from "lucide-react";
-import { subscribeNewsletter } from "@/services/newsletter.service";
 
 export default function NoEvents() {
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState("");
-
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (!email) return;
-    setBusy(true);
-    setError("");
-    try {
-      await subscribeNewsletter(email, "", "/events");
-      setSubmitted(true);
-      setEmail("");
-    } catch (reason) {
-      setError(
-        reason instanceof Error
-          ? reason.message
-          : "Unable to subscribe right now.",
-      );
-    } finally {
-      setBusy(false);
-    }
-  }
-
   return (
     <section className="w-full px-6 py-16 md:px-10 md:py-24">
       <div
@@ -146,77 +117,13 @@ export default function NoEvents() {
               </div>
             </div>
 
-            {/* Email form */}
-            <form
-              onSubmit={handleSubmit}
-              className="
-                flex
-                w-full
-                flex-col
-                gap-3
-                sm:flex-row
-                lg:w-[500px]
-                lg:flex-shrink-0
-              "
+            <a
+              href="#newsletter"
+              className="inline-flex min-h-14 w-full items-center justify-center rounded-md bg-[var(--event-accent-strong)] px-10 text-sm font-medium text-white transition-colors hover:bg-[#A7792D] sm:w-auto lg:flex-shrink-0"
             >
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Your email address"
-                className="
-                  h-14
-                  min-w-0
-                  flex-1
-                  rounded-md
-                  border
-                  border-[var(--event-border)]
-                  bg-white
-                  px-5
-                  text-sm
-                  text-[var(--event-heading)]
-                  placeholder:text-[#A8A2AA]
-                  focus:border-[var(--event-accent-strong)]
-                  focus:outline-none
-                  focus:ring-1
-                  focus:ring-[var(--event-accent-strong)]
-                "
-              />
-
-              <button
-                type="submit"
-                disabled={busy}
-                className="
-                  h-14
-                  rounded-md
-                  bg-[var(--event-accent-strong)]
-                  px-10
-                  text-sm
-                  font-medium
-                  text-white
-                  transition-colors
-                  hover:bg-[#A7792D]
-                "
-              >
-                {busy ? "Joining…" : "Join"}
-              </button>
-            </form>
+              Join the Circle
+            </a>
           </div>
-
-          {submitted && (
-            <p className="mt-5 text-sm font-medium text-[var(--event-accent)] lg:text-right">
-              Thanks for joining! We&apos;ll keep you posted.
-            </p>
-          )}
-          {error && (
-            <p
-              role="alert"
-              className="mt-5 text-sm font-medium text-red-700 lg:text-right"
-            >
-              {error}
-            </p>
-          )}
         </div>
       </div>
     </section>

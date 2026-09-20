@@ -394,7 +394,7 @@ export default function HomepageEditor({
       <section
         inert={!ready || saving}
         aria-busy={saving}
-        className="min-h-0 flex-1 overflow-y-auto rounded-lg border border-stone-200"
+        className="min-h-0 flex-1 overflow-y-auto rounded-lg border border-stone-200 [&_[contenteditable=true]]:outline [&_[contenteditable=true]]:outline-1 [&_[contenteditable=true]]:outline-dashed [&_[contenteditable=true]]:outline-[#b69a64]/45 [&_[contenteditable=true]]:outline-offset-4"
       >
         {founderOnly && (
           <div className="border-b border-stone-200 bg-[#fcfaf7] px-6 py-5">
