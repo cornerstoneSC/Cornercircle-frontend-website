@@ -58,7 +58,7 @@
 .reasons h3{margin:0 0 17px;font-size:24px;font-weight:500;line-height:1.05}
 .reasons ul{display:grid;grid-template-columns:1fr;gap:12px;list-style:none;margin:0;padding:0}
 .reasons li{display:flex;align-items:flex-start;gap:16px;color:#59645e;font-size:13px;line-height:1.5}
-.reasons li>span{width:14px;margin-top:10px;border-top:1px solid #ad5842;flex:none}
+.reasons li>span:first-child{width:14px;margin-top:10px;border-top:1px solid #ad5842;flex:none}
 .optionActions{display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-top:2px}
 .optionPrimary{display:inline-flex;min-height:48px;align-items:center;justify-content:center;padding:12px 23px;border-radius:4px;background:#ad5842;color:#fff;font-size:13px;font-weight:700}
 .optionPrimary:hover{background:#914431}
@@ -159,10 +159,16 @@
   line-height: 1.55;
 }
 
-.reasons li > span {
+.reasons li > span:first-child {
   width: 16px;
   margin-top: 12px;
   border-top: 2px solid var(--decorative-gold);
+}
+
+.reasons li > [contenteditable="plaintext-only"] {
+  width: auto;
+  min-width: 0;
+  flex: 1;
 }
 
 .optionPrimary {
