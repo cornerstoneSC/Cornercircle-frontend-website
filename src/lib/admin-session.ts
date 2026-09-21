@@ -17,8 +17,10 @@ async function signature(payload: string) {
 export const ADMIN_SESSION_MAX_AGE = 8 * 60 * 60;
 export const ADMIN_REMEMBERED_SESSION_MAX_AGE = 30 * 24 * 60 * 60;
 
-export async function createAdminSession(maxAgeSeconds = ADMIN_SESSION_MAX_AGE) {
-  const payload = String(Date.now() + maxAgeSeconds * 1000);
+export type AdminSessionRole = "admin" | "owner";
+
+export async function createAdminSession(maxAgeSeconds = ADMIN_SESSION_MAX_AGE, role: AdminSessionRole = "admin") {
+  const payload = `${Date.now() + maxAgeSeconds * 1000}:${role}`;
   const signed = await signature(payload);
   return signed ? `${payload}.${signed}` : null;
 }
@@ -26,10 +28,16 @@ export async function createAdminSession(maxAgeSeconds = ADMIN_SESSION_MAX_AGE) 
 export async function verifyAdminSession(value?: string) {
   if (!value) return false;
   const [payload, supplied, extra] = value.split(".");
-  if (!payload || !supplied || extra || !/^\d+$/.test(payload) || Number(payload) <= Date.now()) return false;
+  const match = payload?.match(/^(\d+):(admin|owner)$/);
+  if (!match || !supplied || extra || Number(match[1]) <= Date.now()) return false;
   const expected = await signature(payload);
   if (!expected || expected.length !== supplied.length) return false;
   let difference = 0;
   for (let index = 0; index < expected.length; index += 1) difference |= expected.charCodeAt(index) ^ supplied.charCodeAt(index);
   return difference === 0;
+}
+
+export async function verifyAdminOwnerSession(value?: string) {
+  if (!(await verifyAdminSession(value))) return false;
+  return value?.split(".")[0]?.endsWith(":owner") === true;
 }

@@ -39,9 +39,9 @@ export async function generateMetadata({
 }: EventDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
   const event = await getEventBySlug(slug).catch(() => null);
-  if (!event) return { title: "Event Not Found | Cornerstone Social Circle" };
+  if (!event) return { title: "Event Not Found" };
   return {
-    title: `${event.title} | Cornerstone Social Circle`,
+    title: event.title,
     description: event.shortDescription,
     alternates: { canonical: `/events/${event.slug}` },
     openGraph: {

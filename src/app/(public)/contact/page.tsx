@@ -4,7 +4,7 @@ import { getContactContent } from "@/services/contact-page.service";
 import { servicesPublicEnabled } from "@/lib/services-release";
 
 export const metadata: Metadata = {
-  title: "Contact | Cornerstone Social Circle",
+  title: "Contact",
   description:
     "Get in touch with Cornerstone Social Circle about events, membership, or companionship services.",
 };

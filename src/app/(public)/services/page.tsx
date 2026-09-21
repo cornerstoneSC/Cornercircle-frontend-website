@@ -5,7 +5,7 @@ import { servicesPublicEnabled } from "@/lib/services-release";
 import { getCurrentServicesContent } from "@/services/services-page.service";
 import { defaultCurrentServicesContent } from "@/lib/services-content";
 
-export const metadata: Metadata = { title: "Companionship & Event Planning | Cornerstone Social Circle", description: "Personal companionship and thoughtfully planned group experiences, beginning with a complimentary 30-minute consultation." };
+export const metadata: Metadata = { title: "Companionship & Event Planning", description: "Personal companionship and thoughtfully planned group experiences, beginning with a complimentary 30-minute consultation." };
 
 export default async function ServicesPage() {
   if (!servicesPublicEnabled()) redirect("/");

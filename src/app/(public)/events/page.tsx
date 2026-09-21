@@ -6,19 +6,14 @@ import type { Event } from "@/types/event";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Upcoming Events | Cornerstone Social Circle",
+  title: "Upcoming Events",
   description:
     "Discover upcoming Cornerstone Social Circle gatherings created for meaningful conversation, friendship, and connection.",
   alternates: { canonical: "/events" },
 };
 
 export default async function EventsPage() {
-  let events: Event[] = [];
-  try {
-    events = await getUpcomingEvents();
-  } catch (error) {
-    console.error("Unable to load events", error);
-  }
+  const events: Event[] = await getUpcomingEvents();
 
   return (
     <main className="min-h-screen bg-[var(--event-canvas)]">

@@ -18,9 +18,10 @@ import {
   X,
 } from "lucide-react";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import type { AdminEvent, EventVisibility } from "@/types/admin-event";
+import useDialogFocus from "@/hooks/useDialogFocus";
 
 import {
   deleteEvent,
@@ -648,45 +649,56 @@ export default function AdminEventsManager() {
       )}
 
       {pendingDelete && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/30 px-5">
-          <section
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="delete-event-title"
-            className="w-full max-w-md rounded-2xl border border-[var(--event-border)] bg-white p-6 shadow-2xl"
-          >
-            <h2
-              id="delete-event-title"
-              className="font-serif text-2xl text-[var(--event-heading)]"
-            >
-              Delete event?
-            </h2>
-            <p className="mt-3 text-sm leading-6 text-[#716B75]">
-              “{pendingDelete.title}” will be permanently removed. This action
-              cannot be undone.
-            </p>
-            <div className="mt-6 flex justify-end gap-3">
-              <button
-                type="button"
-                onClick={() => setPendingDelete(null)}
-                className="min-h-11 rounded-lg border border-[#D8CDBE] px-4 text-sm font-medium text-[#625A66]"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={() => void handleDelete(pendingDelete)}
-                disabled={actionEventId === pendingDelete.id}
-                className="min-h-11 rounded-lg bg-red-600 px-4 text-sm font-medium text-white disabled:opacity-50"
-              >
-                {actionEventId === pendingDelete.id
-                  ? "Deleting…"
-                  : "Delete Event"}
-              </button>
-            </div>
-          </section>
-        </div>
+        <DeleteEventDialog
+          event={pendingDelete}
+          deleting={actionEventId === pendingDelete.id}
+          onCancel={() => setPendingDelete(null)}
+          onConfirm={() => void handleDelete(pendingDelete)}
+        />
       )}
+    </div>
+  );
+}
+
+function DeleteEventDialog({
+  event,
+  deleting,
+  onCancel,
+  onConfirm,
+}: {
+  event: AdminEvent;
+  deleting: boolean;
+  onCancel: () => void;
+  onConfirm: () => void;
+}) {
+  const dialogRef = useRef<HTMLElement>(null);
+  useDialogFocus(dialogRef, onCancel);
+
+  return (
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/30 px-5">
+      <section
+        ref={dialogRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="delete-event-title"
+        className="w-full max-w-md rounded-2xl border border-[var(--event-border)] bg-white p-6 shadow-2xl outline-none"
+      >
+        <h2 id="delete-event-title" className="font-serif text-2xl text-[var(--event-heading)]">
+          Delete event?
+        </h2>
+        <p className="mt-3 text-sm leading-6 text-[#716B75]">
+          “{event.title}” will be permanently removed. This action cannot be undone.
+        </p>
+        <div className="mt-6 flex justify-end gap-3">
+          <button type="button" onClick={onCancel} className="min-h-11 rounded-lg border border-[#D8CDBE] px-4 text-sm font-medium text-[#625A66]">
+            Cancel
+          </button>
+          <button type="button" onClick={onConfirm} disabled={deleting} className="min-h-11 rounded-lg bg-red-600 px-4 text-sm font-medium text-white disabled:opacity-50">
+            {deleting ? "Deleting…" : "Delete Event"}
+          </button>
+        </div>
+      </section>
     </div>
   );
 }
@@ -784,13 +796,8 @@ function EventDetailsDrawer({
   event: AdminEvent;
   onClose: () => void;
 }) {
-  useEffect(() => {
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", closeOnEscape);
-    return () => window.removeEventListener("keydown", closeOnEscape);
-  }, [onClose]);
+  const dialogRef = useRef<HTMLElement>(null);
+  useDialogFocus(dialogRef, onClose);
   return (
     <>
       <button
@@ -799,7 +806,7 @@ function EventDetailsDrawer({
         className="fixed inset-0 z-40 bg-black/20"
       />
 
-      <aside className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto border-l border-[#E6DED5] bg-[#FCFAF7] shadow-2xl sm:max-w-md" role="dialog" aria-modal="true" aria-labelledby="event-details-title">
+      <aside ref={dialogRef} tabIndex={-1} className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto border-l border-[#E6DED5] bg-[#FCFAF7] shadow-2xl outline-none sm:max-w-md" role="dialog" aria-modal="true" aria-labelledby="event-details-title">
         <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#E9E2D9] bg-[#FCFAF7]/95 px-6 py-5 backdrop-blur">
           <div>
             <p className="text-xs uppercase tracking-[0.16em] text-[var(--event-accent)]">

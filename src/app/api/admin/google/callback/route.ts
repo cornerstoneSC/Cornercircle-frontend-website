@@ -64,7 +64,12 @@ export async function GET(request: Request) {
       return new Response(null, { status: 303, headers });
     }
 
-    const session = await createAdminSession();
+    const configuredOwners = (process.env.GOOGLE_OWNER_EMAILS || allowed[0] || "")
+      .split(",")
+      .map((email) => email.trim().toLowerCase())
+      .filter(Boolean);
+    const role = configuredOwners.includes(profile.email.toLowerCase()) ? "owner" : "admin";
+    const session = await createAdminSession(ADMIN_SESSION_MAX_AGE, role);
     if (!session) throw new Error("session security is not configured");
     const storedNext = decodeURIComponent(cookieStore.get(NEXT_COOKIE)?.value || "");
     const destination = storedNext.startsWith("/admin") && !storedNext.startsWith("//") ? storedNext : "/admin/members";

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import MembershipSuccess from "@/components/public/membership/MembershipSuccess";
 
-export const metadata: Metadata = { title: "Membership Confirmation | Cornerstone Social Circle" };
+export const metadata: Metadata = { title: "Membership Confirmation" };
 
 export default async function MembershipSuccessPage({ searchParams }: { searchParams: Promise<{ application_id?: string | string[] }> }) {
   const value = (await searchParams).application_id;

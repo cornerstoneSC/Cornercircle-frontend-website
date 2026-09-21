@@ -16,7 +16,9 @@ import {
   ChevronDown,
   ScanLine,
   ShieldCheck,
+  CalendarCheck,
 } from "lucide-react";
+import useAdminOwner from "@/hooks/useAdminOwner";
 
 type NavItem = {
   label: string;
@@ -41,6 +43,7 @@ const navGroups: Array<{ label: string; items: NavItem[] }> = [
       },
       { label: "Ticket Check-in", href: "/admin/check-in", icon: ScanLine },
       { label: "Newsletter", href: "/admin/newsletter", icon: Mail },
+      { label: "Consultations", href: "/admin/service-consultations", icon: CalendarCheck },
     ],
   },
   {
@@ -62,6 +65,7 @@ const navGroups: Array<{ label: string; items: NavItem[] }> = [
 
 export default function AdminSidebar() {
   const pathname = usePathname();
+  const owner = useAdminOwner();
 
   const isActive = (href: string) => {
     if (href === "/admin") return pathname === "/admin";
@@ -91,7 +95,7 @@ export default function AdminSidebar() {
       {/* Nav */}
       <div className="flex-1 overflow-y-auto px-4 py-6">
         <nav className="space-y-7">
-          {navGroups.map((group) => (
+          {navGroups.filter((group) => owner || group.label !== "Security").map((group) => (
             <section key={group.label}>
               <p className="mb-2 px-3 text-[11px] font-medium uppercase tracking-[0.18em] text-[var(--event-muted)]">
                 {group.label}

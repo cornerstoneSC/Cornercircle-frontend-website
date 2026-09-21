@@ -6,7 +6,7 @@ import { getCurrentServicesContent } from "@/services/services-page.service";
 import { defaultCurrentServicesContent } from "@/lib/services-content";
 
 export const metadata: Metadata = {
-  title: "Events & Group Experiences | Cornerstone Social Circle",
+  title: "Events & Group Experiences",
   description: "Thoughtfully planned social experiences for retirement homes, senior communities, families, and community groups.",
 };
 

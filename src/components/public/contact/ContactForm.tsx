@@ -8,9 +8,29 @@ type ContactFormProps = {
   enabled?: boolean;
 };
 
-export default function ContactForm({ email, enabled = false }: ContactFormProps) {
+export default function ContactForm({ email, enabled = true }: ContactFormProps) {
   const [notice, setNotice] = useState("");
   const available = enabled && Boolean(email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+
+  if (!available) {
+    return (
+      <section className={styles.form} aria-labelledby="contact-opening-soon">
+        <div>
+          <p className={styles.formNotice}>Online enquiries are opening soon.</p>
+          <h2 id="contact-opening-soon">We would still love to hear from you.</h2>
+          <p>
+            For now, send us an email and the Cornerstone Social Circle team will
+            respond as soon as possible.
+          </p>
+          {email && (
+            <p className={styles.directEmail}>
+              <a href={`mailto:${email}`}>{email}</a>
+            </p>
+          )}
+        </div>
+      </section>
+    );
+  }
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -78,14 +98,9 @@ export default function ContactForm({ email, enabled = false }: ContactFormProps
             : "")}
       </p>
 
-      {available && (
-        <p className={styles.directEmail}>
-          Prefer to email us directly?{" "}
-          <a href="mailto:cornerstonesocialcircle@gmail.com">
-            cornerstonesocialcircle@gmail.com
-          </a>
-        </p>
-      )}
+      <p className={styles.directEmail}>
+        Prefer to email us directly? <a href={`mailto:${email}`}>{email}</a>
+      </p>
     </form>
   );
 }

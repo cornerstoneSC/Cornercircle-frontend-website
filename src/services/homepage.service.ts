@@ -24,9 +24,10 @@ async function uploadError(response: Response, fallback: string) {
 }
 
 export async function getHomepage(): Promise<HomepageResponse> {
+  const api = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/admin/homepage`,
-    { cache: "no-store" },
+    `${api}/api/v1/admin/homepage`,
+    { cache: "no-store", signal: AbortSignal.timeout(10000) },
   );
 
   if (!response.ok) {

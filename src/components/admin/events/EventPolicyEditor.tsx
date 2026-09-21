@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Eye, Pencil, Save, X } from "lucide-react";
 import type { EventPolicyContent } from "@/types/event-policy";
+import useUnsavedChanges from "@/hooks/useUnsavedChanges";
 
 export default function EventPolicyEditor() {
   const [content, setContent] = useState<EventPolicyContent | null>(null);
@@ -11,6 +12,8 @@ export default function EventPolicyEditor() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const dirty = Boolean(content && saved && JSON.stringify(content) !== JSON.stringify(saved));
+  useUnsavedChanges(dirty);
 
   useEffect(() => {
     fetch("/api/admin/event-policy", { cache: "no-store" })
@@ -140,12 +143,12 @@ export default function EventPolicyEditor() {
                 Cancel
               </button>
               <button
-                disabled={saving}
+                disabled={saving || !dirty}
                 onClick={() => void save()}
                 className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-[var(--event-accent)] px-5 text-sm font-semibold text-white disabled:opacity-50"
               >
                 <Save className="h-4 w-4" />
-                {saving ? "Saving…" : "Save changes"}
+                {saving ? "Saving…" : dirty ? "Save changes" : "No changes"}
               </button>
             </>
           )}

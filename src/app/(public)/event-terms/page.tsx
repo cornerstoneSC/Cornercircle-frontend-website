@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { EventPolicyContent } from "@/types/event-policy";
 
 export const metadata: Metadata = {
-  title: "Event Terms and Cancellation Policy | Cornerstone Social Circle",
+  title: "Event Terms and Cancellation Policy",
   description:
     "Terms, age requirements, and cancellation policy for Cornerstone Social Circle events.",
 };
@@ -186,7 +186,7 @@ async function EventTermsPage() {
             Questions, transfer requests, or event-related concerns may be sent
             to{" "}
             <a
-              className="font-semibold text-[#8E641F] underline underline-offset-2"
+              className="break-all font-semibold text-[#8E641F] underline underline-offset-2"
               href="mailto:cornerstonesocialcircle@gmail.com"
             >
               cornerstonesocialcircle@gmail.com

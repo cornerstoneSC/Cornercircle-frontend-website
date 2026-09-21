@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { CalendarDays, CheckCircle2, Mail, Search, Ticket, Users, X } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { CalendarDays, CheckCircle2, ChevronLeft, ChevronRight, Mail, Search, Ticket, Users, X } from "lucide-react";
 import {
   getEventRegistrations,
   sendRegistrationConfirmationEmail,
@@ -9,6 +9,7 @@ import {
   type AdminEventRegistrationsResponse,
 } from "@/services/event-registrations-admin.service";
 import "./event-registrations.css";
+import useDialogFocus from "@/hooks/useDialogFocus";
 
 const money = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -21,6 +22,7 @@ const date = new Intl.DateTimeFormat("en-US", {
   hour: "numeric",
   minute: "2-digit",
 });
+const PAGE_SIZE = 15;
 
 export default function EventRegistrationsDashboard() {
   const [data, setData] = useState<AdminEventRegistrationsResponse | null>(
@@ -30,6 +32,7 @@ export default function EventRegistrationsDashboard() {
   const [query, setQuery] = useState("");
   const [event, setEvent] = useState("");
   const [error, setError] = useState("");
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     getEventRegistrations()
@@ -71,6 +74,9 @@ export default function EventRegistrationsDashboard() {
       }),
     [data, event, query],
   );
+  const pageCount = Math.max(1, Math.ceil(visible.length / PAGE_SIZE));
+  const currentPage = Math.min(page, pageCount);
+  const pageItems = visible.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
   if (!data)
     return (
@@ -95,7 +101,10 @@ export default function EventRegistrationsDashboard() {
               aria-label="Search registrations"
               placeholder="Search registrations"
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setPage(1);
+              }}
             />
           </label>
           <label>
@@ -103,7 +112,10 @@ export default function EventRegistrationsDashboard() {
             <select
               aria-label="Filter by event"
               value={event}
-              onChange={(e) => setEvent(e.target.value)}
+              onChange={(e) => {
+                setEvent(e.target.value);
+                setPage(1);
+              }}
             >
               <option value="">All events</option>
               {events.map(([slug, title]) => (
@@ -149,7 +161,7 @@ export default function EventRegistrationsDashboard() {
               </tr>
             </thead>
             <tbody>
-              {visible.map((item) => (
+              {pageItems.map((item) => (
                 <tr
                   key={item.registrationId}
                   className={
@@ -181,6 +193,13 @@ export default function EventRegistrationsDashboard() {
             <p className="registrations-empty">
               No paid registrations match your filters.
             </p>
+          )}
+          {visible.length > PAGE_SIZE && (
+            <nav aria-label="Registration pages" className="registration-pagination">
+              <button type="button" aria-label="Previous registration page" disabled={currentPage === 1} onClick={() => setPage((value) => Math.max(1, value - 1))}><ChevronLeft /> Previous</button>
+              <span>Page {currentPage} of {pageCount}</span>
+              <button type="button" aria-label="Next registration page" disabled={currentPage === pageCount} onClick={() => setPage((value) => Math.min(pageCount, value + 1))}>Next <ChevronRight /></button>
+            </nav>
           )}
         </div>
         {selected && (
@@ -220,16 +239,11 @@ function Details({
   item: AdminEventRegistration;
   close: () => void;
 }) {
+  const dialogRef = useRef<HTMLElement>(null);
+  useDialogFocus(dialogRef, close);
   const [emailSentAt, setEmailSentAt] = useState(item.confirmationEmailSentAt);
   const [emailError, setEmailError] = useState(item.confirmationEmailError || "");
   const [sendingEmail, setSendingEmail] = useState(false);
-  useEffect(() => {
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") close();
-    };
-    window.addEventListener("keydown", closeOnEscape);
-    return () => window.removeEventListener("keydown", closeOnEscape);
-  }, [close]);
   async function sendEmail() {
     setSendingEmail(true); setEmailError("");
     try { const updated = await sendRegistrationConfirmationEmail(item.registrationId); setEmailSentAt(updated.confirmationEmailSentAt); setEmailError(updated.confirmationEmailError || ""); }
@@ -237,7 +251,7 @@ function Details({
     finally { setSendingEmail(false); }
   }
   return (
-    <aside className="registration-details" role="dialog" aria-modal="true" aria-labelledby="registration-details-title">
+    <aside ref={dialogRef} tabIndex={-1} className="registration-details" role="dialog" aria-modal="true" aria-labelledby="registration-details-title">
       <button
         className="details-close"
         onClick={close}

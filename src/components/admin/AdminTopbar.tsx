@@ -4,6 +4,7 @@ import NotificationBell from "@/components/admin/NotificationBell";
 import { usePathname } from "next/navigation";
 
 const pageTitles: Array<[string, string]> = [
+  ["/admin/service-consultations", "Service consultations"],
   ["/admin/event-registrations", "Event registrations"],
   ["/admin/event-policy", "Event policy"],
   ["/admin/administrators", "Administrators"],

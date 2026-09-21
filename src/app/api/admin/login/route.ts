@@ -61,7 +61,7 @@ export async function POST(request: Request) {
   }
   attempts.delete(key);
   const maxAge = body?.remember === true ? ADMIN_REMEMBERED_SESSION_MAX_AGE : ADMIN_SESSION_MAX_AGE;
-  const session = await createAdminSession(maxAge);
+  const session = await createAdminSession(maxAge, "owner");
   if (!session) return Response.json({ message: "Admin session security is not configured." }, { status: 503 });
   return new Response(null, {
     status: 204,

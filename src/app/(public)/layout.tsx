@@ -1,6 +1,6 @@
 import PublicFooter from "@/components/public/layout/PublicFooter";
 import PublicHeader from "@/components/public/layout/PublicHeader";
-import NewsletterSection from "@/components/public/Homepage/NewsletterSection";
+import PublicNewsletter from "@/components/public/layout/PublicNewsletter";
 import { getHomepage } from "@/services/homepage.service";
 import type { ReactNode } from "react";
 import { servicesPublicEnabled } from "@/lib/services-release";
@@ -20,7 +20,7 @@ export default async function PublicLayout({ children }: { children: ReactNode }
       </a>
       <PublicHeader servicesEnabled={servicesEnabled} />
       <main id="main-content" tabIndex={-1} className="min-h-screen">{children}</main>
-      <NewsletterSection imageUrl={newsletterImageUrl} />
+      <PublicNewsletter imageUrl={newsletterImageUrl} />
       <PublicFooter servicesEnabled={servicesEnabled} />
     </>
   );

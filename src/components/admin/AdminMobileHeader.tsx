@@ -16,8 +16,10 @@ import {
   UserRound,
   ShieldCheck,
   ScanLine,
+  CalendarCheck,
 } from "lucide-react";
 import NotificationBell from "@/components/admin/NotificationBell";
+import useAdminOwner from "@/hooks/useAdminOwner";
 
 const groups = [
   {
@@ -36,6 +38,7 @@ const groups = [
       },
       { href: "/admin/check-in", label: "Ticket Check-in", icon: ScanLine },
       { href: "/admin/newsletter", label: "Newsletter", icon: Mail },
+      { href: "/admin/service-consultations", label: "Consultations", icon: CalendarCheck },
     ],
   },
   {
@@ -56,6 +59,7 @@ const groups = [
 ];
 
 export default function AdminMobileHeader() {
+  const owner = useAdminOwner();
   return (
     <header className="relative z-50 flex items-center justify-between border-b border-[var(--event-border)] bg-[var(--event-canvas)] px-5 py-4 md:hidden">
       <Link
@@ -81,7 +85,7 @@ export default function AdminMobileHeader() {
         </summary>
 
         <nav className="absolute inset-x-4 top-[68px] max-h-[calc(100vh-84px)] overflow-y-auto rounded-[var(--event-radius-md)] border border-[var(--event-border)] bg-[var(--event-surface)] p-3 shadow-xl">
-          {groups.map((group) => (
+          {groups.filter((group) => owner || group.label !== "Security").map((group) => (
             <section key={group.label} className="mb-3">
               <p className="px-4 pb-1 pt-2 text-[10px] font-semibold uppercase tracking-[.18em] text-[var(--event-muted)]">
                 {group.label}

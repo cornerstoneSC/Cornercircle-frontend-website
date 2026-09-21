@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import { Download, Mail, RefreshCw, Search, Users } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download, Mail, RefreshCw, Search, Users } from "lucide-react";
 import {
   getNewsletterSubscribers,
   retryNewsletterSubscriber,
@@ -11,6 +11,7 @@ const date = new Intl.DateTimeFormat("en-US", {
   day: "numeric",
   year: "numeric",
 });
+const PAGE_SIZE = 12;
 export default function NewsletterDashboard() {
   const [data, setData] = useState<NewsletterSubscriber[]>([]);
   const [query, setQuery] = useState("");
@@ -18,6 +19,7 @@ export default function NewsletterDashboard() {
   const [loading, setLoading] = useState(true);
   const [retrying, setRetrying] = useState<number | null>(null);
   const [error, setError] = useState("");
+  const [page, setPage] = useState(1);
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(true);
@@ -37,6 +39,9 @@ export default function NewsletterDashboard() {
     () => data.filter((s) => s.status === "ACTIVE").length,
     [data],
   );
+  const pageCount = Math.max(1, Math.ceil(data.length / PAGE_SIZE));
+  const currentPage = Math.min(page, pageCount);
+  const visible = data.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
   async function retrySubscriber(id: number) {
     setRetrying(id);
     setError("");
@@ -131,22 +136,32 @@ export default function NewsletterDashboard() {
       <div className="mb-5 flex flex-col gap-3 sm:flex-row">
         <label className="flex flex-1 items-center gap-2 rounded-lg border border-stone-300 bg-white px-3">
           <Search size={17} />
+          <span className="sr-only">Search newsletter subscribers</span>
           <input
             className="w-full py-2.5 outline-none"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setPage(1);
+            }}
             placeholder="Search email…"
           />
         </label>
+        <label className="flex">
+          <span className="sr-only">Filter subscribers by status</span>
         <select
           className="rounded-lg border border-stone-300 bg-white px-4 py-2.5"
           value={status}
-          onChange={(e) => setStatus(e.target.value)}
+          onChange={(e) => {
+            setStatus(e.target.value);
+            setPage(1);
+          }}
         >
           <option value="">All statuses</option>
           <option value="ACTIVE">Active</option>
           <option value="UNSUBSCRIBED">Unsubscribed</option>
         </select>
+        </label>
       </div>
       {error ? (
         <p role="alert" className="rounded-lg bg-red-50 p-4 text-red-800">
@@ -168,7 +183,7 @@ export default function NewsletterDashboard() {
               </tr>
             </thead>
             <tbody>
-              {data.map((s) => (
+              {visible.map((s) => (
                 <tr key={s.id} className="border-t border-stone-100">
                   <td data-label="Email" className="px-5 py-4 font-medium">{s.email}</td>
                   <td data-label="Status" className="px-5 py-4">
@@ -232,6 +247,13 @@ export default function NewsletterDashboard() {
             <p className="p-8 text-center text-stone-500">
               Loading subscribers…
             </p>
+          )}
+          {!loading && data.length > PAGE_SIZE && (
+            <nav aria-label="Subscriber pages" className="flex items-center justify-between border-t border-stone-200 px-4 py-3 text-sm">
+              <button type="button" aria-label="Previous subscriber page" disabled={currentPage === 1} onClick={() => setPage((value) => Math.max(1, value - 1))} className="inline-flex min-h-10 items-center gap-1 rounded border border-stone-300 px-3 disabled:opacity-40"><ChevronLeft size={16} />Previous</button>
+              <span>Page {currentPage} of {pageCount}</span>
+              <button type="button" aria-label="Next subscriber page" disabled={currentPage === pageCount} onClick={() => setPage((value) => Math.min(pageCount, value + 1))} className="inline-flex min-h-10 items-center gap-1 rounded border border-stone-300 px-3 disabled:opacity-40">Next<ChevronRight size={16} /></button>
+            </nav>
           )}
         </div>
         <style jsx>{`

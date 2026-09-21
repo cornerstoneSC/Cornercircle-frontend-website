@@ -39,6 +39,23 @@ export default function PublicHeader({ servicesEnabled = false }: { servicesEnab
       if (event.key === "Escape") {
         setIsMobileMenuOpen(false);
         menuButton.current?.focus();
+        return;
+      }
+      if (event.key !== "Tab" || !mobileMenu.current) return;
+      const items = Array.from(
+        mobileMenu.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        menuButton.current?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        menuButton.current?.focus();
       }
     };
     window.addEventListener("keydown", closeOnEscape);
@@ -148,6 +165,9 @@ export default function PublicHeader({ servicesEnabled = false }: { servicesEnab
         <div
           ref={mobileMenu}
           id="mobile-navigation"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Site navigation"
           className="absolute inset-x-0 top-full max-h-[calc(100vh-74px)] overflow-y-auto border-t border-[#b88935]/45 bg-[#faf8f3] px-6 pb-9 pt-8 lg:hidden"
         >
           <nav

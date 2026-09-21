@@ -4,7 +4,7 @@ import { getMembershipContent } from "@/services/membership-page.service";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Membership | Cornerstone Social Circle",
+  title: "Membership",
   description:
     "Join Cornerstone Social Circle and discover intentional gatherings, genuine friendships, and a welcoming community.",
 };

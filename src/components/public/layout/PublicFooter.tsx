@@ -24,6 +24,7 @@ const featureLinks = [
 ];
 
 export default function PublicFooter({ servicesEnabled = false }: { servicesEnabled?: boolean }) {
+  const currentYear = new Date().getFullYear();
   return (
     <footer className={styles.footer}>
       <div className={styles.top}>
@@ -67,7 +68,7 @@ export default function PublicFooter({ servicesEnabled = false }: { servicesEnab
         <span>◇</span>
       </div>
       <div className={styles.bottom}>
-        <p>© 2026 Cornerstone Social Circle</p>
+        <p>© {currentYear} Cornerstone Social Circle</p>
         <nav className={styles.utility} aria-label="Footer navigation">
           {footerLinks.filter((link) => servicesEnabled || link.href !== "/services").map((link) => (
             <Link href={link.href} key={link.href}>
