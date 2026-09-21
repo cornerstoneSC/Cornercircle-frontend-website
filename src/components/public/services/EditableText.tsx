@@ -35,8 +35,8 @@ export default function EditableText({ value, label, onChange, maxLength, multil
   }
   return <span ref={ref} contentEditable="plaintext-only" suppressContentEditableWarning role="textbox" aria-label={`Edit ${label}`} aria-multiline={allowsLines} aria-invalid={!!error} tabIndex={0}
     title={error || `Click to edit. ${allowsLines ? "Click outside" : "Press Enter"} to apply. Escape to cancel. Maximum ${limit} characters.`}
-    className={`cursor-text whitespace-pre-line rounded-sm outline-offset-4 hover:outline hover:outline-1 hover:outline-[#b69a64] focus:outline focus:outline-2 ${error ? "outline outline-2 outline-red-500 focus:outline-red-500" : "focus:outline-[#a18452]"}`}
-    style={{ display: "inline-block", minWidth: "1ch", minHeight: "1em", maxWidth: "100%" }}
+    className={`cursor-text whitespace-pre-line rounded-sm outline-offset-4 empty:min-w-[1ch] hover:outline hover:outline-1 hover:outline-[#b69a64] focus:outline focus:outline-2 ${error ? "outline outline-2 outline-red-500 focus:outline-red-500" : "focus:outline-[#a18452]"}`}
+    style={{ display: "inline-block", minHeight: "1em", maxWidth: "100%" }}
     onClick={(event) => { event.stopPropagation(); }}
     onFocus={() => { original.current = value; setError(""); }}
     onInput={(event) => { apply(event.currentTarget.innerText); }}
