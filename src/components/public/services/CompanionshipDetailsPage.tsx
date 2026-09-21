@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type KeyboardEvent } from "react";
+import { useState, type KeyboardEvent, type ReactNode } from "react";
 import { Check, ShieldCheck } from "lucide-react";
 import styles from "./CompanionshipDetailsPage.module.css";
 import ConsultationSection from "./ConsultationSection";
@@ -8,36 +8,8 @@ import CompanionshipHero from "./CompanionshipHero";
 import type { CurrentServicesContent } from "@/lib/services-content";
 import EditableText from "./EditableText";
 
-const optionDetails = [
-  {
-    description: "Friendly visits provide relaxed, one-to-one companionship for older adults who would enjoy more conversation and connection in their week. Each visit follows the person’s interests and preferred pace, whether that means talking over coffee, enjoying music, playing a game, or simply spending comfortable time together.",
-    reasons: ["Thoughtfully matched companionship", "Visits shaped around personal interests", "Dependable social connection", "A warm and unhurried approach"],
-  },
-  {
-    description: "Errands and shopping support offers friendly accompaniment for everyday tasks outside the home. We can help make grocery trips, picking up essentials, and other planned errands feel easier, more organized, and more enjoyable without taking away the person’s independence.",
-    reasons: ["Support that respects independence", "Patient, unhurried accompaniment", "Plans tailored to the individual", "Friendly company along the way"],
-  },
-  {
-    description: "Outings and activities help older adults stay engaged with the places and experiences they enjoy. Visits can be planned around a familiar walk, a favourite café, a community activity, or another comfortable local destination.",
-    reasons: ["Activities chosen around personal interests", "Encouragement to stay socially engaged", "Flexible local plans", "A familiar companion throughout the outing"],
-  },
-  {
-    description: "Shared-meal visits bring company and conversation to a part of the day that can otherwise feel quiet. A companion can help plan or prepare a simple meal, sit down to eat together, and make the experience feel more social and enjoyable.",
-    reasons: ["More enjoyable and social mealtimes", "Simple plans based on preferences", "Conversation without feeling rushed", "Respectful support in the home"],
-  },
-  {
-    description: "Regular check-ins provide consistent companionship on a schedule that works for the individual. Seeing a familiar face each week can create a reassuring routine, strengthen trust, and offer something meaningful to look forward to.",
-    reasons: ["A consistent and familiar companion", "Visits planned around existing routines", "Reliable connection throughout the week", "Clear communication with families"],
-  },
-  {
-    description: "Family support provides dependable companionship for a loved one when relatives cannot be present. Visits focus on meaningful engagement, shared activities, and thoughtful communication so families can feel informed and reassured.",
-    reasons: ["Dependable support from a trusted team", "Companionship tailored to your loved one", "Thoughtful updates and communication", "Greater reassurance for the whole family"],
-  },
-] as const;
-
-export default function CompanionshipDetailsPage({ googleBookingUrl, content, onEdit, onEditAudience, onEditCopy }: { googleBookingUrl?: string; content: CurrentServicesContent; onEdit?: (field: string, value: string) => void; onEditAudience?: (index: number, value: string) => void; onEditCopy?: (field: string, value: string) => void }) {
+export default function CompanionshipDetailsPage({ googleBookingUrl, content, onEdit, onEditAudience, onEditCopy, heroPhotoControl }: { googleBookingUrl?: string; content: CurrentServicesContent; onEdit?: (field: string, value: string) => void; onEditAudience?: (index: number, value: string) => void; onEditCopy?: (field: string, value: string) => void; heroPhotoControl?: ReactNode }) {
   const [selectedOption, setSelectedOption] = useState(1);
-  const selectedDetails = optionDetails[selectedOption - 1];
   function selectOptionFromKeyboard(event: KeyboardEvent<HTMLButtonElement>, current: number) {
     const next = event.key === "ArrowDown" || event.key === "ArrowRight" ? current % 6 + 1
       : event.key === "ArrowUp" || event.key === "ArrowLeft" ? (current + 4) % 6 + 1
@@ -56,7 +28,7 @@ export default function CompanionshipDetailsPage({ googleBookingUrl, content, on
     ? <EditableText value={content.copy[field]} label={field} onChange={(next) => onEditCopy(field, next)} {...options}/>
     : content.copy[field];
   return <div className={styles.page}>
-    <CompanionshipHero/>
+    <CompanionshipHero imageSrc={content.images.companionshipHero} photoControl={heroPhotoControl}/>
 
     <section id="options" className={styles.options} aria-label="Companionship options">
       <nav className={styles.servicesMenu} aria-label="Companionship options">
@@ -72,10 +44,10 @@ export default function CompanionshipDetailsPage({ googleBookingUrl, content, on
           <article id={`companionship-option-${selectedOption}`} role="tabpanel" aria-labelledby={`companionship-tab-${selectedOption}`}>
             <p className={styles.optionEyebrow}>{content.copy[`option${selectedOption}Title`]}</p>
             <p className={styles.optionIntro}>{copy(`option${selectedOption}Text`, { multiline: true })}</p>
-            <p className={styles.optionDescription}>{selectedDetails.description}</p>
+            <p className={styles.optionDescription}>{copy(`option${selectedOption}Description`, { multiline: true })}</p>
             <div className={styles.reasons}>
               <h3>Why choose us</h3>
-              <ul>{selectedDetails.reasons.map((item) => <li key={item}><span aria-hidden="true" />{item}</li>)}</ul>
+              <ul>{[1,2,3,4].map((number) => <li key={number}><span aria-hidden="true" />{copy(`option${selectedOption}Reason${number}`)}</li>)}</ul>
             </div>
             <div className={styles.optionActions}>
               <a className={styles.optionPrimary} href="#consultation">Book a Free Consultation</a>
