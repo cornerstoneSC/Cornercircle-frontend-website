@@ -48,10 +48,15 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     },
     signal: AbortSignal.timeout(10000),
   });
-  if (response.status === 401) throw new Error("Your admin session has expired. Sign in again.");
-  if (response.status === 503) throw new Error("The member service is temporarily unavailable.");
-  if (response.status === 404) throw new Error("The member could not be found, or the updated backend needs to be restarted.");
-  if (!response.ok) throw new Error(`Unable to load members (${response.status}).`);
+  if (!response.ok) {
+    const payload = await response.clone().json().catch(() => null) as { message?: string; detail?: string } | null;
+    const serverMessage = payload?.detail || payload?.message;
+    if (response.status === 401) throw new Error("Your admin session has expired. Sign in again.");
+    if (response.status === 503) throw new Error(serverMessage || "The member service is temporarily unavailable.");
+    if (response.status === 404) throw new Error(serverMessage || "The member could not be found.");
+    if (response.status === 409) throw new Error(serverMessage || "This action is not available for this membership.");
+    throw new Error(serverMessage || "The member request could not be completed.");
+  }
   return response.json();
 }
 

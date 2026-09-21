@@ -4,11 +4,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ChevronLeft,
   ChevronRight,
-  Clock3,
   Download,
   Mail,
   Search,
-  Users,
   X,
 } from "lucide-react";
 import PaymentBadge from "./PaymentBadge";
@@ -54,27 +52,6 @@ export default function MembersDashboard() {
   const closeButton = useRef<HTMLButtonElement>(null);
   const drawerOpener = useRef<HTMLElement | null>(null);
 
-  const paidMembers = useMemo(
-    () =>
-      data?.members.filter((member) => member.paymentStatus === "PAID") ?? [],
-    [data],
-  );
-  const expiringSoon = useMemo(
-    () =>
-      paidMembers.filter((member) => {
-        if (!member.membershipEndsOn) return false;
-        const days =
-          (new Date(`${member.membershipEndsOn}T12:00:00`).getTime() -
-            Date.now()) /
-          86_400_000;
-        return days >= 0 && days <= 60;
-      }).length,
-    [paidMembers],
-  );
-  const renewalReminders = useMemo(
-    () => paidMembers.filter((member) => member.renewalReminderSentAt).length,
-    [paidMembers],
-  );
   const filtered = useMemo(() => {
     const needle = query.trim().toLowerCase();
     const members = data?.members ?? [];
@@ -258,7 +235,7 @@ export default function MembersDashboard() {
               placeholder="Search members…"
             />
           </label>
-          <button onClick={exportCsv}>
+          <button onClick={exportCsv} disabled={!filtered.length}>
             <Download size={17} /> Export CSV
           </button>
         </div>
@@ -273,38 +250,14 @@ export default function MembersDashboard() {
           {error}
         </p>
       )}
-      <div className="members-stats">
-        <article>
-          <Users />
-          <div>
-            <span>Active members</span>
-            <strong>{paidMembers.length}</strong>
-          </div>
-        </article>
-        <article>
-          <Clock3 />
-          <div>
-            <span>Expiring soon</span>
-            <strong>{expiringSoon}</strong>
-          </div>
-        </article>
-        <article>
-          <Mail />
-          <div>
-            <span>Renewal reminders</span>
-            <strong>{renewalReminders}</strong>
-          </div>
-        </article>
-      </div>
       <div className="members-table-wrap">
         <table>
           <thead>
             <tr>
               <th>Member</th>
-              <th>Membership</th>
+              <th>Status</th>
               <th>Joined</th>
               <th>Ends</th>
-              <th>Reminder</th>
               <th>City</th>
               <th>
                 <span className="sr-only">Open details</span>
@@ -313,7 +266,17 @@ export default function MembersDashboard() {
           </thead>
           <tbody>
             {visible.map((member) => (
-              <tr key={member.applicationId}>
+              <tr
+                key={member.applicationId}
+                tabIndex={0}
+                onClick={() => choose(member)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    choose(member);
+                  }
+                }}
+              >
                 <td data-label="Member">
                   <span className="member-avatar">
                     {initials(member.fullName)}
@@ -323,44 +286,23 @@ export default function MembersDashboard() {
                     <small>{member.email}</small>
                   </span>
                 </td>
-                <td data-label="Membership">
+                <td data-label="Status">
                   <PaymentBadge status={member.paymentStatus} />
-                  <small>Annual membership</small>
                 </td>
                 <td data-label="Joined">
                   {formatDate(member.membershipStartsOn ?? member.joinedAt)}
                 </td>
                 <td data-label="Ends">{formatDate(member.membershipEndsOn)}</td>
-                <td data-label="Reminder">
-                  {member.renewalReminderSentAt ? (
-                    `Prepared ${formatDate(member.renewalReminderSentAt)}`
-                  ) : member.paymentStatus === "PAID" && member.membershipEndsOn ? (
-                    <button
-                      className="member-link"
-                      onClick={() => void prepareReminder(member)}
-                    >
-                      Prepare
-                    </button>
-                  ) : (
-                    "—"
-                  )}
-                </td>
                 <td data-label="City">{member.city}</td>
                 <td data-label="Details">
-                  <button
-                    className="member-open"
-                    onClick={() => choose(member)}
-                    aria-label={`View ${member.fullName} details`}
-                  >
-                    <ChevronRight />
-                  </button>
+                  <ChevronRight className="member-open" aria-hidden="true" />
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
         {visible.length === 0 && (
-          <p className="members-empty">No paid members match your search.</p>
+          <p className="members-empty">No members match your search.</p>
         )}
         {filtered.length > 0 && (
           <footer className="members-pagination">
@@ -483,7 +425,7 @@ export default function MembersDashboard() {
               )}
               {selected.paymentStatus === "PAID" && selected.membershipEndsOn && !selected.stripeSubscriptionId && (
                 <button onClick={() => void prepareReminder(selected)}>
-                  <Mail size={16} /> Prepare renewal reminder
+                  <Mail size={16} /> Send renewal reminder
                 </button>
               )}
               <a href={`mailto:${selected.email}`}>
