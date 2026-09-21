@@ -396,20 +396,6 @@ export default function HomepageEditor({
         aria-busy={saving}
         className="min-h-0 flex-1 overflow-y-auto rounded-lg border border-stone-200 [&_[contenteditable=true]]:outline [&_[contenteditable=true]]:outline-1 [&_[contenteditable=true]]:outline-dashed [&_[contenteditable=true]]:outline-[#b69a64]/45 [&_[contenteditable=true]]:outline-offset-4"
       >
-        {founderOnly && (
-          <div className="border-b border-stone-200 bg-[#fcfaf7] px-6 py-5">
-            <p className="text-xs font-semibold uppercase tracking-[.18em] text-[#a18452]">
-              Website content
-            </p>
-            <h1 className="mt-1 font-serif text-3xl text-[#302a27]">
-              Founder Page
-            </h1>
-            <p className="mt-1 text-sm text-stone-500">
-              Click any text to edit it. Edit the photo directly on the
-              portrait.
-            </p>
-          </div>
-        )}
         {!founderOnly && (
           <>
             <div className="relative">
