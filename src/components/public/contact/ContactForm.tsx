@@ -94,7 +94,7 @@ export default function ContactForm({ email, enabled = true, openingSoonLabel, o
       </label>
 
       <button type="submit" disabled={!available}>
-        {available ? "Send enquiry" : "Enquiries opening soon"}
+        {available ? "Open email draft" : "Enquiries opening soon"}
       </button>
 
       <p className={styles.formNotice} role="status">

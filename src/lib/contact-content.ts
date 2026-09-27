@@ -7,6 +7,7 @@ export type ContactContent = {
   imageAlt: string;
   imageNote: string;
   formLabel: string;
+  enquiriesEnabled: boolean;
   openingSoonLabel: string;
   openingSoonTitle: string;
   openingSoonDescription: string;
@@ -21,6 +22,7 @@ export const defaultContactContent: ContactContent = {
   imageAlt: "Two women enjoying tea and conversation together",
   imageNote: "Connection\nstarts with hello.",
   formLabel: "Write to us",
+  enquiriesEnabled: false,
   openingSoonLabel: "Online enquiries are opening soon.",
   openingSoonTitle: "We would still love to hear from you.",
   openingSoonDescription: "For now, send us an email and the Cornerstone Social Circle team will respond as soon as possible.",

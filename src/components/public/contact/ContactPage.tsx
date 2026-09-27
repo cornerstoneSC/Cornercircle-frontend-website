@@ -42,6 +42,7 @@ const shortcuts = [
 ] as const;
 
 export default function ContactPage({ enquiryEmail, content = defaultContactContent, servicesEnabled = true, onEdit, photoControl }: { enquiryEmail?: string; content?: ContactContent; servicesEnabled?: boolean; onEdit?: (path: string, value: string) => void; photoControl?: ReactNode }) {
+  const enquiriesAvailable = content.enquiriesEnabled && Boolean(enquiryEmail && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(enquiryEmail));
   const editable = (key: keyof ContactContent, className?: string) => ({
     className,
     contentEditable: !!onEdit,
@@ -71,12 +72,16 @@ export default function ContactPage({ enquiryEmail, content = defaultContactCont
           <div className={styles.formKicker}><span {...editable("formLabel")}>{content.formLabel}</span><i /></div>
           <div className={styles.formCard}><ContactForm
             email={enquiryEmail}
+            enabled={enquiriesAvailable}
             openingSoonLabel={content.openingSoonLabel}
             openingSoonTitle={content.openingSoonTitle}
             openingSoonDescription={content.openingSoonDescription}
             onEdit={onEdit}
           /></div>
-          <p className={styles.responseNote}><strong>01</strong><span>Send your note</span><i /><strong>02</strong><span>We&apos;ll be in touch</span></p>
+          <p className={styles.responseNote}>
+            <strong>01</strong><span>{enquiriesAvailable ? "Open your email draft" : "Email us directly"}</span><i />
+            <strong>02</strong><span>We&apos;ll be in touch</span>
+          </p>
         </div>
       </div>
 
