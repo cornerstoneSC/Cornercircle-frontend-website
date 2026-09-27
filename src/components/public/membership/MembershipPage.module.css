@@ -17,7 +17,6 @@
 .page[data-editor-mode] {
   width: 100%;
   margin-inline: auto;
-  zoom: 0.9;
 }
 
 .folio {
@@ -623,7 +622,7 @@
 
 /* The admin sidebar makes the preview narrower than the browser viewport.
    Respond to that real available width so the folio is never clipped. */
-@container (max-width: 1280px) {
+@container (max-width: 1440px) {
   .page[data-editor-mode] {
     padding: 1rem;
     overflow: visible;
