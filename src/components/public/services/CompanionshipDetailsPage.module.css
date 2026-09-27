@@ -296,3 +296,84 @@
     font-size: 25px;
   }
 }
+
+/* Warmer brand balance: reserve green for small supporting details rather
+   than large surfaces and primary actions. */
+.page {
+  --walnut: #372824;
+  --rose: #ad5842;
+  --warm-gold: #a97824;
+  --warm-cream: #f6f0e7;
+  color: #403934;
+}
+
+.page h1,
+.page h2,
+.page h3 {
+  color: var(--walnut);
+}
+
+.goldButton,
+.optionPrimary,
+.premiumPricing a {
+  background: var(--warm-gold);
+}
+
+.goldButton:hover,
+.optionPrimary:hover,
+.premiumPricing a:hover {
+  background: #8f671d;
+}
+
+.textLink,
+.optionIntro,
+.audienceCopy blockquote {
+  color: #68443b;
+}
+
+.servicesMenu h2 {
+  background: var(--walnut);
+}
+
+.servicesMenu .activeService {
+  border-left-color: var(--rose);
+  background: #f3e8df;
+  color: var(--walnut);
+}
+
+.audiencePricing {
+  background:
+    radial-gradient(circle at 38% 45%, rgba(255,255,255,.72), transparent 46%),
+    linear-gradient(110deg, #f2e8dc, #faf7f1);
+}
+
+.audienceCopy li svg {
+  background: var(--warm-gold);
+}
+
+.premiumPricing a {
+  color: #fff;
+}
+
+.audienceBotanical {
+  color: #e3d4c2;
+}
+
+.audienceBotanical path:first-child {
+  stroke: #c6aa86;
+}
+
+.boundary {
+  background: var(--warm-cream);
+}
+
+.boundary > svg {
+  color: var(--warm-gold);
+  background: #fffaf3;
+}
+
+.process article b {
+  color: var(--walnut);
+  border-color: var(--warm-gold);
+  background: #fffaf3;
+}
