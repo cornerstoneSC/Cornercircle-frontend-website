@@ -10,7 +10,9 @@ async function check(response: Response) {
 }
 export async function getContactContent(): Promise<ContactContent> {
   const response = await fetch(`${api}/api/v1/contact-page`, { cache: "no-store", signal: AbortSignal.timeout(10000) });
-  await check(response); return response.status === 204 ? structuredClone(defaultContactContent) : response.json();
+  await check(response);
+  if (response.status === 204) return structuredClone(defaultContactContent);
+  return { ...defaultContactContent, ...(await response.json()) };
 }
 export async function saveContactContent(content: ContactContent): Promise<ContactContent> {
   const response = await fetch("/api/admin/contact-page", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(content) });

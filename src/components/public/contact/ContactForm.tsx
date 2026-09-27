@@ -6,22 +6,28 @@ import styles from "./ContactPage.module.css";
 type ContactFormProps = {
   email?: string;
   enabled?: boolean;
+  openingSoonLabel: string;
+  openingSoonTitle: string;
+  openingSoonDescription: string;
+  onEdit?: (field: "openingSoonLabel" | "openingSoonTitle" | "openingSoonDescription", value: string) => void;
 };
 
-export default function ContactForm({ email, enabled = true }: ContactFormProps) {
+export default function ContactForm({ email, enabled = true, openingSoonLabel, openingSoonTitle, openingSoonDescription, onEdit }: ContactFormProps) {
   const [notice, setNotice] = useState("");
   const available = enabled && Boolean(email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+  const editable = (field: "openingSoonLabel" | "openingSoonTitle" | "openingSoonDescription") => ({
+    contentEditable: Boolean(onEdit),
+    suppressContentEditableWarning: true,
+    onBlur: onEdit ? (event: React.FocusEvent<HTMLElement>) => onEdit(field, event.currentTarget.innerText) : undefined,
+  });
 
   if (!available) {
     return (
       <section className={styles.form} aria-labelledby="contact-opening-soon">
         <div>
-          <p className={styles.formNotice}>Online enquiries are opening soon.</p>
-          <h2 id="contact-opening-soon">We would still love to hear from you.</h2>
-          <p>
-            For now, send us an email and the Cornerstone Social Circle team will
-            respond as soon as possible.
-          </p>
+          <p className={styles.formNotice} {...editable("openingSoonLabel")}>{openingSoonLabel}</p>
+          <h2 id="contact-opening-soon" {...editable("openingSoonTitle")}>{openingSoonTitle}</h2>
+          <p {...editable("openingSoonDescription")}>{openingSoonDescription}</p>
           {email && (
             <p className={styles.directEmail}>
               <a href={`mailto:${email}`}>{email}</a>

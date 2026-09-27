@@ -69,7 +69,13 @@ export default function ContactPage({ enquiryEmail, content = defaultContactCont
         </div>
         <div className={styles.formColumn}>
           <div className={styles.formKicker}><span {...editable("formLabel")}>{content.formLabel}</span><i /></div>
-          <div className={styles.formCard}><ContactForm email={enquiryEmail} /></div>
+          <div className={styles.formCard}><ContactForm
+            email={enquiryEmail}
+            openingSoonLabel={content.openingSoonLabel}
+            openingSoonTitle={content.openingSoonTitle}
+            openingSoonDescription={content.openingSoonDescription}
+            onEdit={onEdit}
+          /></div>
           <p className={styles.responseNote}><strong>01</strong><span>Send your note</span><i /><strong>02</strong><span>We&apos;ll be in touch</span></p>
         </div>
       </div>
