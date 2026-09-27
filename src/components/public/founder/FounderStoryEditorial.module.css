@@ -240,11 +240,21 @@
     gap: 48px;
     margin-top: 54px;
   }
-  .vision h2 {
-    margin-top: 28px;
-    font-size: clamp(30px, 8vw, 38px);
-    line-height: 1.05;
+  .editorialSolo .visionIntro,
+  .editorialSolo .communityBody p {
+    text-align: left;
+    text-align-last: auto;
   }
+  .visionIntro,
+  .communityBody p {
+    line-height: 1.58;
+  }
+  .vision h2 {
+    margin: 28px 0 32px;
+    font-size: clamp(30px, 8vw, 38px);
+    line-height: 1.08;
+  }
+  .communityBody { margin-top: 0; }
   .pillars {
     padding-left: 0;
     border-left: 0;
