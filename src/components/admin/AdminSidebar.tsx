@@ -13,7 +13,7 @@ import {
   Users,
   Mail,
   MessageSquareText,
-  ChevronDown,
+  LogOut,
   ScanLine,
   ShieldCheck,
   CalendarCheck,
@@ -114,30 +114,27 @@ export default function AdminSidebar() {
         </nav>
       </div>
 
-      {/* User */}
-      <div className="border-t border-[var(--event-border)] p-4">
+      {/* Session */}
+      <div className="border-t border-[var(--event-border)] bg-[var(--event-surface)] p-4">
+        <div className="mb-3 flex items-center gap-3 px-1">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--event-accent-soft)] font-semibold text-[var(--event-accent-strong)]">
+            CS
+          </div>
+          <div className="min-w-0">
+            <p className="truncate text-sm font-semibold text-[var(--event-heading)]">
+              Admin workspace
+            </p>
+            <p className="text-xs text-[var(--event-muted)]">Secure session</p>
+          </div>
+        </div>
         <form action="/api/admin/logout" method="post">
           <button
             type="submit"
-            className="flex w-full items-center justify-between rounded-[var(--event-radius-md)] border border-[var(--event-border)] bg-[var(--event-surface)] px-4 py-3 text-left shadow-sm"
-            title="Sign out"
+            className="flex min-h-11 w-full items-center justify-center gap-2 rounded-[var(--event-radius-sm)] border border-[var(--event-border)] bg-[var(--event-canvas)] px-4 py-2.5 text-sm font-semibold text-[var(--event-heading)] transition hover:border-[var(--event-accent-strong)] hover:bg-[var(--event-accent-soft)] hover:text-[var(--event-accent-strong)]"
+            aria-label="Log out of the admin workspace"
           >
-            <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[var(--event-accent-soft)] text-[var(--event-accent-strong)] font-semibold">
-                  CS
-              </div>
-
-              <div>
-                <p className="text-sm font-semibold text-[var(--event-heading)]">
-                  Admin workspace
-                </p>
-                <p className="text-xs text-[var(--event-muted)]">
-                  Secure session
-                </p>
-              </div>
-            </div>
-
-            <ChevronDown className="h-4 w-4 text-[var(--event-muted)]" />
+            <LogOut className="h-4 w-4" aria-hidden="true" />
+            Log out
           </button>
         </form>
       </div>
