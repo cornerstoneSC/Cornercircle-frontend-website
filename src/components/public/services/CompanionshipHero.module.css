@@ -63,7 +63,10 @@
   }
 
   .hero .title {
-    gap: 0.16em;
-    font-size: clamp(30px, 9vw, 42px);
+    flex-direction: column;
+    gap: 0;
+    padding-inline: 18px;
+    font-size: clamp(29px, 9vw, 38px);
+    line-height: .94;
   }
 }

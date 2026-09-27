@@ -3,6 +3,7 @@
 import { useState, type KeyboardEvent, type ReactNode } from "react";
 import { Check, ShieldCheck } from "lucide-react";
 import styles from "./CompanionshipDetailsPage.module.css";
+import optionStyles from "./ServiceOptions.module.css";
 import ConsultationSection from "./ConsultationSection";
 import CompanionshipHero from "./CompanionshipHero";
 import type { CurrentServicesContent } from "@/lib/services-content";
@@ -30,27 +31,27 @@ export default function CompanionshipDetailsPage({ googleBookingUrl, content, on
   return <div className={styles.page}>
     <CompanionshipHero imageSrc={content.images.companionshipHero} photoControl={heroPhotoControl}/>
 
-    <section id="options" className={styles.options} aria-label="Companionship options">
-      <nav className={styles.servicesMenu} aria-label="Companionship options">
+    <section id="options" className={optionStyles.options} aria-label="Companionship options">
+      <nav className={optionStyles.servicesMenu} aria-label="Companionship options">
         <h2>Companionship options</h2>
-        <ul role="tablist" aria-orientation="vertical">{[1, 2, 3, 4, 5, 6].map((number) => <li key={number} role="presentation">
-          <button type="button" role="tab" id={`companionship-tab-${number}`} aria-controls={`companionship-option-${number}`} aria-selected={selectedOption === number} tabIndex={selectedOption === number ? 0 : -1} className={selectedOption === number ? styles.activeService : undefined} onClick={() => setSelectedOption(number)} onKeyDown={(event) => selectOptionFromKeyboard(event, number)}>
+        <ul role="tablist">{[1, 2, 3, 4, 5, 6].map((number) => <li key={number} role="presentation">
+          <button type="button" role="tab" id={`companionship-tab-${number}`} aria-controls={`companionship-option-${number}`} aria-selected={selectedOption === number} tabIndex={selectedOption === number ? 0 : -1} className={selectedOption === number ? optionStyles.activeService : undefined} onClick={() => setSelectedOption(number)} onKeyDown={(event) => selectOptionFromKeyboard(event, number)}>
             <span>{content.copy[`option${number}Title`]}</span><span aria-hidden="true">›</span>
           </button>
         </li>)}</ul>
       </nav>
-      <div className={styles.optionsContent}>
-        <div className={styles.optionList}>
+      <div className={optionStyles.optionsContent}>
+        <div className={optionStyles.optionList}>
           <article id={`companionship-option-${selectedOption}`} role="tabpanel" aria-labelledby={`companionship-tab-${selectedOption}`}>
-            <p className={styles.optionEyebrow}>{content.copy[`option${selectedOption}Title`]}</p>
-            <p className={styles.optionIntro}>{copy(`option${selectedOption}Text`, { multiline: true })}</p>
-            <p className={styles.optionDescription}>{copy(`option${selectedOption}Description`, { multiline: true })}</p>
-            <div className={styles.reasons}>
+            <p className={optionStyles.optionEyebrow}>{content.copy[`option${selectedOption}Title`]}</p>
+            <p className={optionStyles.optionIntro}>{copy(`option${selectedOption}Text`, { multiline: true })}</p>
+            <p className={optionStyles.optionDescription}>{copy(`option${selectedOption}Description`, { multiline: true })}</p>
+            <div className={optionStyles.reasons}>
               <h3>Why choose us</h3>
               <ul>{[1,2,3,4].map((number) => <li key={number}><span aria-hidden="true" />{copy(`option${selectedOption}Reason${number}`)}</li>)}</ul>
             </div>
-            <div className={styles.optionActions}>
-              <a className={styles.optionPrimary} href="#consultation">Book a Free Consultation</a>
+            <div className={optionStyles.optionActions}>
+              <a className={optionStyles.optionPrimary} href="#consultation">Book a Free Consultation</a>
             </div>
           </article>
         </div>

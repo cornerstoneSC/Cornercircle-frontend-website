@@ -1,0 +1,300 @@
+.options {
+  display: grid;
+  grid-template-columns: minmax(200px, 240px) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(36px, 5vw, 72px);
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 70px 30px 64px;
+  color: #403934;
+  text-align: left;
+}
+
+.servicesMenu {
+  position: sticky;
+  top: 112px;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #d8d4c8;
+  border-radius: 8px;
+  background: #fffdf8;
+  box-shadow: 0 10px 30px rgb(55 40 36 / 6%);
+}
+
+.servicesMenu h2 {
+  margin: 0;
+  padding: 13px 18px;
+  background: #372824;
+  color: #fff;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+}
+
+.servicesMenu ul {
+  margin: 0;
+  padding: 0 13px;
+  list-style: none;
+}
+
+.servicesMenu li + li {
+  border-top: 1px solid #ddd7ce;
+}
+
+.servicesMenu button {
+  display: flex;
+  width: 100%;
+  min-height: 52px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 9px;
+  border: 0;
+  background: transparent;
+  color: #403b37;
+  font: inherit;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.servicesMenu button:hover {
+  color: #68443b;
+  background: #f8f2eb;
+}
+
+.servicesMenu button:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: 3px solid #a97824;
+  outline-offset: -3px;
+}
+
+.servicesMenu button > span:last-child {
+  flex: none;
+  font-size: 18px;
+}
+
+.servicesMenu .activeService {
+  margin-inline: -13px;
+  width: calc(100% + 26px);
+  padding-inline: 18px 22px;
+  border-left: 4px solid #ad5842;
+  background: #f3e8df;
+  color: #372824;
+  font-weight: 750;
+}
+
+.optionsContent,
+.optionList,
+.optionList article {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.optionList article {
+  padding: 36px 40px 34px;
+  border: 1px solid #d8d4c8;
+  border-radius: 8px;
+  background: #fffdf8;
+  box-shadow: 0 12px 34px rgb(55 40 36 / 5%);
+  scroll-margin-top: 110px;
+}
+
+.optionEyebrow {
+  margin: 0 0 17px;
+  color: #8a6424;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .22em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.optionIntro {
+  max-width: 710px;
+  margin: 0 0 14px;
+  color: #68443b;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.optionDescription {
+  max-width: 760px;
+  margin: 0 0 27px;
+  color: #4f5e56;
+  font-size: 16px;
+  line-height: 1.72;
+}
+
+.reasons {
+  padding: 26px 0 27px;
+  border-top: 1px solid rgb(178 138 69 / 55%);
+}
+
+.reasons h3 {
+  margin: 0 0 19px;
+  color: #372824;
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: 27px;
+  font-weight: 600;
+  line-height: 1.05;
+}
+
+.reasons ul {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.reasons li {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  gap: 16px;
+  color: #4f5e56;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.reasons li > span:first-child {
+  width: 16px;
+  flex: none;
+  margin-top: 12px;
+  border-top: 2px solid #b28a45;
+}
+
+.reasons li > [contenteditable="plaintext-only"] {
+  width: auto;
+  min-width: 0;
+  flex: 1;
+}
+
+.optionActions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.optionPrimary {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 25px;
+  border-radius: 5px;
+  background: #a97824;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 750;
+  text-align: center;
+}
+
+.optionPrimary:hover {
+  background: #8f671d;
+}
+
+@media (max-width: 700px) {
+  .options {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    width: 100%;
+    max-width: 100%;
+    padding: 16px 16px 48px;
+  }
+
+  .servicesMenu {
+    position: relative;
+    top: auto;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .servicesMenu h2 {
+    padding: 14px 18px;
+    font-size: 22px;
+  }
+
+  .servicesMenu ul {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 12px 12px 13px;
+    scroll-padding-inline: 12px;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .servicesMenu li {
+    flex: 0 0 auto;
+    border: 0;
+    scroll-snap-align: start;
+  }
+
+  .servicesMenu li + li {
+    border: 0;
+  }
+
+  .servicesMenu button {
+    width: auto;
+    min-width: max-content;
+    min-height: 48px;
+    padding: 10px 16px;
+    border: 1px solid #d8d4c8;
+    border-radius: 999px;
+    background: #fffdf8;
+  }
+
+  .servicesMenu .activeService {
+    margin: 0;
+    width: auto;
+    padding: 10px 16px;
+    border: 1px solid #ad5842;
+    background: #f3e8df;
+  }
+
+  .optionList article {
+    width: 100%;
+    padding: 26px 20px 24px;
+    overflow: visible;
+  }
+
+  .optionIntro,
+  .optionDescription,
+  .reasons li {
+    overflow-wrap: anywhere;
+  }
+
+  .optionIntro {
+    font-size: 16px;
+  }
+
+  .optionDescription,
+  .reasons li {
+    font-size: 15px;
+  }
+
+  .reasons h3 {
+    font-size: 25px;
+  }
+
+  .optionActions,
+  .optionPrimary {
+    width: 100%;
+  }
+
+  .optionPrimary {
+    max-width: 100%;
+    padding-inline: 16px;
+    white-space: normal;
+  }
+}

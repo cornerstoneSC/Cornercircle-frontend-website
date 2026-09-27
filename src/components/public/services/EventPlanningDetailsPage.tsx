@@ -5,7 +5,7 @@ import ConsultationSection from "./ConsultationSection";
 import EventPlanningHero from "./EventPlanningHero";
 import type { CurrentServicesContent } from "@/lib/services-content";
 import styles from "./CombinedServicesPage.module.css";
-import optionStyles from "./CompanionshipDetailsPage.module.css";
+import optionStyles from "./ServiceOptions.module.css";
 import EditableText from "./EditableText";
 
 export default function EventPlanningDetailsPage({ googleBookingUrl, content, onEditCopy, heroPhotoControl }: { googleBookingUrl?: string; content: CurrentServicesContent; onEdit?: (field: string, value: string) => void; onEditCopy?: (field: string, value: string) => void; heroPhotoControl?: ReactNode }) {
@@ -27,10 +27,10 @@ export default function EventPlanningDetailsPage({ googleBookingUrl, content, on
   return <div className={styles.page}>
     <EventPlanningHero imageSrc={content.images.eventPlanningHero} photoControl={heroPhotoControl}/>
 
-    <section id="experiences-heading" className={`${optionStyles.page} ${optionStyles.options}`} aria-label="Event planning options">
+    <section id="experiences-heading" className={optionStyles.options} aria-label="Event planning options">
       <nav className={optionStyles.servicesMenu} aria-label="Event planning options">
         <h2>Event planning options</h2>
-        <ul role="tablist" aria-orientation="vertical">{[1, 2, 3, 4].map((number) => <li key={number} role="presentation">
+        <ul role="tablist">{[1, 2, 3, 4].map((number) => <li key={number} role="presentation">
           <button type="button" role="tab" id={`event-planning-tab-${number}`} aria-controls={`event-planning-option-${number}`} aria-selected={selectedOption === number} tabIndex={selectedOption === number ? 0 : -1} className={selectedOption === number ? optionStyles.activeService : undefined} onClick={() => setSelectedOption(number)} onKeyDown={(event) => selectOptionFromKeyboard(event, number)}>
             <span>{content.copy[`experience${number}Title`]}</span><span aria-hidden="true">›</span>
           </button>

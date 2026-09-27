@@ -307,3 +307,50 @@
     font-size: 17px;
   }
 }
+
+/* Final small-screen refinements shared by the service detail pages. */
+@media(max-width:700px) {
+  .consultation {
+    margin-inline: 8px;
+    padding: 26px 16px;
+  }
+
+  .consultationIntro h2 {
+    font-size: clamp(39px, 12vw, 46px);
+  }
+
+  .consultationForm {
+    padding-inline: 15px;
+  }
+
+  .formStep {
+    padding-block: 28px;
+  }
+
+  .process:has(.eventFlow) {
+    margin: 8px 8px 38px;
+    padding: 38px 16px 30px;
+  }
+
+  .process:has(.eventFlow) h2 {
+    font-size: clamp(38px, 11vw, 48px);
+  }
+
+  .eventFlow {
+    gap: 28px;
+    margin-top: 38px;
+  }
+
+  .eventFlow article {
+    min-height: 0;
+    padding: 32px 18px 20px;
+  }
+
+  .eventFlow h3 {
+    font-size: 24px;
+  }
+
+  .eventFlow p {
+    font-size: 14px;
+  }
+}
