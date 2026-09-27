@@ -12,7 +12,7 @@
   inset: 56px 0 0;
   background:
     linear-gradient(rgba(224, 215, 202, 0.56), rgba(224, 215, 202, 0.56)),
-    url("/images/home/founder-background-ivory.png") center / cover no-repeat;
+    url("/images/home/founder-background-ivory-no-trees.png") center / cover no-repeat;
   content: "";
 }
 
@@ -112,7 +112,7 @@
     inset: 130px 0 0;
     background:
       linear-gradient(rgba(224, 215, 202, 0.64), rgba(224, 215, 202, 0.64)),
-      url("/images/home/founder-background-ivory.png") center / cover no-repeat;
+      url("/images/home/founder-background-ivory-no-trees.png") center / cover no-repeat;
   }
   .inner { gap: 46px; }
   .eyebrow { margin-bottom: 26px; font-size: 40px; }
