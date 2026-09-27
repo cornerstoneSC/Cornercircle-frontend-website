@@ -24,6 +24,9 @@
   position: relative;
   display: grid;
   grid-template-columns: minmax(26rem, 0.95fr) minmax(40rem, 1.2fr);
+  /* The tabs extend 8.55rem from the right edge. Offset the folio by half
+     that amount so the full card-and-tabs composition is centered. */
+  left: -4.275rem;
   width: min(100%, 94rem);
   min-height: 51rem;
   margin: 0 auto;
@@ -482,9 +485,6 @@
 }
 
 @media (max-width: 1240px) {
-  .page {
-    padding-right: 8.8rem;
-  }
   .folio {
     grid-template-columns: minmax(22rem, 0.8fr) minmax(35rem, 1.2fr);
   }
@@ -497,12 +497,14 @@
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .page {
     padding: 1rem;
   }
   .folio {
     display: block;
+    left: 0;
+    width: 100%;
     min-height: 0;
     zoom: 1;
   }
