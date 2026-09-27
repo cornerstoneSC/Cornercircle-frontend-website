@@ -2,3 +2,19 @@
 .featuredDateBadge{position:absolute;top:26px;left:26px;display:grid;min-width:84px;padding:15px 12px 13px;text-align:center;color:#211d3a;border-top:4px solid #b88935;background:#fff;box-shadow:0 6px 18px #33291e30}.featuredDateBadge b{font-family:var(--font-cormorant),Georgia,serif;font-size:36px;font-weight:500;line-height:.9}.featuredDateBadge span{margin-top:8px;font-size:10px;font-weight:700;letter-spacing:.2em}.kicker b,.mobileMeta,.featuredButton b{display:none}
 @media(max-width:900px){.featured{grid-template-columns:1fr;min-height:0}.featuredImage{aspect-ratio:16/9}.featuredCopy{padding:42px}.grid{gap:20px}.cardCopy{padding:20px}.invitation{grid-template-columns:100px 1fr;padding-inline:35px}}
 @media(max-width:700px){.section{padding:30px 18px 58px}.featured{background:#fffdfa;box-shadow:none}.featuredImage{aspect-ratio:1.46}.featuredDateBadge{position:absolute;top:20px;left:20px;display:grid;min-width:72px;padding:13px 10px 12px;text-align:center;color:#211d3a;border-top:4px solid #b88935;background:#fff;box-shadow:0 5px 14px #33291e26}.featuredDateBadge b{font-size:30px;font-weight:400;line-height:1}.featuredDateBadge span{margin-top:7px;font-size:10px;font-weight:700;letter-spacing:.18em}.featuredCopy{padding:31px 27px 34px;color:var(--event-text);background:#fffdfa}.kicker span,.meta,.capacity,.featuredButton span{display:none}.kicker b{display:inline;font-size:10px;font-weight:600}.featuredCopy h2{max-width:none;margin:14px 0 0;font-family:inherit;font-size:31px;font-weight:500;line-height:1.25;letter-spacing:-.025em;color:var(--event-heading)}.description{order:3;margin:20px 0 0;font-family:inherit;font-size:15px;line-height:1.65;color:var(--event-text)}.mobileMeta{order:4;display:grid;gap:13px;margin-top:25px;font-size:14px;line-height:1.35;color:var(--event-text)}.mobileMeta p{display:flex;align-items:flex-start;gap:12px;margin:0}.mobileMeta svg{width:16px;height:16px;flex:none;margin-top:1px;color:var(--event-accent);stroke-width:1.7}.featuredButton{order:5;margin-top:28px;padding:14px 24px;color:#fff;background:var(--event-heading);border-color:var(--event-heading);font-size:12px;letter-spacing:0;text-transform:none}.featuredButton b{display:inline;font-weight:500}.featuredButton:hover{color:#fff;background:#332b4b}.grid{grid-template-columns:1fr}.heading{margin-top:46px}.cardImage{aspect-ratio:1.6}.invitation{grid-template-columns:1fr;padding:36px 22px}.botanical{display:none}.invitationActions{flex-direction:column}.invitationActions a{width:100%;min-width:0}}
+
+/* Center the closing invitation as one composition. The decorative glyph's
+   reserved column previously pushed the headline and actions off-center. */
+.invitation {
+  grid-template-columns: minmax(0, 1fr);
+  padding-block: 34px;
+}
+
+.invitation > div {
+  width: min(100%, 760px);
+  margin-inline: auto;
+}
+
+.botanical {
+  display: none;
+}

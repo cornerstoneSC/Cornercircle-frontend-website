@@ -27,7 +27,7 @@ export default function EventPlanningDetailsPage({ googleBookingUrl, content, on
   return <div className={styles.page}>
     <EventPlanningHero imageSrc={content.images.eventPlanningHero} photoControl={heroPhotoControl}/>
 
-    <section id="experiences-heading" className={optionStyles.options} aria-label="Event planning options">
+    <section id="experiences-heading" className={`${optionStyles.page} ${optionStyles.options}`} aria-label="Event planning options">
       <nav className={optionStyles.servicesMenu} aria-label="Event planning options">
         <h2>Event planning options</h2>
         <ul role="tablist" aria-orientation="vertical">{[1, 2, 3, 4].map((number) => <li key={number} role="presentation">
