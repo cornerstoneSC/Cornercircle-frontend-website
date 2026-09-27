@@ -93,7 +93,7 @@ export default function AdminSidebar() {
       </div>
 
       {/* Nav */}
-      <div className="flex-1 overflow-y-auto px-4 py-6">
+      <div className="flex-1 overflow-y-auto px-4 py-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <nav className="space-y-7">
           {navGroups.filter((group) => owner || group.label !== "Security").map((group) => (
             <section key={group.label}>
