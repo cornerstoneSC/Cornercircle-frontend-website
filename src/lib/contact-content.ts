@@ -22,7 +22,7 @@ export const defaultContactContent: ContactContent = {
   imageAlt: "Two women enjoying tea and conversation together",
   imageNote: "Connection\nstarts with hello.",
   formLabel: "Write to us",
-  enquiriesEnabled: false,
+  enquiriesEnabled: true,
   openingSoonLabel: "Online enquiries are opening soon.",
   openingSoonTitle: "We would still love to hear from you.",
   openingSoonDescription: "For now, send us an email and the Cornerstone Social Circle team will respond as soon as possible.",
