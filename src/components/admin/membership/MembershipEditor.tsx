@@ -112,7 +112,7 @@ export default function MembershipEditor() {
   }
 
   return (
-    <div className="relative flex h-full min-h-0 flex-col overflow-hidden bg-[#f7f3ec]">
+    <div className="relative flex min-h-full flex-col bg-[#f7f3ec]">
       {error && (
         <p
           role="alert"
@@ -166,7 +166,7 @@ export default function MembershipEditor() {
       <section
         aria-label="Editable Membership page preview"
         inert={!ready || saving}
-        className="flex min-h-0 flex-1 justify-center overflow-x-hidden overflow-y-auto bg-[#f7f3ec] [container-type:inline-size]"
+        className="flex justify-center overflow-x-hidden bg-[#f7f3ec] [container-type:inline-size]"
       >
         <MembershipPage content={content} onEdit={edit} editorMode />
       </section>
