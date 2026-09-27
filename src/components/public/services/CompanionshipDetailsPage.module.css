@@ -377,3 +377,54 @@
   border-color: var(--warm-gold);
   background: #fffaf3;
 }
+
+/* Keep the options navigation compact and ensure its heading remains visible
+   against the dark header after the warmer palette overrides above. */
+.options {
+  grid-template-columns: minmax(200px, 240px) minmax(0, 1fr);
+  gap: clamp(36px, 5vw, 72px);
+}
+
+.page .servicesMenu h2 {
+  padding: 13px 18px;
+  color: #fff;
+  font-size: 21px;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+}
+
+.servicesMenu ul {
+  padding-inline: 13px;
+}
+
+.servicesMenu button {
+  min-height: 52px;
+  padding-inline: 9px;
+  font-size: 14px;
+}
+
+.servicesMenu .activeService {
+  margin-inline: -13px;
+  padding-inline: 18px 22px;
+}
+
+@media(max-width:700px) {
+  .options {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .page .servicesMenu h2 {
+    padding: 14px 18px;
+    font-size: 22px;
+  }
+
+  .servicesMenu ul {
+    padding: 12px 0 8px;
+  }
+
+  .servicesMenu .activeService {
+    margin: 0;
+    padding: 10px 16px;
+  }
+}
