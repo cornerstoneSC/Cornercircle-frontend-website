@@ -27,9 +27,7 @@ export default function EventsHero() {
 
         <div className={styles.stationery} aria-hidden="true">
           <div className={styles.sagePaper} />
-          <div className={styles.sealPaper}>
-            <span className={styles.seal}>CSC</span>
-          </div>
+          <div className={styles.sealPaper} />
           <div className={styles.eventPaper}>
             <span className={styles.paperLine} />
             <div className={styles.words}>
