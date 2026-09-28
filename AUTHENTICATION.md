@@ -1,6 +1,6 @@
 # Admin authentication
 
-The admin area supports password sign-in and allowlisted Google accounts. Both methods issue the same signed, HTTP-only admin session cookie.
+The admin area supports password sign-in and Google sign-in for active accounts in the Administrators list. Both methods issue the same signed, HTTP-only admin session cookie.
 
 ## Required variables
 
@@ -9,11 +9,11 @@ The admin area supports password sign-in and allowlisted Google accounts. Both m
 - `ADMIN_EMAIL`: email address that receives password-reset links. Defaults to `ADMIN_USERNAME` when the username is an email address.
 - `RESEND_API_KEY` and `PASSWORD_RESET_EMAIL_FROM`: Resend credentials and verified sender for reset email delivery. `EVENT_EMAIL_FROM` is used as a fallback sender.
 - `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`: OAuth 2.0 web client credentials from Google Cloud.
-- `GOOGLE_ADMIN_EMAILS`: comma-separated Google email addresses permitted to administer the site. Google OAuth approval alone does not grant application access.
-- `GOOGLE_OWNER_EMAILS`: optional comma-separated subset of administrators permitted to manage other administrator accounts. If omitted, the first address in `GOOGLE_ADMIN_EMAILS` is treated as the owner.
+- `BACKEND_API_URL` and `MEMBERSHIP_ADMIN_TOKEN`: connect the Google callback to the backend Administrators list. The token must match the backend and contain at least 32 characters.
+- `GOOGLE_OWNER_EMAILS`: optional comma-separated administrator addresses that receive owner access. The primary administrator (database ID 1) is always an owner.
 - `GOOGLE_REDIRECT_URI`: optional explicit callback URL. Recommended in production, for example `https://example.com/api/admin/google/callback`.
 
-Register the exact callback URL as an authorized redirect URI in the Google Cloud OAuth client. Production callbacks must use HTTPS. The OAuth consent screen's audience controls who can attempt authorization, while `GOOGLE_ADMIN_EMAILS` controls who can enter the admin area. Only `openid`, `email`, and `profile` are requested; no Gmail mailbox access is requested.
+Register the exact callback URL as an authorized redirect URI in the Google Cloud OAuth client. Production callbacks must use HTTPS. The OAuth consent screen's audience controls who can attempt authorization, while the active Administrators list controls who can enter the admin area. Only `openid`, `email`, and `profile` are requested; no Gmail mailbox access is requested.
 
 Password sessions last eight hours, or 30 days when “Keep me signed in” is selected. Google sessions last eight hours.
 

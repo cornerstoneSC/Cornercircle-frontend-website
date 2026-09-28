@@ -9,7 +9,7 @@ function safeNext(value: string | null) {
 
 export async function GET(request: Request) {
   const clientId = process.env.GOOGLE_CLIENT_ID;
-  if (!clientId || !process.env.GOOGLE_CLIENT_SECRET || !process.env.GOOGLE_ADMIN_EMAILS) {
+  if (!clientId || !process.env.GOOGLE_CLIENT_SECRET || !process.env.MEMBERSHIP_ADMIN_TOKEN) {
     return Response.json({ message: "Google sign-in is not configured." }, { status: 503 });
   }
 

@@ -57,18 +57,34 @@ export async function GET(request: Request) {
     });
     if (!profileResponse.ok) throw new Error("profile lookup failed");
     const profile = await profileResponse.json() as { email?: string; email_verified?: boolean };
-    const allowed = (process.env.GOOGLE_ADMIN_EMAILS || "").split(",").map((email) => email.trim().toLowerCase()).filter(Boolean);
-    if (!profile.email_verified || !profile.email || !allowed.includes(profile.email.toLowerCase())) {
+    if (!profile.email_verified || !profile.email) {
       const headers = new Headers({ Location: loginError(request, "This Google account is not authorized for administrator access.") });
       clearCookies.forEach((cookie) => headers.append("Set-Cookie", cookie));
       return new Response(null, { status: 303, headers });
     }
 
-    const configuredOwners = (process.env.GOOGLE_OWNER_EMAILS || allowed[0] || "")
+    const backend = process.env.BACKEND_API_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+    const authToken = process.env.MEMBERSHIP_ADMIN_TOKEN;
+    if (!authToken || authToken.length < 32) throw new Error("administrator security is not configured");
+    const authorizationResponse = await fetch(`${backend}/api/v1/admin/auth/google-login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Admin-Auth-Token": authToken },
+      body: JSON.stringify({ email: profile.email }),
+      cache: "no-store",
+      signal: AbortSignal.timeout(10_000),
+    });
+    if (authorizationResponse.status === 401) {
+      const headers = new Headers({ Location: loginError(request, "This Google account is not authorized for administrator access.") });
+      clearCookies.forEach((cookie) => headers.append("Set-Cookie", cookie));
+      return new Response(null, { status: 303, headers });
+    }
+    if (!authorizationResponse.ok) throw new Error("administrator authorization failed");
+    const administrator = await authorizationResponse.json() as { id?: number; email?: string; active?: boolean };
+    const configuredOwners = (process.env.GOOGLE_OWNER_EMAILS || "")
       .split(",")
       .map((email) => email.trim().toLowerCase())
       .filter(Boolean);
-    const role = configuredOwners.includes(profile.email.toLowerCase()) ? "owner" : "admin";
+    const role = administrator.id === 1 || configuredOwners.includes(profile.email.toLowerCase()) ? "owner" : "admin";
     const session = await createAdminSession(ADMIN_SESSION_MAX_AGE, role);
     if (!session) throw new Error("session security is not configured");
     const storedNext = decodeURIComponent(cookieStore.get(NEXT_COOKIE)?.value || "");
