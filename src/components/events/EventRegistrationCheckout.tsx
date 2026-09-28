@@ -96,7 +96,7 @@ function StripePayment({
       </button>
       <p className="mt-4 flex items-center justify-center gap-2 text-xs text-[#74806F]">
         <LockKeyhole className="h-4 w-4" />
-        Card details are securely handled by Stripe.
+        Card and bank account details are securely handled by Stripe.
       </p>
     </form>
   );
