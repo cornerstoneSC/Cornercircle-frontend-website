@@ -57,13 +57,14 @@ export async function GET(request: Request) {
     });
     if (!profileResponse.ok) throw new Error("profile lookup failed");
     const profile = await profileResponse.json() as { email?: string; email_verified?: boolean };
-    if (!profile.email_verified || !profile.email) {
-      const headers = new Headers({ Location: loginError(request, "Google could not provide a verified email address for this account.") });
+    const allowed = (process.env.GOOGLE_ADMIN_EMAILS || "").split(",").map((email) => email.trim().toLowerCase()).filter(Boolean);
+    if (!profile.email_verified || !profile.email || !allowed.includes(profile.email.toLowerCase())) {
+      const headers = new Headers({ Location: loginError(request, "This Google account is not authorized for administrator access.") });
       clearCookies.forEach((cookie) => headers.append("Set-Cookie", cookie));
       return new Response(null, { status: 303, headers });
     }
 
-    const configuredOwners = (process.env.GOOGLE_OWNER_EMAILS || "")
+    const configuredOwners = (process.env.GOOGLE_OWNER_EMAILS || allowed[0] || "")
       .split(",")
       .map((email) => email.trim().toLowerCase())
       .filter(Boolean);
