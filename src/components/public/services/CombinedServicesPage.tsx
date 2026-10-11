@@ -1,11 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Flower2, Leaf } from "lucide-react";
+import { ArrowRight, Flower2, Leaf, MapPin } from "lucide-react";
 import ConsultationSection from "./ConsultationSection";
 import styles from "./CombinedServicesPage.module.css";
 import type { CurrentServicesContent } from "@/lib/services-content";
 import EditableText from "./EditableText";
 import type { ReactNode } from "react";
+
+const serviceCities = [
+  "San Jose",
+  "Santa Clara",
+  "Saratoga",
+  "Sunnyvale",
+  "Palo Alto",
+  "Mountain View",
+  "Milpitas",
+  "Los Gatos",
+  "Los Altos",
+  "Campbell",
+  "Cupertino",
+];
 
 export default function CombinedServicesPage({ googleBookingUrl, content, onEdit, onEditCopy, photoControls }: { googleBookingUrl?: string; content: CurrentServicesContent; onEdit?: (field: string, value: string) => void; onEditCopy?: (field: string, value: string) => void; photoControls?: Partial<Record<keyof CurrentServicesContent["images"], ReactNode>> }) {
   const text = (field: keyof CurrentServicesContent["main"], value: string, options?: { multiline?: boolean; maxLength?: number }) => onEdit
@@ -22,7 +36,7 @@ export default function CombinedServicesPage({ googleBookingUrl, content, onEdit
         <p className={styles.lead}>{text("description", content.main.description, { multiline: true, maxLength: 700 })}</p>
         <div className={styles.actions}>
           <a className={styles.primaryButton} href="#consultation">{copy("mainPrimaryCta")}</a>
-          <a className={styles.textLink} href="#process">{copy("mainSecondaryCta")} <ArrowRight size={17} /></a>
+          <a className={styles.textLink} href="#service-area">{copy("mainSecondaryCta")} <ArrowRight size={17} /></a>
         </div>
       </div>
       <div className={styles.heroPhoto}><Image src={content.images.mainHero} alt="Members of the Cornerstone Social Circle community enjoying time together" fill priority sizes="(max-width: 820px) 100vw, 58vw" unoptimized={content.images.mainHero.startsWith("blob:")}/>{photoControls?.mainHero}</div>
@@ -48,6 +62,22 @@ export default function CombinedServicesPage({ googleBookingUrl, content, onEdit
           {photoControls?.eventCard}
         </div>
       </div>
+    </section>
+
+    <section id="service-area" className={styles.serviceArea} aria-labelledby="service-area-heading">
+      <div className={styles.serviceAreaIntro}>
+        <span className={styles.serviceAreaMark}><MapPin aria-hidden="true" /></span>
+        <p className={styles.eyebrow}>Our service area</p>
+        <h2 id="service-area-heading">Here are the cities we serve</h2>
+        <p>Serving communities throughout the South Bay and Peninsula.</p>
+      </div>
+      <ul className={styles.cityGrid}>
+        {serviceCities.map((city) => (
+          <li key={city}>
+            <span>{city}</span>
+          </li>
+        ))}
+      </ul>
     </section>
 
     <section id="process" className={styles.process} aria-labelledby="process-heading">

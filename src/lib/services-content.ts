@@ -48,7 +48,7 @@ export type CurrentServicesContent = {
 };
 
 export const defaultServicesCopy: Record<string, string> = {
-  mainPrimaryCta: "Book a free 30-minute consultation", mainSecondaryCta: "See how it works",
+  mainPrimaryCta: "Book a free 30-minute consultation", mainSecondaryCta: "Our Location",
   servicesEyebrow: "Our services", servicesTitle: "How can we help?", servicesIntro: "Two ways to make life richer — the same caring team, the same personal approach.",
   companionshipCardTitle: "Companionship", companionshipCardTagline: "Real connections. Richer days.", companionshipCardDescription: "From shared interests to everyday outings, our team brings warmth, conversation, and joy to daily life.", companionshipCardLink: "Explore companionship",
   eventCardTitle: "Event planning", eventCardTagline: "Meaningful gatherings. Lasting memories.", eventCardDescription: "Let our team handle the details, creating thoughtful experiences for your family, retirement home, or community.", eventCardLink: "Explore event planning",
@@ -91,6 +91,9 @@ export const defaultCurrentServicesContent: CurrentServicesContent = {
 };
 
 export function normalizeCurrentServicesContent(value: Partial<CurrentServicesContent> | null | undefined): CurrentServicesContent {
+  const savedCopy = { ...defaultServicesCopy, ...(value?.copy || {}) };
+  if (savedCopy.mainSecondaryCta === "See how it works") savedCopy.mainSecondaryCta = "Our Location";
+
   return {
     ...structuredClone(defaultCurrentServicesContent),
     ...value,
@@ -98,7 +101,7 @@ export function normalizeCurrentServicesContent(value: Partial<CurrentServicesCo
     companionship: { ...defaultCurrentServicesContent.companionship, ...(value?.companionship || {}), audience: value?.companionship?.audience || defaultCurrentServicesContent.companionship.audience },
     eventPlanning: { ...defaultCurrentServicesContent.eventPlanning, ...(value?.eventPlanning || {}) },
     images: { ...defaultCurrentServicesContent.images, ...(value?.images || {}) },
-    copy: { ...defaultServicesCopy, ...(value?.copy || {}) },
+    copy: savedCopy,
     schemaVersion: 2,
   };
 }
